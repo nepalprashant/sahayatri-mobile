@@ -1,0 +1,6 @@
+{
+    "map_api": "AIzaSyCicoQN6_3XZq3buO9zNqgG8vQjw3IOHVM",
+    "google_place_url": "https://maps.googleapis.com/maps/api/place/autocomplete/json",
+    "weather_api": "b568bcee95e152df1f6293f8a215b65f",
+    "weather_url": "http://api.openweathermap.org/data/2.5/weather"
+}
