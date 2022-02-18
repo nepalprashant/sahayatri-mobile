@@ -83,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                             ).login(
                               credentials: loginCredentials,
                             );
-                            Navigator.pushNamed(context, 'clientMainPage');
+                              Navigator.pushNamed(context, 'gatewayPage');
                           }
                         },
                         icon: Icon(Icons.login),

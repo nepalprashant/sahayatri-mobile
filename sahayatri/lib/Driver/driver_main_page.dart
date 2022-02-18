@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 import 'package:sahayatri/Components/driver_cards.dart';
 import 'package:sahayatri/Components/legal_info.dart';
 import 'package:sahayatri/Components/modal_button.dart';
@@ -7,6 +8,7 @@ import 'package:sahayatri/Components/reusable_card.dart';
 import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/screens/map_page.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:sahayatri/services/auth.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 enum IconMenu {
@@ -441,6 +443,26 @@ class _DriverMainPageState extends State<DriverMainPage> {
                               style: kSmallTextStyle,
                             ),
                           ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 50.0,
+                    ),
+                    Column(
+                      children: [
+                        DriverCard(
+                            icon: Icons.logout_outlined,
+                            onTap: () {
+                              Provider.of<Auth>(
+                                context,
+                                listen: false,
+                              ).driverLogout();
+                              Navigator.pushNamed(context, 'login');
+                            }),
+                        Text(
+                          'Logout',
+                          style: kSmallTextStyle,
                         ),
                       ],
                     ),

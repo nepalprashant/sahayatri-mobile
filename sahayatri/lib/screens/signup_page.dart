@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sahayatri/Components/bottom_login_text.dart';
 import 'package:sahayatri/Components/resuable_field.dart';
 import 'package:sahayatri/Constants/constants.dart';
-import 'package:sahayatri/Helper_Classes/validation_helper.dart';
+import 'package:sahayatri/services/auth.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -105,14 +106,18 @@ class _SignupPageState extends State<SignupPage> {
                       FloatingActionButton.extended(
                         onPressed: () {
                           Map userDetails = {
-                            'name': _userNameController,
+                            'name': _userNameController.text,
                             'email': _emailController.text,
-                            'phone_no': _phoneController,
+                            'phone_no': _phoneController.text,
                             'password': _passwordController.text,
                           };
-                          print(userDetails);
                           if (_formKey.currentState!.validate()) {
-                            print('Success');
+                            Provider.of<Auth>(
+                              context,
+                              listen: false,
+                            ).signup(
+                              userDetails: userDetails,
+                            );
                           }
                           // Navigator.pushNamed(context, 'driverMainPage');
                         },

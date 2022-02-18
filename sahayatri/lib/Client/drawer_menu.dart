@@ -68,14 +68,15 @@ class DrawerMenu extends StatelessWidget {
             onTap: () => legalInfo(context),
           ),
           Tile(
-            icon: Icons.logout_outlined,
-            text: 'Log Out',
-            onTap: () => Provider.of<Auth>(
-              context,
-              listen: false,
-            ).logout(),
-            // onTap: () => Navigator.pop(context),
-          ),
+              icon: Icons.logout_outlined,
+              text: 'Log Out',
+              onTap: () {
+                Provider.of<Auth>(
+                  context,
+                  listen: false,
+                ).clientLogout();
+                Navigator.pushNamed(context, 'login');
+              }),
         ],
       ),
     );

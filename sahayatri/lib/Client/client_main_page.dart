@@ -7,10 +7,7 @@ import 'package:sahayatri/Components/modal_button.dart';
 import 'package:sahayatri/Components/reusable_card.dart';
 import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/Helper_Classes/connectivity_helper.dart';
-import 'package:sahayatri/screens/no_connection.dart';
-import 'package:sahayatri/services/auth.dart';
 import 'package:sahayatri/services/connectivity.dart';
-import 'package:badges/badges.dart';
 import 'drawer_menu.dart';
 import 'package:intl/intl.dart';
 
@@ -74,36 +71,24 @@ class _ClientMainPageState extends State<ClientMainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Consumer<Auth>(
-        builder: (context, auth, child) {
-          if (!auth.authenticated) {
-            return Scaffold(
-              appBar: AppBar(
-                backgroundColor: Colors.white,
-                elevation: 0.0,
-                iconTheme: IconThemeData(color: Colors.black87),
-                actions: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.notifications_outlined,
-                      size: 30.0,
-                      color: kInactiveColor,
-                    ),
-                  ),
-                ],
-              ),
-              drawer: DrawerMenu(),
-              body: pageContent(context),
-            );
-          } else {
-            return NoConnection(
-              pageLoading: true,
-            );
-          }
-        },
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0.0,
+        iconTheme: IconThemeData(color: Colors.black87),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.notifications_outlined,
+              size: 30.0,
+              color: kInactiveColor,
+            ),
+          ),
+        ],
       ),
+      drawer: DrawerMenu(),
+      body: pageContent(context),
     );
   }
 

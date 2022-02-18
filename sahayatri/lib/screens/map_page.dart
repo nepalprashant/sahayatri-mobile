@@ -1,7 +1,4 @@
-// ignore_for_file: unnecessary_null_comparison
-
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sahayatri/Components/search_bar.dart';
