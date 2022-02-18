@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sahayatri/Components/bottom_login_text.dart';
 import 'package:sahayatri/Components/resuable_field.dart';
 import 'package:sahayatri/Constants/constants.dart';
+import 'package:sahayatri/Helper_Classes/validation_helper.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -58,6 +59,7 @@ class _SignupPageState extends State<SignupPage> {
                         fontIcon: Icons.portrait_outlined,
                         hint: 'User Name',
                         fieldName: _userNameController,
+                        additionalValidation: true,
                       ),
                       SizedBox(
                         height: 3.0,
@@ -66,6 +68,7 @@ class _SignupPageState extends State<SignupPage> {
                         fontIcon: Icons.mail_outline,
                         hint: 'Email',
                         fieldName: _emailController,
+                        additionalValidation: true,
                       ),
                       SizedBox(
                         height: 3.0,
@@ -74,6 +77,7 @@ class _SignupPageState extends State<SignupPage> {
                         fontIcon: Icons.phone_outlined,
                         hint: 'Phone Number',
                         fieldName: _phoneController,
+                        additionalValidation: true,
                       ),
                       SizedBox(
                         height: 3.0,
@@ -83,6 +87,7 @@ class _SignupPageState extends State<SignupPage> {
                         hint: 'Password',
                         obscure: true,
                         fieldName: _passwordController,
+                        additionalValidation: true,
                       ),
                       SizedBox(
                         height: 3.0,
@@ -92,16 +97,24 @@ class _SignupPageState extends State<SignupPage> {
                         hint: 'Confirm Password',
                         obscure: true,
                         fieldName: _confirmPasswordController,
+                        additionalValidation: true,
                       ),
                       SizedBox(
                         height: 3.0,
                       ),
                       FloatingActionButton.extended(
                         onPressed: () {
-                          // if (_formKey.currentState!.validate()) {
-                          //   print('Success');
-                          // }
-                          Navigator.pushNamed(context, 'driverMainPage');
+                          Map userDetails = {
+                            'name': _userNameController,
+                            'email': _emailController.text,
+                            'phone_no': _phoneController,
+                            'password': _passwordController.text,
+                          };
+                          print(userDetails);
+                          if (_formKey.currentState!.validate()) {
+                            print('Success');
+                          }
+                          // Navigator.pushNamed(context, 'driverMainPage');
                         },
                         icon: Icon(Icons.login),
                         label: Text('Sign Up'),

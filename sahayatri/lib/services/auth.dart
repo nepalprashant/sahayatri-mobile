@@ -8,7 +8,6 @@ class Auth extends ChangeNotifier {
   bool get authenticated => _isLogged;
 
   void login({required Map credentials}) async {
-    print(credentials);
     try {
       Dio.Response response =
           await dio().post('/sanctum/token', data: credentials);
@@ -20,6 +19,12 @@ class Auth extends ChangeNotifier {
     } catch (e) {
       print(e);
     }
+  }
+
+  void signup({required Map userDetails}) async {
+    Dio.Response response = await dio().post('/register', data: userDetails);
+
+    print(response);
   }
 
   void logout() {

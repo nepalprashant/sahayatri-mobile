@@ -54,6 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                         fontIcon: Icons.mail_outline,
                         hint: 'Email',
                         fieldName: _emailController,
+                        autoValidateMode: true,
                       ),
                       SizedBox(
                         height: 3.0,
@@ -63,6 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                         hint: 'Password',
                         obscure: true,
                         fieldName: _passwordController,
+                        autoValidateMode: true,
                       ),
                       SizedBox(
                         height: 3.0,
