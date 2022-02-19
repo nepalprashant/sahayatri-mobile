@@ -24,6 +24,7 @@ dependencies:
   syncfusion_flutter_charts: ^19.4.48+1
   material_floating_search_bar: ^0.3.6
   badges: ^2.0.2
+  flash: ^2.0.3+2
 
 flutter_native_splash:
   color: "#ffffff"

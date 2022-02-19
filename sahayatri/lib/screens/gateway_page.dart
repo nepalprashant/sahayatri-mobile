@@ -17,11 +17,15 @@ class GatewayPage extends StatelessWidget {
             return ClientMainPage();
           } else if (auth.authenticated && !auth.isClient && auth.isDriver) {
             return DriverMainPage();
-          } else {
-            return NoConnection(
-              pageLoading: true,
-            );
-          }
+          } 
+          Future.delayed(const Duration(seconds: 3), () {
+            if (!auth.authenticated) {
+              Navigator.popAndPushNamed(context, 'login');
+            }
+          });
+          return NoConnection(
+            pageLoading: true,
+          );
         },
       ),
     );

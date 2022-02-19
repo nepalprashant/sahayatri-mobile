@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:flash/flash.dart';
 import 'package:provider/provider.dart';
 import 'package:sahayatri/Components/drawer_tile.dart';
 import 'package:sahayatri/Components/legal_info.dart';
@@ -53,10 +54,9 @@ class DrawerMenu extends StatelessWidget {
             onTap: () => Navigator.pop(context),
           ),
           Tile(
-            icon: Icons.settings_outlined,
-            text: 'Settings',
-            onTap: () => Navigator.pop(context),
-          ),
+              icon: Icons.settings_outlined,
+              text: 'Settings',
+              onTap: () => Navigator.pop(context)),
           Tile(
             icon: Icons.support_agent_outlined,
             text: 'Help',

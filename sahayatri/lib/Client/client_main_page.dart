@@ -1,6 +1,8 @@
+import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:sahayatri/Components/flash_bar.dart';
 import 'package:sahayatri/Components/icon_card.dart';
 import 'package:sahayatri/Components/map.dart';
 import 'package:sahayatri/Components/modal_button.dart';
@@ -78,7 +80,15 @@ class _ClientMainPageState extends State<ClientMainPage> {
         iconTheme: IconThemeData(color: Colors.black87),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              showFlash(
+                context: context,
+                duration: const Duration(seconds: 10),
+                builder: (context, controller) {
+                  return ResuableFlash(controller: controller);
+                },
+              );
+            },
             icon: Icon(
               Icons.notifications_outlined,
               size: 30.0,
