@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:dio/dio.dart' as Dio;
-import 'package:sahayatri/Pojo_Classes/user_details.dart';
+import 'package:sahayatri/PODO_Classes/user_details.dart';
 import 'package:sahayatri/services/dio_services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -43,7 +43,7 @@ class Auth extends ChangeNotifier {
           })); //fetching user information
       _user =
           User.fromJson(response.data); //storing user information of type User
-     
+
       determineUserType(response.data['type']);
       _isLogged = true;
       notifyListeners();
@@ -93,13 +93,7 @@ class Auth extends ChangeNotifier {
   }
 
   //storing token locally to prevent signing in
-  void storeToken(String token){
+  void storeToken(String token) {
     storage.write(key: 'access_token', value: token);
-  }
-
-  void signup({required Map userDetails}) async {
-    Dio.Response response = await dio().post('/register', data: userDetails);
-
-    print(response);
   }
 }

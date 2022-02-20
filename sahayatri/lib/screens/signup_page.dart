@@ -3,7 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:sahayatri/Components/bottom_login_text.dart';
 import 'package:sahayatri/Components/resuable_field.dart';
 import 'package:sahayatri/Constants/constants.dart';
+import 'package:sahayatri/Helper_Classes/registration_helper.dart';
 import 'package:sahayatri/services/auth.dart';
+import 'package:sahayatri/services/register_user.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -113,14 +115,14 @@ class _SignupPageState extends State<SignupPage> {
                               'password': _passwordController.text,
                             };
                             if (_formKey.currentState!.validate()) {
-                              Provider.of<Auth>(
+                              Provider.of<RegisterUser>(
                                 context,
                                 listen: false,
                               ).signup(
                                 userDetails: userDetails,
                               );
+                              Navigator.pushReplacementNamed(context, 'registration');
                             }
-                            // Navigator.pushNamed(context, 'driverMainPage');
                           },
                           icon: Icon(Icons.login),
                           label: Text('Sign Up'),
