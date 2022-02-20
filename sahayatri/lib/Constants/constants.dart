@@ -20,6 +20,11 @@ const kTextStyle = TextStyle(
   color: Colors.black87,
 );
 
+const kTextStyleWhite = TextStyle(
+  fontWeight: FontWeight.w600,
+  color: Colors.white,
+);
+
 const kCardColor = Color(0xFFFECEFF1);
 
 const kButtonTextStyle = TextStyle(

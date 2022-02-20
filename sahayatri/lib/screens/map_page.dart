@@ -72,59 +72,61 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          FutureBuilder(
-            future: Future.wait([renderMapStyle(), accessCurrentLocation()]),
-            builder: (
-              BuildContext buildContext,
-              AsyncSnapshot<List<dynamic>> snapshot,
-            ) {
-              if (snapshot.hasData) {
-                return GoogleMap(
-                  mapType: MapType.normal,
-                  zoomControlsEnabled: false,
-                  myLocationEnabled: true,
-                  myLocationButtonEnabled: false,
-                  initialCameraPosition: CameraPosition(
-                    target: snapshot.data![1],
-                    zoom: 15.0,
-                  ),
-                  onMapCreated: (GoogleMapController controller) async {
-                    controller.setMapStyle(snapshot.data![0]);
-                    controller.animateCamera(CameraUpdate.newLatLngZoom(
-                        await accessCurrentLocation(), 15));
-                    _controller.complete(controller);
-                  },
-                  markers: {if (_markerFlag) _origin},
-                );
-              }
-              return kMapLoading;
-            },
-          ),
-          Positioned(
-            top: 20.0,
-            child: Row(children: [
-              BackButton(
-                color: Colors.black87,
-              ),
-            ]),
-          ),
-          buildFloatingSearchBar(context),
-          Positioned(
-            bottom: 25.0,
-            left: 110,
-            child: ModalButton(
-              buttonStyle: kButtonStyleBlack,
-              buttonTextStyle: kButtonTextStyle,
-              text: 'Set Destination on Map',
-              onPressed: () async {
-                await accessCurrentLocation()
-                    .then((position) => _addMarker(position));
+      body: SafeArea(
+        child: Stack(
+          children: [
+            FutureBuilder(
+              future: Future.wait([renderMapStyle(), accessCurrentLocation()]),
+              builder: (
+                BuildContext buildContext,
+                AsyncSnapshot<List<dynamic>> snapshot,
+              ) {
+                if (snapshot.hasData) {
+                  return GoogleMap(
+                    mapType: MapType.normal,
+                    zoomControlsEnabled: false,
+                    myLocationEnabled: true,
+                    myLocationButtonEnabled: false,
+                    initialCameraPosition: CameraPosition(
+                      target: snapshot.data![1],
+                      zoom: 15.0,
+                    ),
+                    onMapCreated: (GoogleMapController controller) async {
+                      controller.setMapStyle(snapshot.data![0]);
+                      controller.animateCamera(CameraUpdate.newLatLngZoom(
+                          await accessCurrentLocation(), 15));
+                      _controller.complete(controller);
+                    },
+                    markers: {if (_markerFlag) _origin},
+                  );
+                }
+                return kMapLoading;
               },
             ),
-          ),
-        ],
+            Positioned(
+              top: 20.0,
+              child: Row(children: [
+                BackButton(
+                  color: Colors.black87,
+                ),
+              ]),
+            ),
+            buildFloatingSearchBar(context),
+            Positioned(
+              bottom: 25.0,
+              left: 110,
+              child: ModalButton(
+                buttonStyle: kButtonStyleBlack,
+                buttonTextStyle: kButtonTextStyle,
+                text: 'Set Destination on Map',
+                onPressed: () async {
+                  await accessCurrentLocation()
+                      .then((position) => _addMarker(position));
+                },
+              ),
+            ),
+          ],
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(

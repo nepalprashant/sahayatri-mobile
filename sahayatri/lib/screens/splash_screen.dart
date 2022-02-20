@@ -1,9 +1,8 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sahayatri/Client/client_main_page.dart';
-import 'package:sahayatri/Driver/driver_main_page.dart';
-import 'package:sahayatri/services/auth.dart';
+import 'package:sahayatri/screens/gateway_page.dart';
+import 'package:sahayatri/services/previous_login.dart';
 import 'login_page.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -14,6 +13,12 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    Provider.of<PreviousLogin>(context, listen: false).getToken();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnimatedSplashScreen(
@@ -29,18 +34,14 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
       ),
       backgroundColor: Colors.white,
-      nextScreen: Center(
-        child: Consumer<Auth>(
-          builder: (context, auth, child) {
-            if (auth.authenticated && auth.isClient && !auth.isDriver) {
-              return ClientMainPage();
-            } else if (auth.authenticated && auth.isDriver && !auth.isClient) {
-              return DriverMainPage();
-            } else {
-              return LoginPage();
-            }
-          },
-        ),
+      nextScreen: Consumer<PreviousLogin>(
+        builder: (context, status, child) {
+          if (status.previousLogin) {
+            status.accessUser(context);
+            return GatewayPage();
+          }
+          return LoginPage();
+        },
       ),
     );
   }

@@ -11,6 +11,7 @@ import 'package:sahayatri/services/auth.dart';
 import 'package:sahayatri/screens/signup_page.dart';
 import 'package:sahayatri/services/change_toggle.dart';
 import 'package:sahayatri/services/connectivity.dart';
+import 'package:sahayatri/services/previous_login.dart';
 import 'screens/splash_screen.dart';
 
 void main() {
@@ -20,6 +21,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => Auth()),
         ChangeNotifierProvider(create: (context) => Connectivity()),
         ChangeNotifierProvider(create: (context) => ChangeToggle()),
+        ChangeNotifierProvider(create: (context) => PreviousLogin()),
       ],
       child: Sahayatri(),
     ),

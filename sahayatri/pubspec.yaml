@@ -25,6 +25,7 @@ dependencies:
   material_floating_search_bar: ^0.3.6
   badges: ^2.0.2
   flash: ^2.0.3+2
+  flutter_secure_storage: ^5.0.2
 
 flutter_native_splash:
   color: "#ffffff"

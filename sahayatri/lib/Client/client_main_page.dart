@@ -1,4 +1,3 @@
-import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -81,13 +80,10 @@ class _ClientMainPageState extends State<ClientMainPage> {
         actions: [
           IconButton(
             onPressed: () {
-              showFlash(
-                context: context,
-                duration: const Duration(seconds: 10),
-                builder: (context, controller) {
-                  return ResuableFlash(controller: controller);
-                },
-              );
+              displayFlash(
+                  context: context,
+                  text: 'No new notifications!',
+                  icon: Icons.notifications_none_outlined);
             },
             icon: Icon(
               Icons.notifications_outlined,
@@ -98,7 +94,7 @@ class _ClientMainPageState extends State<ClientMainPage> {
         ],
       ),
       drawer: DrawerMenu(),
-      body: pageContent(context),
+      body: SafeArea(child: pageContent(context)),
     );
   }
 
