@@ -111,7 +111,8 @@ class _LoginPageState extends State<LoginPage> {
                         linkText: 'Forgot Password ',
                         displayIcon: false,
                         onPressed: () {
-                          Navigator.pushNamed(context, 'signup');
+                          Navigator.pushNamed(context, 'test');
+                          // Navigator.pushNamed(context, 'signup');
                         },
                       ),
                     ],

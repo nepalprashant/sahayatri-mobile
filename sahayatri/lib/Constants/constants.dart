@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
+String accessToken = 'random_token';
+
 const kWelcomeTextStyle = TextStyle(
   fontWeight: FontWeight.w900,
   fontSize: 20,

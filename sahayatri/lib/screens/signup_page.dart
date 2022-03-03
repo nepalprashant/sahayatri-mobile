@@ -3,8 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:sahayatri/Components/bottom_login_text.dart';
 import 'package:sahayatri/Components/resuable_field.dart';
 import 'package:sahayatri/Constants/constants.dart';
-import 'package:sahayatri/Helper_Classes/registration_helper.dart';
-import 'package:sahayatri/services/auth.dart';
 import 'package:sahayatri/services/register_user.dart';
 
 class SignupPage extends StatefulWidget {

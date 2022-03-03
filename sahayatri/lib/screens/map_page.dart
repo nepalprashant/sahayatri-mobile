@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:lottie/lottie.dart' as lottie;
+import 'package:sahayatri/Components/flash_bar.dart';
+import 'package:sahayatri/Components/reusable_card.dart';
 import 'package:sahayatri/Components/search_bar.dart';
 import 'package:sahayatri/Components/modal_button.dart';
+import 'package:sahayatri/Components/user_detail_card.dart';
 import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/Helper_Classes/location_helper.dart';
 import 'package:sahayatri/Helper_Classes/map_style_helper.dart';
@@ -122,6 +127,16 @@ class _MapPageState extends State<MapPage> {
                 onPressed: () async {
                   await accessCurrentLocation()
                       .then((position) => _addMarker(position));
+                  showModalBottomSheet(
+                    isScrollControlled: true,
+                    backgroundColor: Colors.transparent,
+                    context: context,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(20),
+                    )),
+                    builder: (context) => bottomSheet(),
+                  );
                 },
               ),
             ),
@@ -139,4 +154,38 @@ class _MapPageState extends State<MapPage> {
       ),
     );
   }
+
+  Widget dismiss({required Widget child}) {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => Navigator.of(context).pop(),
+      child: GestureDetector(
+        onTap: () {},
+        child: child,
+      ),
+    );
+  }
+
+  Widget bottomSheet() => dismiss(
+        child: DraggableScrollableSheet(
+          initialChildSize: 0.4,
+          minChildSize: 0.3,
+          maxChildSize: 0.6,
+          builder: (_, controller) => Container(
+            padding: EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: kCardColor,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+            ),
+            child: ListView(
+              controller: controller,
+              children: [
+                UserCard(context: context),
+                UserCard(context: context),
+                UserCard(context: context),
+              ],
+            ),
+          ),
+        ),
+      );
 }

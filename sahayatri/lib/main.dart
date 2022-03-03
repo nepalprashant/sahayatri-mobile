@@ -11,9 +11,11 @@ import 'package:sahayatri/screens/no_connection.dart';
 import 'package:sahayatri/services/auth.dart';
 import 'package:sahayatri/screens/signup_page.dart';
 import 'package:sahayatri/services/change_toggle.dart';
+import 'package:sahayatri/services/client_services/available_drivers.dart';
 import 'package:sahayatri/services/connectivity.dart';
 import 'package:sahayatri/services/previous_login.dart';
 import 'package:sahayatri/services/register_user.dart';
+import 'package:sahayatri/test.dart';
 import 'screens/splash_screen.dart';
 
 void main() {
@@ -25,6 +27,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => ChangeToggle()),
         ChangeNotifierProvider(create: (context) => PreviousLogin()),
         ChangeNotifierProvider(create: (context) => RegisterUser()),
+        ChangeNotifierProvider(create: (context) => AvailableDrivers()),
       ],
       child: Sahayatri(),
     ),
@@ -57,11 +60,12 @@ class Sahayatri extends StatelessWidget {
           'map': (context) => MapPage(),
           'login': (context) => LoginPage(),
           'signup': (context) => SignupPage(),
-          'registration':(context) => Registration(),
+          'registration': (context) => Registration(),
           'gatewayPage': (context) => GatewayPage(),
           'clientMainPage': (context) => ClientMainPage(),
           'noInternet': (context) => NoConnection(),
           'driverMainPage': (context) => DriverMainPage(),
+          'test': (context) => Test(),
         });
   }
 }

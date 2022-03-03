@@ -6,6 +6,7 @@ import 'package:sahayatri/Components/legal_info.dart';
 import 'package:sahayatri/Components/modal_button.dart';
 import 'package:sahayatri/Components/reusable_card.dart';
 import 'package:sahayatri/Constants/constants.dart';
+import 'package:sahayatri/Helper_Classes/access_token.dart';
 import 'package:sahayatri/screens/map_page.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:sahayatri/services/auth.dart';
@@ -35,6 +36,7 @@ class _DriverMainPageState extends State<DriverMainPage> {
   void initState() {
     _chartData = getChartData();
     _tooltipBehavior = TooltipBehavior(enable: true);
+    storedToken();
     super.initState();
   }
 
