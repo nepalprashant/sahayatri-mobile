@@ -3,19 +3,33 @@ import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:sahayatri/Components/flash_bar.dart';
+import 'package:sahayatri/Components/loading_dialog.dart';
 import 'package:sahayatri/Components/modal_button.dart';
 import 'package:sahayatri/Components/reusable_card.dart';
 import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/Helper_Classes/notification_helper.dart';
+import 'package:sahayatri/Services/client_services/notify_drivers.dart';
 import 'package:sahayatri/services/client_services/available_drivers.dart';
 
 class UserCard extends StatelessWidget {
   const UserCard({
     Key? key,
+    required this.id,
     required this.context,
+    required this.name,
+    required this.phone,
+    required this.vehicle,
+    required this.rating,
+    required this.price,
   }) : super(key: key);
 
   final BuildContext context;
+  final int id;
+  final String name;
+  final String phone;
+  final String vehicle;
+  final double rating;
+  final String price;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +59,7 @@ class UserCard extends StatelessWidget {
                     color: Colors.blue,
                   ),
                   Text(
-                    'N/A',
+                    (rating != 0) ? rating.toStringAsFixed(1) : 'N/A',
                     style: kSmallTextStyle,
                   ),
                 ],
@@ -58,19 +72,29 @@ class UserCard extends StatelessWidget {
           Row(
             children: [
               Text(
-                'Driver Name',
+                name,
                 style: kTextStyle,
               ),
               Spacer(
                 flex: 3,
               ),
               Icon(
-                Icons.local_taxi,
+                (() {
+                  if (vehicle == 'bike') {
+                    return Icons.two_wheeler;
+                  } else if (vehicle == 'cab') {
+                    return Icons.local_taxi;
+                  }
+                  return Icons.moped;
+                }()),
                 color: Colors.amber,
                 size: 20.0,
               ),
+              SizedBox(
+                width: 5.0,
+              ),
               Text(
-                'Cab',
+                vehicle,
                 style: kSmallTextStyle,
               )
             ],
@@ -89,14 +113,14 @@ class UserCard extends StatelessWidget {
                       size: 20.0,
                     ),
                     Text(
-                      '+9779824321005',
+                      phone,
                       style: kSmallTextStyle,
                     ),
                   ],
                 ),
                 onTap: () async {
                   await FlutterPhoneDirectCaller.callNumber(
-                    '+9779824321005',
+                    phone,
                   );
                 },
               ),
@@ -104,7 +128,7 @@ class UserCard extends StatelessWidget {
                 flex: 3,
               ),
               Text(
-                'Rs. 700',
+                'Rs. $price',
                 style: kTextStyle,
               ),
             ],
@@ -115,18 +139,22 @@ class UserCard extends StatelessWidget {
           SizedBox(
             width: 120.0,
             child: ModalButton(
-              text: 'Confirm Driver',
+              text: 'Request Driver',
               buttonStyle: kButtonStyleBlue,
               buttonTextStyle: kButtonTextStyle,
               onPressed: () => {
-                NotificaitonHandler.displayNotificaiton(
-                    title: "hello", body: "world", payload: 'aambbo'),
-                // displayFlash(context: context, text: 'Vaag Madar'),
-                Provider.of<AvailableDrivers>(
-                  context,
-                  listen: false,
-                ).availableDrivers(),
-                print('Button Pressed'),
+                notifyDriver(driverId: id),
+                Navigator.pop(context),
+                showDialog(
+                  context: context,
+                  builder: (ctx) {
+                    Future.delayed(const Duration(seconds: 4), () {
+                      Navigator.pop(ctx);
+                    });
+                    return LoadingDialog(text: 'Requesting the rider');
+                  },
+                  barrierDismissible: false,
+                ),
               },
             ),
           )

@@ -5,6 +5,9 @@ import 'package:pusher_client/pusher_client.dart';
 import 'package:sahayatri/Components/flash_bar.dart';
 import 'package:sahayatri/Helper_Classes/notification_helper.dart';
 
+import 'package:dio/dio.dart' as Dio;
+import 'package:sahayatri/services/dio_services.dart';
+
 class Test extends StatefulWidget {
   const Test({Key? key}) : super(key: key);
 
@@ -17,20 +20,40 @@ class _TestState extends State<Test> {
   String data = 'From testing page.';
   late PusherClient pusher;
   late Channel channel;
+  String token = '87|iLlsEsVlhHOTHuDbYZnhEBeo06wSgyDXoxGKhPSM';
 
-  void socket() async {}
+  void testing() async {
+    try {
+      Dio.Response response = await dio().post('/broadcasting/auth',
+          data: {
+            'channel_name': 'private-test.7',
+            'socket_id': '9189.30113661'
+          },
+          options: Dio.Options(headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+            'Accept': '*/*',
+          }));
+      print(response.data);
+    } on Dio.DioError catch (e) {
+      print(e.message);
+    }
+  }
 
-  void pusher_cl() {
+  int a = 1;
+
+  void pushercl() {
     var options = PusherOptions(
       host: 'http://192.168.254.57',
+      wsPort: 433,
       cluster: 'ap2',
       encrypted: true,
       auth: PusherAuth(
         'http://192.168.254.57/api/broadcasting/auth',
         headers: {
-          'Authorization': 'Bearer 6|KTmsireIOqWrdtwsItgCVUjYhLe7dI7xPfg2dq1t',
-          'Content-Type': 'Application/Json',
-          'Accept': '*/*'
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+          'Accept': '*/*',
         },
       ),
     );
@@ -44,8 +67,6 @@ class _TestState extends State<Test> {
 
       pusher.connect();
 
-      channel = pusher.subscribe('test');
-
       pusher.onConnectionStateChange((state) {
         log('previousState: ${state!.previousState}, currentState: ${state.currentState}');
       });
@@ -54,20 +75,14 @@ class _TestState extends State<Test> {
         log("error: ${error!.message}");
       });
 
-      channel.bind('status-update', (event) {
-        log(event!.data!);
-      });
-      
+      channel = pusher.subscribe('private-test.7');
+
       channel.bind('test-test', (event) {
         displayFlash(context: context, text: event!.data!);
-        NotificaitonHandler.displayNotificaiton(
+        NotificationHandler.displayNotificaiton(
           title: event.data!,
           body: 'aayo hai aayo',
         );
-      });
-
-      channel.bind('order-filled', (event) {
-        log("Order Filled Event" + event!.data.toString());
       });
     } catch (e) {
       print("Error Connecting to Pusher");
@@ -78,23 +93,8 @@ class _TestState extends State<Test> {
   void initState() {
     super.initState();
     print('initstate');
-    pusher_cl();
-    // laravel();
-    //socket io package
-    // Dart client
-    // IO.Socket socket = IO.io('http://192.168.254.57:6001/api/broadcast');
-
-    // IO.Socket socket = IO.io(
-    // 'ws://192.168.254.57:6001/app/pusherkey');
-    // socket.connect();
-
-    // socket.onConnect((_) {
-    //   print('connect');
-    //   socket.emit('msg', 'test');
-    // });
-    // socket.on('App\Events\Test', (data) => print(data));
-    // socket.onDisconnect((_) => print('disconnect'));
-    // socket.on('fromServer', (_) => print(_));
+    NotificationHandler.config();
+    pushercl();
   }
 
   @override
@@ -114,8 +114,13 @@ class _TestState extends State<Test> {
               ),
               IconButton(
                 onPressed: () {
+                  pushercl();
+                  testing();
+                  a++;
+                  if (a % 2 == 0) {}
                   _sendMessage();
                   setState(() {
+                    pusher.disconnect();
                     data = _controller.text;
                   });
                 },
@@ -145,7 +150,6 @@ class _TestState extends State<Test> {
 
   @override
   void dispose() {
-    channel.cancelEventChannelStream();
     _controller.dispose();
     print('disposed');
     super.dispose();

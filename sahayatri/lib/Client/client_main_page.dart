@@ -31,7 +31,6 @@ class _ClientMainPageState extends State<ClientMainPage> {
     datePicked = DateTime.now();
     timePicked = TimeOfDay.now();
     checkConnectionStatus(context);
-    storedToken();
     super.initState();
   }
 

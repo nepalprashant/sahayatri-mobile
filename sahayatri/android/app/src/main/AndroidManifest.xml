@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
    <application
         android:label="sahayatri"
+        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY"
                android:value="AIzaSyCicoQN6_3XZq3buO9zNqgG8vQjw3IOHVM"/>

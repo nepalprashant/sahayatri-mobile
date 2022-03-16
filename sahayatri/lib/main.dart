@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/Driver/driver_main_page.dart';
+import 'package:sahayatri/Helper_Classes/notification_helper.dart';
 import 'package:sahayatri/Helper_Classes/registration_helper.dart';
 import 'package:sahayatri/screens/gateway_page.dart';
 import 'package:sahayatri/screens/login_page.dart';
@@ -35,6 +36,11 @@ void main() {
 }
 
 class Sahayatri extends StatelessWidget {
+  void initstate() {
+    print('hello world, notification handler has been initialized');
+    NotificationHandler.config();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

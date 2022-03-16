@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:dio/dio.dart' as Dio;
+import 'package:sahayatri/Constants/constants.dart';
+import 'package:sahayatri/Events/client_events/channel_subscriptions.dart';
 import 'package:sahayatri/PODO_Classes/user_details.dart';
 import 'package:sahayatri/services/dio_services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -44,7 +46,7 @@ class Auth extends ChangeNotifier {
       _user =
           User.fromJson(response.data); //storing user information of type User
 
-      determineUserType(response.data['type']);
+      determineUserType(response.data['type'], token);
       _isLogged = true;
       notifyListeners();
     } catch (e) {
@@ -53,8 +55,11 @@ class Auth extends ChangeNotifier {
   }
 
   //to classify the user type based on the response
-  void determineUserType(String type) {
+  void determineUserType(String type, String token) {
+    userId = _user.id;
+    accessToken = token;
     if (type == 'client') {
+      enableClientChannels(id: userId, token: token);
       _isClient = true;
     } else if (type == 'driver') {
       _isDriver = true;
@@ -66,6 +71,7 @@ class Auth extends ChangeNotifier {
     _isLogged = false;
     _fromLogout = true;
     storage.deleteAll();
+    disableClientChannels(id: _user.id);
     try {
       await dio().get('/user/revoke',
           options: Dio.Options(

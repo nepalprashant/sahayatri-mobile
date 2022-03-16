@@ -7,28 +7,38 @@ import 'package:sahayatri/PODO_Classes/driver_details.dart';
 import 'package:sahayatri/services/dio_services.dart';
 
 class AvailableDrivers extends ChangeNotifier {
-  late DriverDetails _driver;
+  late List<DriverDetails> _driver;
+  bool _isAvailable = false;
+  bool _displayError = false;
 
-  DriverDetails get driver => _driver;
+  List<DriverDetails> get drivers => _driver;
+  bool get isAvailable => _isAvailable;
+  bool get displayError => _displayError;
 
   void availableDrivers() async {
-    print('available drivers');
-    String token = accessToken;
-    print(token);
+    initialValues();
     try {
       Dio.Response response = await dio().get('/request/ride',
           options: Dio.Options(headers: {
-            'Authorization': 'Bearer $token'
+            'Authorization': 'Bearer $accessToken'
           })); //fetching information
-      print(response.data);
-      response.data.forEach((data) => print(data['name']));
-      print(response.data[0]['driver']['license_no']);
-      // _driver =
-      //     DriverDetails.fromJson(response.data); //storing driver information
-      // print(_driver);
+
+      _driver = driverDetailsFromJson(jsonEncode(response.data));
+      (_driver.length > 0)
+          ? _isAvailable = true
+          : Future.delayed(const Duration(seconds: 3), () {
+              _isAvailable = false;
+              _displayError = true;
+              notifyListeners();
+            });
       notifyListeners();
     } catch (e) {
       print(e);
     }
+  }
+
+  void initialValues(){
+    _isAvailable = false;
+    _displayError = false;
   }
 }

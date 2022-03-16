@@ -3,6 +3,8 @@ import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lottie/lottie.dart' as lottie;
+import 'package:provider/provider.dart';
+import 'package:sahayatri/Components/error_card.dart';
 import 'package:sahayatri/Components/flash_bar.dart';
 import 'package:sahayatri/Components/reusable_card.dart';
 import 'package:sahayatri/Components/search_bar.dart';
@@ -11,6 +13,7 @@ import 'package:sahayatri/Components/user_detail_card.dart';
 import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/Helper_Classes/location_helper.dart';
 import 'package:sahayatri/Helper_Classes/map_style_helper.dart';
+import 'package:sahayatri/services/client_services/available_drivers.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({
@@ -137,6 +140,10 @@ class _MapPageState extends State<MapPage> {
                     )),
                     builder: (context) => bottomSheet(),
                   );
+                  Provider.of<AvailableDrivers>(
+                    context,
+                    listen: false,
+                  ).availableDrivers();
                 },
               ),
             ),
@@ -177,14 +184,38 @@ class _MapPageState extends State<MapPage> {
               color: kCardColor,
               borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
             ),
-            child: ListView(
-              controller: controller,
-              children: [
-                UserCard(context: context),
-                UserCard(context: context),
-                UserCard(context: context),
-              ],
-            ),
+            child:
+                Consumer<AvailableDrivers>(builder: (context, driver, child) {
+              if (driver.isAvailable) {
+                return ListView.builder(
+                    controller: controller,
+                    shrinkWrap: true,
+                    itemCount: driver.drivers.length,
+                    itemBuilder: (context, int index) {
+                      return UserCard(
+                        id: driver.drivers[index].id,
+                        name: driver.drivers[index].name,
+                        phone: driver.drivers[index].phoneNo,
+                        vehicle: driver.drivers[index].driver.vehicle
+                            .vehicleType.vehicleType,
+                        rating: driver.drivers[index].ratingAvgRating,
+                        price: driver
+                            .drivers[index].driver.vehicle.vehicleType.fareRate,
+                        context: context,
+                      );
+                    });
+              } else if (!driver.isAvailable && driver.displayError) {
+                return ListView(
+                  controller: controller,
+                  children: [
+                    ErrorCard(
+                      context: context,
+                    ),
+                  ],
+                );
+              }
+              return kMapLoading;
+            }),
           ),
         ),
       );

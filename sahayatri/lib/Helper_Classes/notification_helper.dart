@@ -1,6 +1,6 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-class NotificaitonHandler {
+class NotificationHandler {
   static final _notification = FlutterLocalNotificationsPlugin();
 
   static void config() {
@@ -31,6 +31,8 @@ class NotificaitonHandler {
         'channel name',
         importance: Importance.max,
         priority: Priority.high,
+        ongoing: true,
+        styleInformation: BigTextStyleInformation(''),
       ),
     );
   }

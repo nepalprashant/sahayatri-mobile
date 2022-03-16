@@ -131,7 +131,7 @@ packages:
       name: flutter_local_notifications
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "9.3.3"
+    version: "9.4.0"
   flutter_local_notifications_linux:
     dependency: transitive
     description:
@@ -310,20 +310,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.3"
-  json_annotation:
-    dependency: transitive
-    description:
-      name: json_annotation
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.4.0"
-  laravel_flutter_pusher:
-    dependency: "direct main"
-    description:
-      name: laravel_flutter_pusher
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.4"
   logging:
     dependency: transitive
     description:

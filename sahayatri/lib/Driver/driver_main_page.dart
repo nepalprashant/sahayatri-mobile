@@ -36,7 +36,6 @@ class _DriverMainPageState extends State<DriverMainPage> {
   void initState() {
     _chartData = getChartData();
     _tooltipBehavior = TooltipBehavior(enable: true);
-    storedToken();
     super.initState();
   }
 
