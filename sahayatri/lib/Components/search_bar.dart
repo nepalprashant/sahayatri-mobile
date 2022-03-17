@@ -2,19 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 
 Widget buildFloatingSearchBar(BuildContext context) {
-  final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
-
   return FloatingSearchBar(
     hint: 'Place...',
     scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
     borderRadius: const BorderRadius.all(Radius.circular(25)),
-    transitionDuration: const Duration(milliseconds: 800),
-    transitionCurve: Curves.easeInOut,
-    physics: const BouncingScrollPhysics(),
-    axisAlignment: isPortrait ? 0.0 : -1.0,
-    openAxisAlignment: 0.0,
-    width: isPortrait ? 600 : 500,
-    debounceDelay: const Duration(milliseconds: 500),
     onQueryChanged: (query) {
       // Call your model, bloc, controller here.
     },
@@ -41,9 +32,9 @@ Widget buildFloatingSearchBar(BuildContext context) {
           elevation: 4.0,
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            children: Colors.accents.map((color) {
-              return Container(height: 112, color: color);
-            }).toList(),
+            // children: Colors.accents.map((color) {
+            //   return Container(height: 112, color: color);
+            // }).toList(),
           ),
         ),
       );

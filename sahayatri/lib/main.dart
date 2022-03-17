@@ -4,6 +4,7 @@ import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/Driver/driver_main_page.dart';
 import 'package:sahayatri/Helper_Classes/notification_helper.dart';
 import 'package:sahayatri/Helper_Classes/registration_helper.dart';
+import 'package:sahayatri/Services/map_services/location_name.dart';
 import 'package:sahayatri/screens/gateway_page.dart';
 import 'package:sahayatri/screens/login_page.dart';
 import 'package:sahayatri/Client/client_main_page.dart';
@@ -29,6 +30,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => PreviousLogin()),
         ChangeNotifierProvider(create: (context) => RegisterUser()),
         ChangeNotifierProvider(create: (context) => AvailableDrivers()),
+        ChangeNotifierProvider(create: (context) => LocationName()),
       ],
       child: Sahayatri(),
     ),
@@ -37,7 +39,6 @@ void main() {
 
 class Sahayatri extends StatelessWidget {
   void initstate() {
-    print('hello world, notification handler has been initialized');
     NotificationHandler.config();
   }
 

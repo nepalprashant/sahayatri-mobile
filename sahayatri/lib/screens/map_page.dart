@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:lottie/lottie.dart' as lottie;
 import 'package:provider/provider.dart';
 import 'package:sahayatri/Components/error_card.dart';
-import 'package:sahayatri/Components/flash_bar.dart';
-import 'package:sahayatri/Components/reusable_card.dart';
 import 'package:sahayatri/Components/search_bar.dart';
 import 'package:sahayatri/Components/modal_button.dart';
+import 'package:sahayatri/Components/search_location.dart';
 import 'package:sahayatri/Components/user_detail_card.dart';
 import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/Helper_Classes/location_helper.dart';
 import 'package:sahayatri/Helper_Classes/map_style_helper.dart';
+import 'package:sahayatri/Services/map_services/location_name.dart';
 import 'package:sahayatri/services/client_services/available_drivers.dart';
 
 class MapPage extends StatefulWidget {
@@ -29,36 +27,63 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   Completer<GoogleMapController> _controller = Completer();
   final Set<Marker> markers = new Set();
-  bool _markerFlag = false;
+  bool _originFlag = false;
+  bool _destinationFlag = false;
+  bool _displaySearchBar = false;
 
   late Marker _origin;
   late Marker _destination;
-  late LatLng _newPos;
+
+  @override
+  void initState(){
+    Provider.of<LocationName>(context, listen: false).initialState();
+    super.initState();
+  }
 
   @override
   void dispose() {
     super.dispose();
   }
 
-  void _addMarker(LatLng position) {
+  void _addOriginMarker(LatLng position) {
     setState(() {
       _origin = Marker(
         draggable: true,
         position: position,
         markerId: MarkerId('Origin'),
         infoWindow: InfoWindow(
-          title: 'hello',
-          snippet: 'Hello world',
+          title: 'Origin',
         ),
-        icon: BitmapDescriptor.defaultMarker,
+        icon: BitmapDescriptor.defaultMarkerWithHue(250.0),
         onDragEnd: (newPos) {
-          setState(() {
-            _newPos = LatLng(newPos.latitude, newPos.longitude);
-            print(_newPos);
-          });
+          Provider.of<LocationName>(context, listen: false)
+              .origin(latLng: newPos);
         },
       );
-      _markerFlag = true;
+      Provider.of<LocationName>(context, listen: false)
+          .origin(latLng: _origin.position);
+      _originFlag = true;
+    });
+  }
+
+  void _addDestinationMarker(LatLng position) {
+    setState(() {
+      _destination = Marker(
+        draggable: true,
+        position: position,
+        markerId: MarkerId('Destination'),
+        infoWindow: InfoWindow(
+          title: 'Destination',
+        ),
+        icon: BitmapDescriptor.defaultMarkerWithHue(100.0),
+        onDragEnd: (newPos) {
+          Provider.of<LocationName>(context, listen: false)
+              .destination(latLng: newPos);
+        },
+      );
+      Provider.of<LocationName>(context, listen: false)
+          .destination(latLng: _destination.position);
+      _destinationFlag = true;
     });
   }
 
@@ -100,12 +125,21 @@ class _MapPageState extends State<MapPage> {
                       zoom: 15.0,
                     ),
                     onMapCreated: (GoogleMapController controller) async {
-                      controller.setMapStyle(snapshot.data![0]);
+                      //for different map style
+                      // controller.setMapStyle(snapshot.data![0]);
                       controller.animateCamera(CameraUpdate.newLatLngZoom(
                           await accessCurrentLocation(), 15));
                       _controller.complete(controller);
                     },
-                    markers: {if (_markerFlag) _origin},
+                    onTap: (_originFlag)
+                        ? _addOriginMarker
+                        : (_destinationFlag)
+                            ? _addDestinationMarker
+                            : null,
+                    markers: {
+                      if (_originFlag) _origin,
+                      if (_destinationFlag) _destination
+                    },
                   );
                 }
                 return kMapLoading;
@@ -119,45 +153,95 @@ class _MapPageState extends State<MapPage> {
                 ),
               ]),
             ),
-            buildFloatingSearchBar(context),
-            Positioned(
-              bottom: 25.0,
-              left: 110,
-              child: ModalButton(
-                buttonStyle: kButtonStyleBlack,
-                buttonTextStyle: kButtonTextStyle,
-                text: 'Set Destination on Map',
-                onPressed: () async {
-                  await accessCurrentLocation()
-                      .then((position) => _addMarker(position));
-                  showModalBottomSheet(
-                    isScrollControlled: true,
-                    backgroundColor: Colors.transparent,
-                    context: context,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(20),
-                    )),
-                    builder: (context) => bottomSheet(),
-                  );
-                  Provider.of<AvailableDrivers>(
-                    context,
-                    listen: false,
-                  ).availableDrivers();
+            if (!_displaySearchBar) buildFloatingSearchBar(context),
+            if (_displaySearchBar)
+              SearchLocation(
+                onTapDestination: () {
+                  setState(() {
+                    _originFlag = false;
+                  });
+                  accessCurrentLocation()
+                      .then((position) => _addDestinationMarker(position));
                 },
+                onTapOrigin: () {
+                  setState(() {
+                    _destinationFlag = false;
+                  });
+                  accessCurrentLocation()
+                      .then((position) => _addOriginMarker(position));
+                },
+              ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20.0),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: SizedBox(
+                  height: 40,
+                  width: 250.0,
+                  child: Consumer<LocationName>(
+                    builder: (context, place, child) {
+                      if (place.getOrigin && place.getDestinaion) {
+                        return ModalButton(
+                            buttonStyle: kButtonStyleBlack,
+                            buttonTextStyle: kButtonTextStyle,
+                            text: 'Request Ride',
+                            onPressed: () {
+                              showModalBottomSheet(
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                context: context,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(20),
+                                )),
+                                builder: (context) => bottomSheet(),
+                              );
+                              Provider.of<AvailableDrivers>(
+                                context,
+                                listen: false,
+                              ).availableDrivers();
+                            });
+                      } else {
+                        return ModalButton(
+                            buttonStyle: kButtonStyleBlack,
+                            buttonTextStyle: kButtonTextStyle,
+                            text: 'Set Destination on Map',
+                            onPressed: () {
+                              accessCurrentLocation().then((position) {
+                                _destinationFlag = false;
+                                _addOriginMarker(position);
+                                Provider.of<LocationName>(context,
+                                        listen: false)
+                                    .origin(latLng: position);
+                              });
+                              setState(() {
+                                _displaySearchBar = true;
+                              });
+                            });
+                      }
+                    },
+                  ),
+                ),
               ),
             ),
           ],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.gps_fixed_outlined,
-          size: 35.0,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 50.0),
+        child: SizedBox(
+          height: 50.0,
+          width: 50.0,
+          child: FloatingActionButton(
+            child: Icon(
+              Icons.gps_fixed_outlined,
+              size: 33.0,
+            ),
+            backgroundColor: Colors.black87,
+            onPressed: _currentLocation,
+          ),
         ),
-        backgroundColor: Colors.black87,
-        onPressed: _currentLocation,
       ),
     );
   }
