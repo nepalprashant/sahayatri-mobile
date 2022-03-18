@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sahayatri/Components/driver_cards.dart';
 import 'package:sahayatri/Components/legal_info.dart';
 import 'package:sahayatri/Constants/constants.dart';
+import 'package:sahayatri/Services/driver_services/driver_availability.dart';
 import 'package:sahayatri/services/auth.dart';
 
 class SettingPage extends StatelessWidget {
@@ -36,8 +37,7 @@ class SettingPage extends StatelessWidget {
                               height: 8.0,
                             ),
                             Row(
-                              crossAxisAlignment:
-                                  CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Icon(
                                   Icons.email_outlined,
@@ -57,8 +57,7 @@ class SettingPage extends StatelessWidget {
                               height: 5.0,
                             ),
                             Row(
-                              crossAxisAlignment:
-                                  CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Icon(
@@ -81,8 +80,7 @@ class SettingPage extends StatelessWidget {
                           flex: 3,
                         ),
                         CircleAvatar(
-                          child:
-                              Lottie.asset('assets/lotties/avatar.json'),
+                          child: Lottie.asset('assets/lotties/avatar.json'),
                           backgroundColor: Colors.white,
                           radius: 50.0,
                         ),
@@ -205,10 +203,11 @@ class SettingPage extends StatelessWidget {
                         DriverCard(
                             icon: Icons.logout_outlined,
                             onTap: () {
-                              Provider.of<Auth>(
-                                context,
-                                listen: false,
-                              ).driverLogout();
+                              Provider.of<Auth>(context, listen: false)
+                                  .driverLogout();
+                              Provider.of<ChangeAvailability>(context,
+                                      listen: false)
+                                  .offline();
                             }),
                         Text(
                           'Logout',
