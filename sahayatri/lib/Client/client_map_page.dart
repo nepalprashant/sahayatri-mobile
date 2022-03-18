@@ -3,10 +3,11 @@ import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sahayatri/Components/error_card.dart';
+import 'package:sahayatri/Components/flash_bar.dart';
 import 'package:sahayatri/Components/search_bar.dart';
 import 'package:sahayatri/Components/modal_button.dart';
 import 'package:sahayatri/Components/search_location.dart';
-import 'package:sahayatri/Components/user_detail_card.dart';
+import 'package:sahayatri/Components/driver_detail_card.dart';
 import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/Helper_Classes/location_helper.dart';
 import 'package:sahayatri/Services/map_services/location_name.dart';
@@ -15,7 +16,14 @@ import 'package:sahayatri/services/client_services/available_drivers.dart';
 class ClientMapPage extends StatefulWidget {
   const ClientMapPage({
     Key? key,
+    this.date,
+    this.time,
+    this.rideType,
   }) : super(key: key);
+
+  final DateTime? date;
+  final TimeOfDay? time;
+  final String? rideType;
 
   @override
   _ClientMapPageState createState() => _ClientMapPageState();
@@ -193,30 +201,38 @@ class _ClientMapPageState extends State<ClientMapPage> {
                             buttonTextStyle: kButtonTextStyle,
                             text: 'Request Ride',
                             onPressed: () {
-                              //for polylines in the map
-                              // setState(() {
-                              //   generatePolylines(
-                              //       _origin.position.latitude,
-                              //       _origin.position.longitude,
-                              //       _destination.position.latitude,
-                              //       _destination.position.longitude);
-                              //   _displayPolylines = true;
-                              //   print('The polyline values $polylines.values');
-                              // });
-                              showModalBottomSheet(
-                                isScrollControlled: true,
-                                backgroundColor: Colors.transparent,
-                                context: context,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(20),
-                                )),
-                                builder: (context) => bottomSheet(),
-                              );
-                              Provider.of<AvailableDrivers>(
-                                context,
-                                listen: false,
-                              ).availableDrivers();
+                              if (place.originName != place.destinationName) {
+                                //for polylines in the map
+                                // setState(() {
+                                //   generatePolylines(
+                                //       _origin.position.latitude,
+                                //       _origin.position.longitude,
+                                //       _destination.position.latitude,
+                                //       _destination.position.longitude);
+                                //   _displayPolylines = true;
+                                //   print('The polyline values $polylines.values');
+                                // });
+                                showModalBottomSheet(
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  context: context,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(20),
+                                  )),
+                                  builder: (context) => bottomSheet(),
+                                );
+                                Provider.of<AvailableDrivers>(
+                                  context,
+                                  listen: false,
+                                ).availableDrivers();
+                              } else {
+                                displayFlash(
+                                  context: context,
+                                  text: 'Please choose different locations.',
+                                  color: Color.fromARGB(255, 134, 10, 1),
+                                );
+                              }
                             });
                       } else {
                         return ModalButton(
