@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sahayatri/Client/client_map_page.dart';
 import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/Driver/driver_main_page.dart';
 import 'package:sahayatri/Helper_Classes/notification_helper.dart';
@@ -12,7 +13,6 @@ import 'package:sahayatri/screens/map_page.dart';
 import 'package:sahayatri/screens/no_connection.dart';
 import 'package:sahayatri/services/auth.dart';
 import 'package:sahayatri/screens/signup_page.dart';
-import 'package:sahayatri/services/change_toggle.dart';
 import 'package:sahayatri/services/client_services/available_drivers.dart';
 import 'package:sahayatri/services/connectivity.dart';
 import 'package:sahayatri/services/previous_login.dart';
@@ -26,7 +26,6 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (context) => Auth()),
         ChangeNotifierProvider(create: (context) => Connectivity()),
-        ChangeNotifierProvider(create: (context) => ChangeToggle()),
         ChangeNotifierProvider(create: (context) => PreviousLogin()),
         ChangeNotifierProvider(create: (context) => RegisterUser()),
         ChangeNotifierProvider(create: (context) => AvailableDrivers()),
@@ -72,6 +71,8 @@ class Sahayatri extends StatelessWidget {
           'clientMainPage': (context) => ClientMainPage(),
           'noInternet': (context) => NoConnection(),
           'driverMainPage': (context) => DriverMainPage(),
+          'clientMapPage': (context) => ClientMapPage(),
+          'driverMapPage': (context) => DriverMainPage(),
           'test': (context) => Test(),
         });
   }

@@ -43,7 +43,7 @@ class DrawerMenu extends StatelessWidget {
               ),
               Tile(
                 icon: Icons.star,
-                text: '5.0',
+                text: (auth.user.rating != 0) ? auth.user.rating.toStringAsFixed(1) : 'N/A',
               ),
               Tile(
                 icon: Icons.local_taxi_outlined,

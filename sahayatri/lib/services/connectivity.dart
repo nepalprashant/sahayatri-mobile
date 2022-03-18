@@ -11,6 +11,7 @@ class Connectivity extends ChangeNotifier {
     notifyListeners();
   }
 
+  //checking the status of the internet connection
   Future<bool> isConnected() async {
     try {
       final response = await InternetAddress.lookup('example.com');

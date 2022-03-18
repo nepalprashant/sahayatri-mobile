@@ -35,6 +35,7 @@ class LocationName extends ChangeNotifier {
     notifyListeners();
   }
 
+  //getting location name from the coordinates
   Future<String?> getAddress(double lat, double lng) async {
     List<Placemark> placemarks =
         await placemarkFromCoordinates(lat, lng, localeIdentifier: 'en_UK');

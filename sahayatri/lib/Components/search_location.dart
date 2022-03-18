@@ -9,6 +9,7 @@ class SearchLocation extends StatelessWidget {
     required this.onTapOrigin,
     required this.onTapDestination,
   }) : super(key: key);
+
   final Function() onTapOrigin;
   final Function() onTapDestination;
 
@@ -16,6 +17,7 @@ class SearchLocation extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController origin = new TextEditingController();
     TextEditingController destination = new TextEditingController();
+    //managing the state of the widget
     return Consumer<LocationName>(builder: (context, place, child) {
       origin.text = place.originName;
       destination.text = place.destinationName;
@@ -109,24 +111,28 @@ class SearchLocation extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
-                      height: 30.0,
-                      child: IconButton(
-                          onPressed: onTapOrigin,
-                          icon: Icon(
-                            Icons.pin_drop_outlined,
-                            color: Colors.blue.shade900,
-                          ))),
+                    height: 30.0,
+                    child: IconButton(
+                      onPressed: onTapOrigin,
+                      icon: Icon(
+                        Icons.pin_drop_outlined,
+                        color: Colors.blue.shade900,
+                      ),
+                    ),
+                  ),
                   SizedBox(
                     height: 10.0,
                   ),
                   SizedBox(
-                      height: 30.0,
-                      child: IconButton(
-                          onPressed: onTapDestination,
-                          icon: Icon(
-                            Icons.pin_drop_outlined,
-                            color: Colors.amber,
-                          ))),
+                    height: 30.0,
+                    child: IconButton(
+                      onPressed: onTapDestination,
+                      icon: Icon(
+                        Icons.pin_drop_outlined,
+                        color: Colors.amber,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ],

@@ -147,7 +147,7 @@ class _ClientMainPageState extends State<ClientMainPage> {
             onTap: () {
               checkConnectionStatus(context);
               (this.internetConnection)
-                  ? Navigator.pushNamed(context, 'map')
+                  ? Navigator.pushNamed(context, 'clientMapPage')
                   : Navigator.pushNamed(context, 'noInternet');
             },
           ),
@@ -159,7 +159,12 @@ class _ClientMainPageState extends State<ClientMainPage> {
                   children: [
                     IconCard(
                       icon: Icons.commute_outlined,
-                      onTap: () => {},
+                      onTap: () {
+                        checkConnectionStatus(context);
+                        (this.internetConnection)
+                            ? Navigator.pushNamed(context, 'clientMapPage')
+                            : Navigator.pushNamed(context, 'noInternet');
+                      },
                     ),
                     Text(
                       'Travel',
@@ -172,7 +177,7 @@ class _ClientMainPageState extends State<ClientMainPage> {
                   children: [
                     IconCard(
                       icon: Icons.local_shipping_outlined,
-                      onTap: () => {},
+                      onTap: () => modalSheet(context, 'pick-up time'),
                     ),
                     Text(
                       'Parcel',
@@ -219,7 +224,7 @@ class _ClientMainPageState extends State<ClientMainPage> {
                       ],
                     ),
                     onTap: () {
-                      modalSheet(context);
+                      modalSheet(context, 'trip');
                     },
                   ),
                 ),
@@ -228,7 +233,7 @@ class _ClientMainPageState extends State<ClientMainPage> {
             onTap: () {
               checkConnectionStatus(context);
               (this.internetConnection)
-                  ? Navigator.pushNamed(context, 'map')
+                  ? Navigator.pushNamed(context, 'clientMapPage')
                   : Navigator.pushNamed(context, 'noInternet');
             },
           ),
@@ -255,7 +260,7 @@ class _ClientMainPageState extends State<ClientMainPage> {
             onTap: () {
               checkConnectionStatus(context);
               (this.internetConnection)
-                  ? Navigator.pushNamed(context, 'map')
+                  ? Navigator.pushNamed(context, 'clientMapPage')
                   : Navigator.pushNamed(context, 'noInternet');
             },
           ),
@@ -284,7 +289,7 @@ class _ClientMainPageState extends State<ClientMainPage> {
     );
   }
 
-  Future<void> modalSheet(BuildContext context) {
+  Future<void> modalSheet(BuildContext context, String text) {
     return showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext timerContext) {
@@ -299,7 +304,7 @@ class _ClientMainPageState extends State<ClientMainPage> {
                 children: [
                   Center(
                     child: Text(
-                      'Schedule Your Trip',
+                      'Schedule Your $text',
                       style: kTextStyle,
                     ),
                   ),

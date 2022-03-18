@@ -3,8 +3,14 @@ class User {
   String userName;
   String email;
   String phone;
+  double rating;
 
-  User({required this.id, required this.userName, required this.email, required this.phone});
+  User(
+      {required this.id,
+      required this.userName,
+      required this.email,
+      required this.phone,
+      required this.rating});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
@@ -12,6 +18,7 @@ class User {
       userName: json['name'],
       email: json['email'],
       phone: json['phone_no'],
+      rating: json['rating_avg_rating'].toDouble(),
     );
   }
 }
