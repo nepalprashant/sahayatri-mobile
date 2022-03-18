@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:sahayatri/Client/client_map_page.dart';
 import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/Driver/driver_main_page.dart';
-import 'package:sahayatri/Helper_Classes/notification_helper.dart';
 import 'package:sahayatri/Helper_Classes/registration_helper.dart';
 import 'package:sahayatri/Services/driver_services/driver_availability.dart';
 import 'package:sahayatri/Services/map_services/location_name.dart';
@@ -39,10 +38,6 @@ void main() {
 }
 
 class Sahayatri extends StatelessWidget {
-  void initstate() {
-    NotificationHandler.config();
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

@@ -27,7 +27,7 @@ class _ClientMapPageState extends State<ClientMapPage> {
   bool _originFlag = false;
   bool _destinationFlag = false;
   bool _displaySearchBar = false;
-  bool _displayPolylines = false;
+  // bool _displayPolylines = false;
 
   late Marker _origin;
   late Marker _destination;

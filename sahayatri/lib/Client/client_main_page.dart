@@ -8,6 +8,7 @@ import 'package:sahayatri/Components/modal_button.dart';
 import 'package:sahayatri/Components/reusable_card.dart';
 import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/Helper_Classes/connectivity_helper.dart';
+import 'package:sahayatri/Helper_Classes/notification_helper.dart';
 import 'package:sahayatri/services/connectivity.dart';
 import 'drawer_menu.dart';
 import 'package:intl/intl.dart';
@@ -28,6 +29,7 @@ class _ClientMainPageState extends State<ClientMainPage> {
   void initState() {
     datePicked = DateTime.now();
     timePicked = TimeOfDay.now();
+    NotificationHandler.config();
     checkConnectionStatus(context);
     super.initState();
   }

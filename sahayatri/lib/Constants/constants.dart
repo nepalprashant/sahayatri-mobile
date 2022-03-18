@@ -45,6 +45,11 @@ ButtonStyle kButtonStyleBlue = ButtonStyle(
   Colors.purpleAccent,
 ));
 
+ButtonStyle kButtonStyleRed = ButtonStyle(
+    backgroundColor: MaterialStateProperty.all(
+  Colors.redAccent,
+));
+
 ButtonStyle kButtonStyleBlack = ButtonStyle(
     backgroundColor: MaterialStateProperty.all(
   Colors.black87,
