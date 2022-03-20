@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:sahayatri/Client/client_map_page.dart';
 import 'package:sahayatri/Components/flash_bar.dart';
 import 'package:sahayatri/Components/icon_card.dart';
 import 'package:sahayatri/Components/map.dart';
@@ -8,10 +9,10 @@ import 'package:sahayatri/Components/modal_button.dart';
 import 'package:sahayatri/Components/reusable_card.dart';
 import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/Helper_Classes/connectivity_helper.dart';
+import 'package:sahayatri/Helper_Classes/format_datetime.dart';
 import 'package:sahayatri/Helper_Classes/notification_helper.dart';
 import 'package:sahayatri/services/connectivity.dart';
 import 'drawer_menu.dart';
-import 'package:intl/intl.dart';
 
 class ClientMainPage extends StatefulWidget {
   const ClientMainPage({Key? key}) : super(key: key);
@@ -179,7 +180,8 @@ class _ClientMainPageState extends State<ClientMainPage> {
                   children: [
                     IconCard(
                       icon: Icons.local_shipping_outlined,
-                      onTap: () => modalSheet(context, 'pick-up time'),
+                      onTap: () => modalSheet(context,
+                          text: 'pick-up time', isParcel: true),
                     ),
                     Text(
                       'Parcel',
@@ -226,7 +228,7 @@ class _ClientMainPageState extends State<ClientMainPage> {
                       ],
                     ),
                     onTap: () {
-                      modalSheet(context, 'trip');
+                      modalSheet(context, text: 'trip', isParcel: false);
                     },
                   ),
                 ),
@@ -291,7 +293,8 @@ class _ClientMainPageState extends State<ClientMainPage> {
     );
   }
 
-  Future<void> modalSheet(BuildContext context, String text) {
+  Future<void> modalSheet(BuildContext context,
+      {required String text, required bool isParcel}) {
     return showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext timerContext) {
@@ -314,12 +317,11 @@ class _ClientMainPageState extends State<ClientMainPage> {
                     height: 10.0,
                   ),
                   ModalButton(
-                    text:
-                        'Date:  ${DateFormat('E, dd MMM').format(datePicked)}',
+                    text: 'Date:  ${formatDate(datePicked)}',
                     onPressed: () => datePicker(context, setState),
                   ),
                   ModalButton(
-                    text: 'Time:  ${timePicked.format(context)}',
+                    text: 'Time:  ${formatTime(context, timePicked)}',
                     onPressed: () => timePicker(context, setState),
                   ),
                   ModalButton(
@@ -327,10 +329,29 @@ class _ClientMainPageState extends State<ClientMainPage> {
                     buttonStyle: kButtonStyle,
                     buttonTextStyle: kButtonTextStyle,
                     onPressed: () {
-                      checkConnectionStatus(context);
-                      (this.internetConnection)
-                          ? Navigator.pushNamed(context, 'map')
-                          : Navigator.pushNamed(context, 'noInternet');
+                      //validating for the pick-up time
+                      if ((formatDate(datePicked) ==
+                              formatDate(DateTime.now())) &&
+                          ((TimeOfDay.now().hour) >= (timePicked.hour))) {
+                        displayFlash(
+                            context: context,
+                            text: 'Schedule for at least 1hr from now!',
+                            color: Color.fromARGB(255, 134, 10, 1));
+                      } else {
+                        checkConnectionStatus(context);
+                        (this.internetConnection)
+                            ? Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => ClientMapPage(
+                                    date: datePicked,
+                                    time: timePicked,
+                                    isParcel: isParcel,
+                                  ),
+                                ),
+                              )
+                            : Navigator.pushNamed(context, 'noInternet');
+                      }
                     },
                   ),
                 ],

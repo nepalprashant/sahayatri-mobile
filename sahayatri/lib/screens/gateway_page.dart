@@ -19,7 +19,7 @@ class GatewayPage extends StatelessWidget {
           } else if (auth.authenticated && !auth.isClient && auth.isDriver) {
             return DriverMainPage();
           }
-          Future.delayed(const Duration(seconds: 2), () {
+          Future.delayed(const Duration(seconds: 4), () {
             if (!auth.authenticated) {
               Navigator.popAndPushNamed(context, 'login',
                   result: displayFlash(

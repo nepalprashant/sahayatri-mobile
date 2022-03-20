@@ -5,7 +5,6 @@ import 'package:sahayatri/Components/loading_dialog.dart';
 import 'package:sahayatri/Components/modal_button.dart';
 import 'package:sahayatri/Components/reusable_card.dart';
 import 'package:sahayatri/Constants/constants.dart';
-import 'package:sahayatri/Helper_Classes/notification_helper.dart';
 
 class RequestCard extends StatelessWidget {
   const RequestCard({Key? key}) : super(key: key);
@@ -17,7 +16,7 @@ class RequestCard extends StatelessWidget {
       absorb: true,
       color: Colors.white,
       disableSplashColor: true,
-      height: 260,
+      height: 280,
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -32,6 +31,7 @@ class RequestCard extends StatelessWidget {
                 flex: 3,
               ),
               Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Icon(
                     Icons.star,
@@ -39,6 +39,14 @@ class RequestCard extends StatelessWidget {
                   ),
                   Text(
                     'N/A',
+                    style: kSmallTextStyle,
+                  ),
+                  Text(
+                    'Scheduled For: 23 March, 9:45 PM',
+                    style: kSmallTextStyle,
+                  ),
+                  Text(
+                    'Type: intercity',
                     style: kSmallTextStyle,
                   ),
                 ],
@@ -154,10 +162,6 @@ class RequestCard extends StatelessWidget {
                   buttonStyle: kButtonStyleBlue,
                   buttonTextStyle: kButtonTextStyle,
                   onPressed: () => {
-                    NotificationHandler.displayNotificaiton(
-                        title: "Connection Error",
-                        body: "Can't connect to the server!",
-                        payload: 'driverMainPage'),
                     showDialog(
                       context: context,
                       builder: (ctx) {
@@ -187,7 +191,7 @@ class RequestCard extends StatelessWidget {
                         Future.delayed(const Duration(seconds: 4), () {
                           Navigator.pop(ctx);
                         });
-                        return LoadingDialog(text: 'Confirming the client');
+                        return LoadingDialog(text: 'Aborting the request');
                       },
                       barrierDismissible: false,
                     ),

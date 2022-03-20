@@ -10,6 +10,7 @@ import 'package:sahayatri/Components/search_location.dart';
 import 'package:sahayatri/Components/driver_detail_card.dart';
 import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/Helper_Classes/location_helper.dart';
+import 'package:sahayatri/Services/client_services/notify_drivers.dart';
 import 'package:sahayatri/Services/map_services/location_name.dart';
 import 'package:sahayatri/services/client_services/available_drivers.dart';
 
@@ -18,12 +19,12 @@ class ClientMapPage extends StatefulWidget {
     Key? key,
     this.date,
     this.time,
-    this.rideType,
+    this.isParcel,
   }) : super(key: key);
 
   final DateTime? date;
   final TimeOfDay? time;
-  final String? rideType;
+  final bool? isParcel;
 
   @override
   _ClientMapPageState createState() => _ClientMapPageState();
@@ -199,9 +200,28 @@ class _ClientMapPageState extends State<ClientMapPage> {
                         return ModalButton(
                             buttonStyle: kButtonStyleBlack,
                             buttonTextStyle: kButtonTextStyle,
-                            text: 'Request Ride',
+                            text: (widget.isParcel ?? false)
+                                ? 'Request for Pick-up'
+                                : 'Request Ride',
                             onPressed: () {
                               if (place.originName != place.destinationName) {
+                                rideDetails.addAll({
+                                  'initial_lat': _origin.position.latitude,
+                                  'initial_lng': _origin.position.longitude,
+                                  'destination_lat':
+                                      _destination.position.latitude,
+                                  'destination_lng':
+                                      _destination.position.longitude,
+                                  'origin': place.originName,
+                                  'destination': place.destinationName,
+                                  'total_distance': 12.1,
+                                  'total_fare': 1200.75,
+                                  'ride_type': (widget.isParcel ?? false)
+                                      ? 'parcel'
+                                      : 'intercity',
+                                  'scheduled_time': widget.time?.toString() ?? null,
+                                  'scheduled_date': widget.date?.toIso8601String() ?? null
+                                });
                                 //for polylines in the map
                                 // setState(() {
                                 //   generatePolylines(

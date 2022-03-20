@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:dio/dio.dart' as Dio;
 import 'package:sahayatri/Constants/constants.dart';
-import 'package:sahayatri/Events/client_events/channel_subscriptions.dart';
+import 'package:sahayatri/Events/client_events/client_channel_subscriptions.dart';
+import 'package:sahayatri/Events/driver_events/driver_channel_subscriptions.dart';
+
 import 'package:sahayatri/PODO_Classes/user_details.dart';
 import 'package:sahayatri/services/dio_services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -62,6 +64,7 @@ class Auth extends ChangeNotifier {
       enableClientChannels(id: userId, token: token);
       _isClient = true;
     } else if (type == 'driver') {
+      enableDriverChannels(id: userId, token: token);
       _isDriver = true;
     }
   }
@@ -87,6 +90,7 @@ class Auth extends ChangeNotifier {
     _isLogged = false;
     _fromLogout = true;
     storage.deleteAll();
+    disableDriverChannels(id: _user.id);
     try {
       await dio().get('/user/revoke',
           options: Dio.Options(headers: {

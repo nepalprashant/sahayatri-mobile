@@ -73,13 +73,16 @@ class SearchLocation extends StatelessWidget {
                         borderRadius: BorderRadius.circular(7.0),
                         color: Color.fromARGB(255, 214, 214, 214),
                       ),
-                      child: TextFormField(
-                        enabled: false,
-                        controller: origin,
-                        decoration: InputDecoration.collapsed(
-                          hintText: 'Origin',
-                          border: InputBorder.none,
+                      child: GestureDetector(
+                        child: TextFormField(
+                          enabled: false,
+                          controller: origin,
+                          decoration: InputDecoration.collapsed(
+                            hintText: 'Origin',
+                            border: InputBorder.none,
+                          ),
                         ),
+                        onTap: onTapOrigin,
                       ),
                     ),
                   ),
@@ -95,13 +98,16 @@ class SearchLocation extends StatelessWidget {
                         borderRadius: BorderRadius.circular(7.0),
                         color: Color.fromARGB(255, 214, 214, 214),
                       ),
-                      child: TextFormField(
-                        enabled: false,
-                        controller: destination,
-                        decoration: InputDecoration.collapsed(
-                          hintText: 'Destination',
-                          border: InputBorder.none,
+                      child: GestureDetector(
+                        child: TextFormField(
+                          enabled: false,
+                          controller: destination,
+                          decoration: InputDecoration.collapsed(
+                            hintText: 'Destination',
+                            border: InputBorder.none,
+                          ),
                         ),
+                        onTap: onTapDestination,
                       ),
                     ),
                   ),

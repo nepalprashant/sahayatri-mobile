@@ -3,10 +3,12 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:sahayatri/Components/flash_bar.dart';
 import 'package:sahayatri/Components/loading_dialog.dart';
+import 'package:sahayatri/Components/rating_bar.dart';
 import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/Driver/income_page.dart';
 import 'package:sahayatri/Driver/request_page.dart';
 import 'package:sahayatri/Driver/setting_page.dart';
+import 'package:sahayatri/Events/driver_events/driver_channel_subscriptions.dart';
 import 'package:sahayatri/Helper_Classes/notification_helper.dart';
 import 'package:sahayatri/Services/driver_services/driver_availability.dart';
 import 'package:sahayatri/screens/map_page.dart';
@@ -73,11 +75,9 @@ class _DriverMainPageState extends State<DriverMainPage> {
                   showOnOff: true,
                   onToggle: (value) {
                     if (!status) {
-                      print('changing to the online');
                       Provider.of<ChangeAvailability>(context, listen: false)
                           .online();
                     } else {
-                      print('changing to the offline');
                       Provider.of<ChangeAvailability>(context, listen: false)
                           .offline();
                     }
@@ -87,7 +87,7 @@ class _DriverMainPageState extends State<DriverMainPage> {
                         Future.delayed(const Duration(seconds: 2), () {
                           Navigator.pop(ctx);
                           if (availability.isOnline) {
-                            print('inside is online');
+                            driverOnline();
                             setState(() {
                               status = value;
                             });
@@ -96,7 +96,7 @@ class _DriverMainPageState extends State<DriverMainPage> {
                                 text: 'You\'re now Online',
                                 icon: Icons.info_outline);
                           } else if (availability.isOffline) {
-                            print('inside is offline');
+                            driverOffline();
                             setState(() {
                               status = value;
                             });
@@ -120,7 +120,18 @@ class _DriverMainPageState extends State<DriverMainPage> {
                 ),
                 actions: [
                   IconButton(
-                    onPressed: () => {},
+                    onPressed: () => {
+                      showDialog(
+                        context: context,
+                        builder: (ctx) {
+                          // Future.delayed(const Duration(seconds: 2), () {
+                          //   Navigator.pop(ctx);
+                          // });
+                          return Rating();
+                        },
+                        barrierDismissible: true,
+                      ),
+                    },
                     icon: Icon(
                       Icons.notifications_outlined,
                       color: Colors.black87,

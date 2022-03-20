@@ -13,7 +13,7 @@ class Registration extends StatelessWidget {
       child: Consumer<RegisterUser>(
         builder: (context, register, child) {
           Future.delayed(
-            const Duration(seconds: 2),
+            const Duration(seconds: 4),
             () {
               if (register.registered) {
                 Navigator.popAndPushNamed(

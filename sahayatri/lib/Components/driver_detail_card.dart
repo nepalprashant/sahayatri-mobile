@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:sahayatri/Components/flash_bar.dart';
 import 'package:sahayatri/Components/loading_dialog.dart';
 import 'package:sahayatri/Components/modal_button.dart';
 import 'package:sahayatri/Components/reusable_card.dart';
 import 'package:sahayatri/Constants/constants.dart';
-import 'package:sahayatri/Helper_Classes/notification_helper.dart';
 import 'package:sahayatri/Services/client_services/notify_drivers.dart';
 import 'package:sahayatri/Services/map_services/location_name.dart';
-import 'package:sahayatri/services/client_services/available_drivers.dart';
 
 class UserCard extends StatelessWidget {
   const UserCard({
@@ -150,6 +148,7 @@ class UserCard extends StatelessWidget {
                   context: context,
                   builder: (ctx) {
                     Future.delayed(const Duration(seconds: 4), () {
+                      Provider.of<LocationName>(ctx, listen: false).initialState();
                       Navigator.pop(ctx);
                     });
                     return LoadingDialog(text: 'Requesting the rider');

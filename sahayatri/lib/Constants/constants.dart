@@ -23,6 +23,12 @@ const kTextStyle = TextStyle(
   color: Colors.black87,
 );
 
+const kMediumTextStyle = TextStyle(
+  fontWeight: FontWeight.w300,
+  fontSize: 16.0,
+  color: Colors.black87,
+);
+
 const kTextStyleWhite = TextStyle(
   fontWeight: FontWeight.w600,
   color: Colors.white,
