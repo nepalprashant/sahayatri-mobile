@@ -5,9 +5,45 @@ import 'package:sahayatri/Components/loading_dialog.dart';
 import 'package:sahayatri/Components/modal_button.dart';
 import 'package:sahayatri/Components/reusable_card.dart';
 import 'package:sahayatri/Constants/constants.dart';
+import 'package:sahayatri/Helper_Classes/format_datetime.dart';
 
 class RequestCard extends StatelessWidget {
-  const RequestCard({Key? key}) : super(key: key);
+  const RequestCard({
+    Key? key,
+    required this.id,
+    required this.rideId,
+    required this.name,
+    required this.phone,
+    required this.rating,
+    required this.date,
+    required this.time,
+    required this.type,
+    required this.origin,
+    required this.destination,
+    required this.price,
+    required this.distance,
+    required this.initialLat,
+    required this.initialLng,
+    required this.destinationLat,
+    required this.destinationLng,
+  }) : super(key: key);
+
+  final int id;
+  final int rideId;
+  final String name;
+  final String phone;
+  final double rating;
+  final DateTime date;
+  final String time;
+  final String type;
+  final String distance;
+  final String price;
+  final String origin;
+  final String destination;
+  final String initialLat;
+  final String initialLng;
+  final String destinationLat;
+  final String destinationLng;
 
   @override
   Widget build(BuildContext context) {
@@ -38,15 +74,15 @@ class RequestCard extends StatelessWidget {
                     color: Colors.blue,
                   ),
                   Text(
-                    'N/A',
+                    (rating != 0) ? rating.toStringAsFixed(1) : 'N/A',
                     style: kSmallTextStyle,
                   ),
                   Text(
-                    'Scheduled For: 23 March, 9:45 PM',
+                    'Scheduled:  ${formatDate(date)}, [${stringToTime(context, time)}]',
                     style: kSmallTextStyle,
                   ),
                   Text(
-                    'Type: intercity',
+                    'Type: $type',
                     style: kSmallTextStyle,
                   ),
                 ],
@@ -59,7 +95,7 @@ class RequestCard extends StatelessWidget {
           Row(
             children: [
               Text(
-                'Name',
+                name,
                 style: kTextStyle,
               ),
               Spacer(
@@ -76,7 +112,7 @@ class RequestCard extends StatelessWidget {
                         size: 20.0,
                       ),
                       Text(
-                        'From: Tarahara',
+                        'From: $origin',
                         style: kSmallTextStyle,
                       ),
                     ],
@@ -89,7 +125,7 @@ class RequestCard extends StatelessWidget {
                         size: 20.0,
                       ),
                       Text(
-                        'To: Dharan',
+                        'To: $destination',
                         style: kSmallTextStyle,
                       ),
                     ],
@@ -112,14 +148,14 @@ class RequestCard extends StatelessWidget {
                       size: 20.0,
                     ),
                     Text(
-                      'Phone',
+                      phone,
                       style: kSmallTextStyle,
                     ),
                   ],
                 ),
                 onTap: () async {
                   await FlutterPhoneDirectCaller.callNumber(
-                    'phone',
+                    phone,
                   );
                 },
               ),
@@ -127,7 +163,14 @@ class RequestCard extends StatelessWidget {
                 flex: 3,
               ),
               Text(
-                'Rs. price',
+                'Rs. $price',
+                style: kTextStyle,
+              ),
+              SizedBox(
+                width: 5.0,
+              ),
+              Text(
+                '[$distance Km]',
                 style: kTextStyle,
               ),
             ],
@@ -143,10 +186,10 @@ class RequestCard extends StatelessWidget {
               showDialog(
                 context: context,
                 builder: (ctx) {
-                  Future.delayed(const Duration(seconds: 4), () {
+                  Future.delayed(const Duration(seconds: 2), () {
                     Navigator.pop(ctx);
                   });
-                  return LoadingDialog(text: 'Confirming the client');
+                  return LoadingDialog(text: 'Loading location in the map');
                 },
                 barrierDismissible: false,
               ),
@@ -165,7 +208,7 @@ class RequestCard extends StatelessWidget {
                     showDialog(
                       context: context,
                       builder: (ctx) {
-                        Future.delayed(const Duration(seconds: 4), () {
+                        Future.delayed(const Duration(seconds: 2), () {
                           Navigator.pop(ctx);
                         });
                         return LoadingDialog(text: 'Confirming the client');
@@ -188,7 +231,7 @@ class RequestCard extends StatelessWidget {
                     showDialog(
                       context: context,
                       builder: (ctx) {
-                        Future.delayed(const Duration(seconds: 4), () {
+                        Future.delayed(const Duration(seconds: 2), () {
                           Navigator.pop(ctx);
                         });
                         return LoadingDialog(text: 'Aborting the request');

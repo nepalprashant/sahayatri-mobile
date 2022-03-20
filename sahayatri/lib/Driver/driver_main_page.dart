@@ -11,6 +11,7 @@ import 'package:sahayatri/Driver/setting_page.dart';
 import 'package:sahayatri/Events/driver_events/driver_channel_subscriptions.dart';
 import 'package:sahayatri/Helper_Classes/notification_helper.dart';
 import 'package:sahayatri/Services/driver_services/driver_availability.dart';
+import 'package:sahayatri/Services/driver_services/received_request.dart';
 import 'package:sahayatri/screens/map_page.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 
@@ -87,7 +88,7 @@ class _DriverMainPageState extends State<DriverMainPage> {
                         Future.delayed(const Duration(seconds: 2), () {
                           Navigator.pop(ctx);
                           if (availability.isOnline) {
-                            driverOnline();
+                            driverOnline(context);
                             setState(() {
                               status = value;
                             });
@@ -105,7 +106,6 @@ class _DriverMainPageState extends State<DriverMainPage> {
                                 text: 'You\'re Offline',
                                 icon: Icons.info_outline);
                           } else {
-                            print('inside is error');
                             displayFlash(
                                 context: context,
                                 text: 'Can\'t connect to the server',

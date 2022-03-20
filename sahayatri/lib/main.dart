@@ -5,6 +5,7 @@ import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/Driver/driver_main_page.dart';
 import 'package:sahayatri/Helper_Classes/registration_helper.dart';
 import 'package:sahayatri/Services/driver_services/driver_availability.dart';
+import 'package:sahayatri/Services/driver_services/received_request.dart';
 import 'package:sahayatri/Services/map_services/location_name.dart';
 import 'package:sahayatri/screens/gateway_page.dart';
 import 'package:sahayatri/screens/login_page.dart';
@@ -31,6 +32,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => AvailableDrivers()),
         ChangeNotifierProvider(create: (context) => LocationName()),
         ChangeNotifierProvider(create: (context) => ChangeAvailability()),
+        ChangeNotifierProvider(create: (context) => ReceivedRequest()),
       ],
       child: Sahayatri(),
     ),

@@ -219,8 +219,8 @@ class _ClientMapPageState extends State<ClientMapPage> {
                                   'ride_type': (widget.isParcel ?? false)
                                       ? 'parcel'
                                       : 'intercity',
-                                  'scheduled_time': widget.time?.toString() ?? null,
-                                  'scheduled_date': widget.date?.toIso8601String() ?? null
+                                  'scheduled_time': widget.time?.toString() ?? DateTime.now().toString(),
+                                  'scheduled_date': widget.date?.toIso8601String() ?? TimeOfDay.now(),
                                 });
                                 //for polylines in the map
                                 // setState(() {

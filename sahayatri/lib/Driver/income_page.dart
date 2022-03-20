@@ -48,7 +48,7 @@ class IncomePage extends StatelessWidget {
                       height: 10.0,
                     ),
                     Text(
-                      '\$2,700',
+                      '\Rs. 2,700',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
@@ -164,21 +164,21 @@ class IncomePage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '\$2,700',
+                          '\Rs. 2,700',
                           style: kTextStyle,
                         ),
                         SizedBox(
                           height: 3.0,
                         ),
                         Text(
-                          '\$2,250',
+                          '\Rs. 2,250',
                           style: kSmallTextStyle,
                         ),
                         SizedBox(
                           height: 3.0,
                         ),
                         Text(
-                          '\$450',
+                          '\Rs. 450',
                           style: kSmallTextStyle,
                         ),
                       ],
@@ -212,7 +212,7 @@ SfCartesianChart weeklyChart() {
         majorGridLines: MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
-        labelFormat: '\${value}',
+        labelFormat: '\Rs.{value}',
         labelStyle: kChartLabelStyle,
       ),
       series: <ColumnSeries>[

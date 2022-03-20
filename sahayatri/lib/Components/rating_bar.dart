@@ -63,3 +63,14 @@ class Rating extends StatelessWidget {
     );
   }
 }
+
+// showDialog(
+//                         context: context,
+//                         builder: (ctx) {
+//                           // Future.delayed(const Duration(seconds: 2), () {
+//                           //   Navigator.pop(ctx);
+//                           // });
+//                           return Rating();
+//                         },
+//                         barrierDismissible: false,
+//                       ),

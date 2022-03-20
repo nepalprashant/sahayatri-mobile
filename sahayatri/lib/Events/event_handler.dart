@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'package:pusher_client/pusher_client.dart';
-import 'package:sahayatri/Constants/constants.dart';
 
 class EventHandler {
   late PusherClient pusher;
