@@ -16,7 +16,7 @@ void notifyDriver({required int driverId}) async {
         data: rideDetails,
         options: Dio.Options(headers: {
           'Authorization': 'Bearer $accessToken'
-        })); //fetching information
+        })); //forwarding information
     rideDetails.clear();
     //displaying the notification
     Future.delayed(const Duration(seconds: 4), () {

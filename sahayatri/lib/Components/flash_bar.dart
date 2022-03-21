@@ -2,6 +2,7 @@ import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 import 'package:sahayatri/Constants/constants.dart';
 
+//flash bar for displaying the status of the state
 Future<Object?> displayFlash({
   required BuildContext context,
   required String text,

@@ -4,7 +4,12 @@ import 'package:sahayatri/Components/reusable_card.dart';
 import 'package:sahayatri/Constants/constants.dart';
 
 class NoRequest extends StatelessWidget {
-  const NoRequest({ Key? key }) : super(key: key);
+  const NoRequest({ 
+    Key? key, 
+  required this.text,
+  }) : super(key: key);
+
+  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +27,7 @@ class NoRequest extends StatelessWidget {
               Column(
                 children: [
                   Text(
-                    'No request yet!',
+                    text,
                     style: kTextStyle,
                   ),
                 ],

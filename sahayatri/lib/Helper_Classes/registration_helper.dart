@@ -22,7 +22,7 @@ class Registration extends StatelessWidget {
                   result: displayFlash(
                     context: context,
                     icon: Icons.info_outline,
-                    text: 'Successfully registered, Login now!',
+                    text: 'You\'re registered, Login now!',
                   ),
                 );
               } else if (!register.registered) {

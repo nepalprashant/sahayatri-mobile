@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart' as Dio;
 import 'package:sahayatri/Constants/constants.dart';
-import 'package:sahayatri/PODO_Classes/driver_details.dart';
+import 'package:sahayatri/PODO_Classes/driver/driver_details.dart';
 import 'package:sahayatri/services/dio_services.dart';
 
 class AvailableDrivers extends ChangeNotifier {
@@ -15,6 +15,7 @@ class AvailableDrivers extends ChangeNotifier {
   bool get isAvailable => _isAvailable;
   bool get displayError => _displayError;
 
+  //getting the details of the available drivers
   void availableDrivers() async {
     initialValues();
     try {
@@ -37,7 +38,7 @@ class AvailableDrivers extends ChangeNotifier {
     }
   }
 
-  void initialValues(){
+  void initialValues() {
     _isAvailable = false;
     _displayError = false;
   }

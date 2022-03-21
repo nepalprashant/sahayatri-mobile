@@ -73,6 +73,13 @@ class _ClientMainPageState extends State<ClientMainPage> {
     }
   }
 
+  Future<void> _refresh() async {
+    datePicked = DateTime.now();
+    timePicked = TimeOfDay.now();
+    checkConnectionStatus(context);
+    return Future.delayed(const Duration(seconds: 2), () {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,194 +108,200 @@ class _ClientMainPageState extends State<ClientMainPage> {
     );
   }
 
-  SingleChildScrollView pageContent(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          ResuableCard(
-            height: 100,
-            padding: 12.0,
-            content: Consumer<Connectivity>(
-              builder: (context, connection, child) {
-                if (connection.internetConnection) {
-                  this.internetConnection = true;
-                  return Row(
+  RefreshIndicator pageContent(BuildContext context) {
+    return RefreshIndicator(
+      onRefresh: _refresh,
+      strokeWidth: 2.0,
+      color: Color.fromARGB(255, 0, 22, 41),
+      child: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ResuableCard(
+              height: 100,
+              padding: 12.0,
+              content: Consumer<Connectivity>(
+                builder: (context, connection, child) {
+                  if (connection.internetConnection) {
+                    this.internetConnection = true;
+                    return Row(
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Need to reach somewhere? ',
+                              style: kTextStyle,
+                            ),
+                            SizedBox(
+                              height: 13.0,
+                            ),
+                            Text(
+                              'Let us be your companion!',
+                              style: kSmallTextStyle,
+                            ),
+                          ],
+                        ),
+                        Spacer(),
+                        Container(
+                          child: Lottie.asset(
+                            'assets/lotties/travel.json',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ],
+                    );
+                  } else {
+                    this.internetConnection = false;
+                    return kMapLoading;
+                  }
+                },
+              ),
+              onTap: () {
+                checkConnectionStatus(context);
+                (this.internetConnection)
+                    ? Navigator.pushNamed(context, 'clientMapPage')
+                    : Navigator.pushNamed(context, 'noInternet');
+              },
+            ),
+            IntrinsicHeight(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Column(
                     children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      IconCard(
+                        icon: Icons.commute_outlined,
+                        onTap: () {
+                          checkConnectionStatus(context);
+                          (this.internetConnection)
+                              ? Navigator.pushNamed(context, 'clientMapPage')
+                              : Navigator.pushNamed(context, 'noInternet');
+                        },
+                      ),
+                      Text(
+                        'Travel',
+                        style: kSmallTextStyle,
+                      ),
+                    ],
+                  ),
+                  kVerticalDivider,
+                  Column(
+                    children: [
+                      IconCard(
+                        icon: Icons.local_shipping_outlined,
+                        onTap: () => modalSheet(context,
+                            text: 'pick-up time', isParcel: true),
+                      ),
+                      Text(
+                        'Parcel',
+                        style: kSmallTextStyle,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            ResuableCard(
+              absorb: true,
+              height: 50.0,
+              padding: 12.0,
+              content: Row(
+                children: [
+                  Icon(Icons.local_taxi_outlined),
+                  SizedBox(
+                    width: 15.0,
+                  ),
+                  Text(
+                    'Where To?',
+                    style: kTextStyle,
+                  ),
+                  Spacer(
+                    flex: 3,
+                  ),
+                  Material(
+                    color: Colors.white54,
+                    child: InkWell(
+                      child: Row(
                         children: [
                           Text(
-                            'Need to reach somewhere? ',
+                            'Set ',
                             style: kTextStyle,
                           ),
-                          SizedBox(
-                            height: 13.0,
+                          Icon(
+                            Icons.schedule_outlined,
+                            size: 20.0,
                           ),
-                          Text(
-                            'Let us be your companion!',
-                            style: kSmallTextStyle,
+                          Icon(
+                            Icons.expand_more_outlined,
                           ),
                         ],
                       ),
-                      Spacer(),
-                      Container(
-                        child: Lottie.asset(
-                          'assets/lotties/travel.json',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ],
-                  );
-                } else {
-                  this.internetConnection = false;
-                  return kMapLoading;
-                }
-              },
-            ),
-            onTap: () {
-              checkConnectionStatus(context);
-              (this.internetConnection)
-                  ? Navigator.pushNamed(context, 'clientMapPage')
-                  : Navigator.pushNamed(context, 'noInternet');
-            },
-          ),
-          IntrinsicHeight(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Column(
-                  children: [
-                    IconCard(
-                      icon: Icons.commute_outlined,
                       onTap: () {
-                        checkConnectionStatus(context);
-                        (this.internetConnection)
-                            ? Navigator.pushNamed(context, 'clientMapPage')
-                            : Navigator.pushNamed(context, 'noInternet');
+                        modalSheet(context, text: 'trip', isParcel: false);
                       },
                     ),
-                    Text(
-                      'Travel',
-                      style: kSmallTextStyle,
-                    ),
-                  ],
-                ),
-                kVerticalDivider,
-                Column(
-                  children: [
-                    IconCard(
-                      icon: Icons.local_shipping_outlined,
-                      onTap: () => modalSheet(context,
-                          text: 'pick-up time', isParcel: true),
-                    ),
-                    Text(
-                      'Parcel',
-                      style: kSmallTextStyle,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          ResuableCard(
-            absorb: true,
-            height: 50.0,
-            padding: 12.0,
-            content: Row(
-              children: [
-                Icon(Icons.local_taxi_outlined),
-                SizedBox(
-                  width: 15.0,
-                ),
-                Text(
-                  'Where To?',
-                  style: kTextStyle,
-                ),
-                Spacer(
-                  flex: 3,
-                ),
-                Material(
-                  color: Colors.white54,
-                  child: InkWell(
-                    child: Row(
-                      children: [
-                        Text(
-                          'Set ',
-                          style: kTextStyle,
-                        ),
-                        Icon(
-                          Icons.schedule_outlined,
-                          size: 20.0,
-                        ),
-                        Icon(
-                          Icons.expand_more_outlined,
-                        ),
-                      ],
-                    ),
-                    onTap: () {
-                      modalSheet(context, text: 'trip', isParcel: false);
-                    },
                   ),
-                ),
-              ],
+                ],
+              ),
+              onTap: () {
+                checkConnectionStatus(context);
+                (this.internetConnection)
+                    ? Navigator.pushNamed(context, 'clientMapPage')
+                    : Navigator.pushNamed(context, 'noInternet');
+              },
             ),
-            onTap: () {
-              checkConnectionStatus(context);
-              (this.internetConnection)
-                  ? Navigator.pushNamed(context, 'clientMapPage')
-                  : Navigator.pushNamed(context, 'noInternet');
-            },
-          ),
-          ResuableCard(
-            height: 50,
-            padding: 12.0,
-            content: Row(
+            ResuableCard(
+              height: 50,
+              padding: 12.0,
+              content: Row(
+                children: [
+                  Icon(Icons.push_pin),
+                  SizedBox(
+                    width: 15.0,
+                  ),
+                  Text(
+                    'Set Destination on Map?',
+                    style: kTextStyle,
+                  ),
+                  Spacer(
+                    flex: 3,
+                  ),
+                  Icon(Icons.navigate_next_outlined),
+                ],
+              ),
+              color: kCardColor,
+              onTap: () {
+                checkConnectionStatus(context);
+                (this.internetConnection)
+                    ? Navigator.pushNamed(context, 'clientMapPage')
+                    : Navigator.pushNamed(context, 'noInternet');
+              },
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.push_pin),
-                SizedBox(
-                  width: 15.0,
-                ),
                 Text(
-                  'Set Destination on Map?',
+                  'Around You',
                   style: kTextStyle,
                 ),
-                Spacer(
-                  flex: 3,
+                SizedBox(
+                  width: 5.0,
                 ),
-                Icon(Icons.navigate_next_outlined),
+                Icon(Icons.near_me_outlined),
               ],
             ),
-            color: kCardColor,
-            onTap: () {
-              checkConnectionStatus(context);
-              (this.internetConnection)
-                  ? Navigator.pushNamed(context, 'clientMapPage')
-                  : Navigator.pushNamed(context, 'noInternet');
-            },
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Around You',
-                style: kTextStyle,
-              ),
-              SizedBox(
-                width: 5.0,
-              ),
-              Icon(Icons.near_me_outlined),
-            ],
-          ),
-          ResuableCard(
-            height: 200.0,
-            content: Map(),
-            onTap: () {
-              Navigator.pushNamed(context, 'map');
-            },
-          ),
-        ],
+            ResuableCard(
+              height: 200.0,
+              content: Map(),
+              onTap: () {
+                Navigator.pushNamed(context, 'map');
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

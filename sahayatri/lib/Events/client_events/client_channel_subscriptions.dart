@@ -3,19 +3,31 @@ import 'package:sahayatri/Events/event_handler.dart';
 import 'package:sahayatri/Helper_Classes/notification_helper.dart';
 
 EventHandler eventHandler = new EventHandler();
-late Channel privateTest;
+late Channel clientChannel;
 
 void enableClientChannels({required int id, required String token}) {
   eventHandler.initializeEvents(token: token);
-  privateTest = eventHandler.pusher.subscribe('private-test.$id');
+  clientChannel = eventHandler.pusher.subscribe('private-client.$id');
 
-  privateTest.bind('test-test', (event) {
+  clientChannel.bind('confirm-request', (event) {
+    NotificationHandler.displayNotificaiton(
+        title: event!.data, body: 'something...something');
+  });
+
+  clientChannel.bind('cancel-request', (event) {
+    NotificationHandler.displayNotificaiton(
+        title: event!.data, body: 'something...something');
+  });
+
+  clientChannel.bind('ride-completed', (event) {
     NotificationHandler.displayNotificaiton(
         title: event!.data, body: 'something...something');
   });
 }
 
 void disableClientChannels({required int id}) {
-  privateTest.unbind('test-test');
-  eventHandler.pusher.unsubscribe('private-test.$id');
+  clientChannel.unbind('confirm-request');
+  clientChannel.unbind('cancel-request');
+  clientChannel.unbind('ride-completed');
+  eventHandler.pusher.unsubscribe('private-client.$id');
 }

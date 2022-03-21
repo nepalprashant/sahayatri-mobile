@@ -15,181 +15,193 @@ class IncomePage extends StatelessWidget {
     _tooltipBehavior = TooltipBehavior(enable: true);
   }
 
+  Future<void> _refresh() async {
+    initState();
+    return Future.delayed(const Duration(seconds: 2), () {});
+  }
+
   @override
   Widget build(BuildContext context) {
     initState();
-    return SingleChildScrollView(
-      padding: EdgeInsets.only(top: 35.0),
-      child: Column(
-        children: [
-          Text(
-            'My Earnings',
-            style: kHeadingTextStyle,
-          ),
-          ResuableCard(
-            color: Colors.white,
-            padding: 12.0,
-            height: 100.0,
-            absorb: true,
-            disableTouch: true,
-            content: Row(
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Wallet Balance',
-                      style: TextStyle(
-                        color: Colors.black54,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    Text(
-                      '\Rs. 2,700',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                ),
-                Spacer(
-                  flex: 3,
-                ),
-                SizedBox(
-                  width: 120.0,
-                  child: ModalButton(
-                      text: 'Withdraw',
-                      buttonStyle: kButtonStyleBlue,
-                      buttonTextStyle: kButtonTextStyle,
-                      onPressed: () => {}),
-                )
-              ],
+    return RefreshIndicator(
+      onRefresh: _refresh,
+      strokeWidth: 2.0,
+      displacement: 100.0,
+      color: Color.fromARGB(255, 0, 22, 41),
+      child: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
+        padding: EdgeInsets.only(top: 35.0),
+        child: Column(
+          children: [
+            Text(
+              'My Earnings',
+              style: kHeadingTextStyle,
             ),
-            onTap: () {},
-          ),
-          ResuableCard(
-            height: 300.0,
-            absorb: true,
-            color: Colors.white,
-            disableSplashColor: true,
-            content: weeklyChart(),
-            onTap: () {},
-          ),
-          ResuableCard(
-            height: 155.0,
-            color: Colors.white,
-            padding: 15.0,
-            disableTouch: true,
-            content: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      children: [
-                        Text(
-                          'Total Trips',
-                          style: kSmallTextStyle,
+            ResuableCard(
+              color: Colors.white,
+              padding: 12.0,
+              height: 100.0,
+              absorb: true,
+              disableTouch: true,
+              content: Row(
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Wallet Balance',
+                        style: TextStyle(
+                          color: Colors.black54,
                         ),
-                        Text(
-                          '175',
-                          style: kTextStyle,
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Text(
+                        '\Rs. 2,700',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
                         ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Text(
-                          'Online Duration',
-                          style: kSmallTextStyle,
-                        ),
-                        Text(
-                          '5d 8h',
-                          style: kTextStyle,
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Text(
-                          'Distance Travelled',
-                          style: kSmallTextStyle,
-                        ),
-                        Text(
-                          '200 Km',
-                          style: kTextStyle,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                Divider(
-                  indent: 10.0,
-                  endIndent: 10.0,
-                  color: Colors.black54,
-                  height: 20.0,
-                  thickness: 2.0,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Earnings',
-                          style: kTextStyle,
-                        ),
-                        SizedBox(
-                          height: 3.0,
-                        ),
-                        Text(
-                          'Receiveable Amount',
-                          style: kSmallTextStyle,
-                        ),
-                        SizedBox(
-                          height: 3.0,
-                        ),
-                        Text(
-                          'Taxes',
-                          style: kSmallTextStyle,
-                        ),
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '\Rs. 2,700',
-                          style: kTextStyle,
-                        ),
-                        SizedBox(
-                          height: 3.0,
-                        ),
-                        Text(
-                          '\Rs. 2,250',
-                          style: kSmallTextStyle,
-                        ),
-                        SizedBox(
-                          height: 3.0,
-                        ),
-                        Text(
-                          '\Rs. 450',
-                          style: kSmallTextStyle,
-                        ),
-                      ],
-                    ),
-                  ],
-                )
-              ],
+                      ),
+                    ],
+                  ),
+                  Spacer(
+                    flex: 3,
+                  ),
+                  SizedBox(
+                    width: 120.0,
+                    child: ModalButton(
+                        text: 'Withdraw',
+                        buttonStyle: kButtonStyleBlue,
+                        buttonTextStyle: kButtonTextStyle,
+                        onPressed: () => {}),
+                  )
+                ],
+              ),
+              onTap: () {},
             ),
-            onTap: () {},
-          ),
-        ],
+            ResuableCard(
+              height: 300.0,
+              absorb: true,
+              color: Colors.white,
+              disableSplashColor: true,
+              content: weeklyChart(),
+              onTap: () {},
+            ),
+            ResuableCard(
+              height: 155.0,
+              color: Colors.white,
+              padding: 15.0,
+              disableTouch: true,
+              content: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        children: [
+                          Text(
+                            'Total Trips',
+                            style: kSmallTextStyle,
+                          ),
+                          Text(
+                            '175',
+                            style: kTextStyle,
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Text(
+                            'Online Duration',
+                            style: kSmallTextStyle,
+                          ),
+                          Text(
+                            '5d 8h',
+                            style: kTextStyle,
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Text(
+                            'Distance Travelled',
+                            style: kSmallTextStyle,
+                          ),
+                          Text(
+                            '200 Km',
+                            style: kTextStyle,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Divider(
+                    indent: 10.0,
+                    endIndent: 10.0,
+                    color: Colors.black54,
+                    height: 20.0,
+                    thickness: 2.0,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Earnings',
+                            style: kTextStyle,
+                          ),
+                          SizedBox(
+                            height: 3.0,
+                          ),
+                          Text(
+                            'Receiveable Amount',
+                            style: kSmallTextStyle,
+                          ),
+                          SizedBox(
+                            height: 3.0,
+                          ),
+                          Text(
+                            'Taxes',
+                            style: kSmallTextStyle,
+                          ),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '\Rs. 2,700',
+                            style: kTextStyle,
+                          ),
+                          SizedBox(
+                            height: 3.0,
+                          ),
+                          Text(
+                            '\Rs. 2,250',
+                            style: kSmallTextStyle,
+                          ),
+                          SizedBox(
+                            height: 3.0,
+                          ),
+                          Text(
+                            '\Rs. 450',
+                            style: kSmallTextStyle,
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
+                ],
+              ),
+              onTap: () {},
+            ),
+          ],
+        ),
       ),
     );
   }

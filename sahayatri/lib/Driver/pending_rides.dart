@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:sahayatri/Components/flash_bar.dart';
 import 'package:sahayatri/Components/loading_dialog.dart';
 import 'package:sahayatri/Components/modal_button.dart';
+import 'package:sahayatri/Components/no_request.dart';
 import 'package:sahayatri/Components/reusable_card.dart';
 import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/Helper_Classes/format_datetime.dart';
-import 'package:sahayatri/Services/driver_services/received_request.dart';
 import 'package:sahayatri/Services/driver_services/request_response.dart';
 
-class RequestCard extends StatelessWidget {
-  const RequestCard({
+class PendingRides extends StatelessWidget {
+  const PendingRides({
     Key? key,
     required this.id,
     required this.rideId,
@@ -199,67 +198,29 @@ class RequestCard extends StatelessWidget {
               ),
             },
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                width: 165,
-                child: ModalButton(
-                  text: 'Accept',
-                  buttonStyle: kButtonStyleBlue,
-                  buttonTextStyle: kButtonTextStyle,
-                  onPressed: () => {
-                    Provider.of<RequestResponse>(context, listen: false)
-                        .acceptRequest(
-                            clientId: id, rideId: rideId, name: name),
-                    showDialog(
-                      context: context,
-                      builder: (ctx) {
-                        Future.delayed(const Duration(seconds: 2), () {
-                          Navigator.pop(ctx);
-                          Provider.of<ReceivedRequest>(context, listen: false)
-                              .changeStatus();
-                        });
-                        return LoadingDialog(text: 'Confirming the client');
-                      },
-                      barrierDismissible: false,
-                    ),
-                  },
-                ),
+          Consumer<RequestResponse>(builder: (context, response, child) {
+            if(response.isAccepted){
+              return ModalButton(
+            text: 'Start the Trip',
+            buttonStyle: kButtonStyleBlue,
+            buttonTextStyle: kButtonTextStyle,
+            onPressed: () => {
+              showDialog(
+                context: context,
+                builder: (ctx) {
+                  Future.delayed(const Duration(seconds: 2), () {
+                    Navigator.pop(ctx);
+                  });
+                  return LoadingDialog(text: 'Starting your trip with $name');
+                },
+                barrierDismissible: false,
               ),
-              SizedBox(
-                width: 10.0,
-              ),
-              SizedBox(
-                width: 165,
-                child: ModalButton(
-                  text: 'Reject',
-                  buttonStyle: kButtonStyleRed,
-                  buttonTextStyle: kButtonTextStyle,
-                  onPressed: () => {
-                    Provider.of<RequestResponse>(context, listen: false)
-                        .rejectRequest(clientId: id, rideId: rideId),
-                    showDialog(
-                      context: context,
-                      builder: (ctx) {
-                        Future.delayed(const Duration(seconds: 2), () {
-                          Navigator.pop(ctx);
-                          Provider.of<ReceivedRequest>(context, listen: false)
-                              .changeStatus();
-                          displayFlash(
-                              context: context,
-                              text: 'You\'ve cancelled the trip.',
-                              color: Color.fromARGB(255, 134, 10, 1));
-                        });
-                        return LoadingDialog(text: 'Aborting the request');
-                      },
-                      barrierDismissible: false,
-                    ),
-                  },
-                ),
-              ),
-            ],
-          )
+            },
+          );
+            }
+            return NoRequest(text: 'No any pending trips.');
+          }),
+          
         ],
       ),
       onTap: () => null,

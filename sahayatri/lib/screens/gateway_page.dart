@@ -28,7 +28,7 @@ class GatewayPage extends StatelessWidget {
                         ? Icons.info_outline
                         : Icons.warning_amber_outlined,
                     text: (auth.fromLogout)
-                        ? 'Successfully Logged Out!'
+                        ? 'You\'re Logged Out!'
                         : 'Errors Encountered',
                     color: (auth.fromLogout)
                         ? Colors.black

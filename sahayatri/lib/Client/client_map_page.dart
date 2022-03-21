@@ -196,6 +196,7 @@ class _ClientMapPageState extends State<ClientMapPage> {
                   width: 250.0,
                   child: Consumer<LocationName>(
                     builder: (context, place, child) {
+                      //checking if both origin and destination has been picked
                       if (place.getOrigin && place.getDestinaion) {
                         return ModalButton(
                             buttonStyle: kButtonStyleBlack,
@@ -205,6 +206,7 @@ class _ClientMapPageState extends State<ClientMapPage> {
                                 : 'Request Ride',
                             onPressed: () {
                               if (place.originName != place.destinationName) {
+                                //adding relevant information to the rideDetails (Map) from the google map forwarding to the driver
                                 rideDetails.addAll({
                                   'initial_lat': _origin.position.latitude,
                                   'initial_lng': _origin.position.longitude,
@@ -219,8 +221,8 @@ class _ClientMapPageState extends State<ClientMapPage> {
                                   'ride_type': (widget.isParcel ?? false)
                                       ? 'parcel'
                                       : 'intercity',
-                                  'scheduled_time': widget.time?.toString() ?? DateTime.now().toString(),
-                                  'scheduled_date': widget.date?.toIso8601String() ?? TimeOfDay.now(),
+                                  'scheduled_time': widget.time?.toString() ?? TimeOfDay.now().toString(),
+                                  'scheduled_date': widget.date?.toIso8601String() ?? DateTime.now().toIso8601String(),
                                 });
                                 //for polylines in the map
                                 // setState(() {
