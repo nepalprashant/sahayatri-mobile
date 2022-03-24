@@ -12,14 +12,15 @@ class SettingPage extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  Future<void> _refresh() async {
+  Future<void> _refresh(BuildContext context) async {
+    Provider.of<Auth>(context, listen: false).accessUser(accessToken);
     return Future.delayed(const Duration(seconds: 2), () {});
   }
 
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: _refresh,
+      onRefresh: () => _refresh(context),
       strokeWidth: 2.0,
       displacement: 100.0,
       color: Color.fromARGB(255, 0, 22, 41),

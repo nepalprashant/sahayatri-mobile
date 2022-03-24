@@ -221,8 +221,11 @@ class _ClientMapPageState extends State<ClientMapPage> {
                                   'ride_type': (widget.isParcel ?? false)
                                       ? 'parcel'
                                       : 'intercity',
-                                  'scheduled_time': widget.time?.toString() ?? TimeOfDay.now().toString(),
-                                  'scheduled_date': widget.date?.toIso8601String() ?? DateTime.now().toIso8601String(),
+                                  'scheduled_time': widget.time?.toString() ??
+                                      TimeOfDay.now().toString(),
+                                  'scheduled_date':
+                                      widget.date?.toIso8601String() ??
+                                          DateTime.now().toIso8601String(),
                                 });
                                 //for polylines in the map
                                 // setState(() {
@@ -252,7 +255,7 @@ class _ClientMapPageState extends State<ClientMapPage> {
                                 displayFlash(
                                   context: context,
                                   text: 'Please choose different locations.',
-                                  color: Color.fromARGB(255, 134, 10, 1),
+                                  color: kDangerColor,
                                 );
                               }
                             });

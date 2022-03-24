@@ -27,7 +27,7 @@ class AvailableDrivers extends ChangeNotifier {
       _driver = driverDetailsFromJson(jsonEncode(response.data));
       (_driver.length > 0)
           ? _isAvailable = true
-          : Future.delayed(const Duration(seconds: 3), () {
+          : Future.delayed(const Duration(seconds: 5), () {
               _isAvailable = false;
               _displayError = true;
               notifyListeners();

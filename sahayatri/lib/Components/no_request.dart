@@ -7,9 +7,11 @@ class NoRequest extends StatelessWidget {
   const NoRequest({ 
     Key? key, 
   required this.text,
+  this.noInternet,
   }) : super(key: key);
 
   final String text;
+  final bool? noInternet;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,7 @@ class NoRequest extends StatelessWidget {
       absorb: true,
       color: Colors.white,
       disableSplashColor: true,
-      height: 150,
+      height: 155,
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -36,12 +38,15 @@ class NoRequest extends StatelessWidget {
               Column(
                 children: [
                   Container(
-                    height: 110.0,
+                    height: (noInternet ?? false) ? 131 : 110.0,
                     width: 150.0,
-                    child: Lottie.asset(
+                    child: (noInternet ?? false) ? Lottie.asset(
+                      'assets/lotties/noInternet.json',
+                      fit: BoxFit.fill,
+                    ) : Lottie.asset(
                       'assets/lotties/mapLoading.json',
                       fit: BoxFit.fill,
-                    ),
+                    )
                   ),
                 ],
               )

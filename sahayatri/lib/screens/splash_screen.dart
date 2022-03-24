@@ -34,12 +34,14 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
       ),
       backgroundColor: Colors.white,
+      //checking if the user has previously logged
       nextScreen: Consumer<PreviousLogin>(
         builder: (context, status, child) {
           if (status.previousLogin) {
             status.accessUser(context);
             return GatewayPage();
           }
+          //if no any previous session found
           return LoginPage();
         },
       ),

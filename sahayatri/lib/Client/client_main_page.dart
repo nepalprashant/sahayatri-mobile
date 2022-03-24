@@ -11,6 +11,7 @@ import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/Helper_Classes/connectivity_helper.dart';
 import 'package:sahayatri/Helper_Classes/format_datetime.dart';
 import 'package:sahayatri/Helper_Classes/notification_helper.dart';
+import 'package:sahayatri/services/auth.dart';
 import 'package:sahayatri/services/connectivity.dart';
 import 'drawer_menu.dart';
 
@@ -77,6 +78,7 @@ class _ClientMainPageState extends State<ClientMainPage> {
     datePicked = DateTime.now();
     timePicked = TimeOfDay.now();
     checkConnectionStatus(context);
+    Provider.of<Auth>(context, listen: false).accessUser(accessToken);
     return Future.delayed(const Duration(seconds: 2), () {});
   }
 
@@ -349,7 +351,7 @@ class _ClientMainPageState extends State<ClientMainPage> {
                         displayFlash(
                             context: context,
                             text: 'Schedule for at least 1hr from now!',
-                            color: Color.fromARGB(255, 134, 10, 1));
+                            color: kDangerColor);
                       } else {
                         checkConnectionStatus(context);
                         (this.internetConnection)

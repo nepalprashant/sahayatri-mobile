@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sahayatri/Components/flash_bar.dart';
+import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/screens/no_connection.dart';
 import 'package:sahayatri/services/register_user.dart';
 
@@ -21,7 +22,7 @@ class Registration extends StatelessWidget {
                   'login',
                   result: displayFlash(
                     context: context,
-                    icon: Icons.info_outline,
+                    icon: Icons.login_rounded,
                     text: 'You\'re registered, Login now!',
                   ),
                 );
@@ -35,7 +36,7 @@ class Registration extends StatelessWidget {
                     text: (register.errorStatus != null)
                         ? 'User credentials matched our record!'
                         : 'Can\'t connect to the server!',
-                    color: Color.fromARGB(255, 134, 10, 1),
+                    color: kDangerColor,
                   ),
                 );
               }

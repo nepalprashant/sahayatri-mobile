@@ -54,18 +54,21 @@ class User {
     required this.name,
     required this.email,
     required this.phoneNo,
+    required this.rating,
   });
 
   final int id;
   final String name;
   final String email;
   final String phoneNo;
+  final double rating;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["id"],
         name: json["name"],
         email: json["email"],
         phoneNo: json["phone_no"],
+        rating: json["avg_rating"].toDouble(),
       );
 }
 

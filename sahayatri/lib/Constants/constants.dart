@@ -51,6 +51,11 @@ ButtonStyle kButtonStyleBlue = ButtonStyle(
   Colors.purpleAccent,
 ));
 
+ButtonStyle kButtonStyleSuccess = ButtonStyle(
+    backgroundColor: MaterialStateProperty.all(
+  Color.fromARGB(255, 29, 172, 0),
+));
+
 ButtonStyle kButtonStyleRed = ButtonStyle(
     backgroundColor: MaterialStateProperty.all(
   Colors.redAccent,
@@ -145,3 +150,5 @@ TextStyle kChartLabelStyle = TextStyle(
   fontWeight: FontWeight.w500,
   fontSize: 10.0,
 );
+
+Color kDangerColor = Color.fromARGB(255, 134, 10, 1);

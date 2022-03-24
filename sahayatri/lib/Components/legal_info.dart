@@ -9,6 +9,6 @@ void legalInfo(BuildContext context) {
               width: 50.0,
             ),
             applicationName: 'Saha-Yatri',
-            applicationVersion: '1.0.0',
+            applicationVersion: '0.0.1',
           );
   }

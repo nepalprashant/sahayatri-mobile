@@ -22,7 +22,7 @@ class SearchLocation extends StatelessWidget {
       origin.text = place.originName;
       destination.text = place.destinationName;
       return Container(
-        height: 142.0,
+        height: 145.0,
         padding: EdgeInsets.all(15.0),
         decoration: BoxDecoration(
             color: Colors.white,

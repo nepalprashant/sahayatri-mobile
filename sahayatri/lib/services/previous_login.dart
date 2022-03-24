@@ -10,6 +10,7 @@ class PreviousLogin extends ChangeNotifier {
   bool get previousLogin => _previousLogged;
 
   void getToken() async {
+    //getting the stored token from previous login session
     _token = await storedToken();
 
     if (_token != null) {

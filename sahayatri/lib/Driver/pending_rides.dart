@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:sahayatri/Components/flash_bar.dart';
 import 'package:sahayatri/Components/loading_dialog.dart';
 import 'package:sahayatri/Components/modal_button.dart';
-import 'package:sahayatri/Components/no_request.dart';
+import 'package:sahayatri/Components/rating_bar.dart';
 import 'package:sahayatri/Components/reusable_card.dart';
 import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/Helper_Classes/format_datetime.dart';
-import 'package:sahayatri/Services/driver_services/request_response.dart';
+import 'package:sahayatri/Services/driver_services/pending_trips.dart';
+import 'package:sahayatri/Services/driver_services/ride_status.dart';
 
 class PendingRides extends StatelessWidget {
   const PendingRides({
@@ -198,29 +200,71 @@ class PendingRides extends StatelessWidget {
               ),
             },
           ),
-          Consumer<RequestResponse>(builder: (context, response, child) {
-            if(response.isAccepted){
+          Consumer<RideStatus>(builder: (context, status, child) {
+            if (status.isStarted && (status.rideId == rideId)) {
               return ModalButton(
-            text: 'Start the Trip',
-            buttonStyle: kButtonStyleBlue,
-            buttonTextStyle: kButtonTextStyle,
-            onPressed: () => {
-              showDialog(
-                context: context,
-                builder: (ctx) {
-                  Future.delayed(const Duration(seconds: 2), () {
-                    Navigator.pop(ctx);
-                  });
-                  return LoadingDialog(text: 'Starting your trip with $name');
+                text: 'Trip Completed',
+                buttonStyle: kButtonStyleSuccess,
+                buttonTextStyle: kButtonTextStyle,
+                onPressed: () => {
+                  showDialog(
+                    context: context,
+                    builder: (ctx) {
+                      //sending request to server whenever ride is completed
+                      Provider.of<RideStatus>(context, listen: false)
+                          .rideOnComplete(clientId: id);
+                      Future.delayed(const Duration(seconds: 2), () {
+                        Navigator.pop(ctx);
+                        //showing error message if not connected to the server
+                        if (status.isConnectionError) {
+                          displayFlash(
+                              context: context,
+                              text: 'Can\'t connect to the server!',
+                              color: kDangerColor,
+                              icon: Icons.wifi_off_rounded);
+                        } else {
+                          //allowing driver to rate the client
+                          showDialog(
+                            context: context,
+                            builder: (ctx) {
+                              return Rating(id: id);
+                            },
+                            barrierDismissible: false,
+                          );
+                          //reloading the list of pending request once a ride is completed
+                          Provider.of<DriverPendingRides>(context,
+                                  listen: false)
+                              .pendingTrips();
+                        }
+                      });
+                      return LoadingDialog(
+                          text: 'Closing your deal with $name');
+                    },
+                    barrierDismissible: false,
+                  ),
                 },
-                barrierDismissible: false,
-              ),
-            },
-          );
+              );
             }
-            return NoRequest(text: 'No any pending trips.');
+            return ModalButton(
+              text: 'Start the Trip',
+              buttonStyle: kButtonStyleBlue,
+              buttonTextStyle: kButtonTextStyle,
+              onPressed: () => {
+                showDialog(
+                  context: context,
+                  builder: (ctx) {
+                    Future.delayed(const Duration(seconds: 2), () {
+                      Provider.of<RideStatus>(context, listen: false)
+                          .started(rideId);
+                      Navigator.pop(ctx);
+                    });
+                    return LoadingDialog(text: 'Starting your trip with $name');
+                  },
+                  barrierDismissible: false,
+                ),
+              },
+            );
           }),
-          
         ],
       ),
       onTap: () => null,

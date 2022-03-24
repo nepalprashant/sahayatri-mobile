@@ -30,7 +30,7 @@ class IncomePage extends StatelessWidget {
       color: Color.fromARGB(255, 0, 22, 41),
       child: SingleChildScrollView(
         physics: AlwaysScrollableScrollPhysics(),
-        padding: EdgeInsets.only(top: 35.0),
+        padding: EdgeInsets.only(top: 50.0),
         child: Column(
           children: [
             Text(

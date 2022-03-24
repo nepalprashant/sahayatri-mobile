@@ -8,6 +8,7 @@ import 'package:sahayatri/Components/modal_button.dart';
 import 'package:sahayatri/Components/reusable_card.dart';
 import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/Helper_Classes/format_datetime.dart';
+import 'package:sahayatri/Services/driver_services/pending_trips.dart';
 import 'package:sahayatri/Services/driver_services/received_request.dart';
 import 'package:sahayatri/Services/driver_services/request_response.dart';
 
@@ -216,6 +217,10 @@ class RequestCard extends StatelessWidget {
                       context: context,
                       builder: (ctx) {
                         Future.delayed(const Duration(seconds: 2), () {
+                          //reloading the list of pending rides once accepted
+                          Provider.of<DriverPendingRides>(context,
+                                  listen: false)
+                              .pendingTrips();
                           Navigator.pop(ctx);
                           Provider.of<ReceivedRequest>(context, listen: false)
                               .changeStatus();
@@ -249,7 +254,7 @@ class RequestCard extends StatelessWidget {
                           displayFlash(
                               context: context,
                               text: 'You\'ve cancelled the trip.',
-                              color: Color.fromARGB(255, 134, 10, 1));
+                              color: kDangerColor);
                         });
                         return LoadingDialog(text: 'Aborting the request');
                       },

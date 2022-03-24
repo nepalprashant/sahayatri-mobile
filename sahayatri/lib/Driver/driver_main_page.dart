@@ -11,7 +11,7 @@ import 'package:sahayatri/Driver/setting_page.dart';
 import 'package:sahayatri/Events/driver_events/driver_channel_subscriptions.dart';
 import 'package:sahayatri/Helper_Classes/notification_helper.dart';
 import 'package:sahayatri/Services/driver_services/driver_availability.dart';
-import 'package:sahayatri/Services/driver_services/received_request.dart';
+import 'package:sahayatri/Services/driver_services/pending_trips.dart';
 import 'package:sahayatri/screens/map_page.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 
@@ -36,6 +36,9 @@ class _DriverMainPageState extends State<DriverMainPage> {
   @override
   void initState() {
     NotificationHandler.config();
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      Provider.of<DriverPendingRides>(context, listen: false).pendingTrips();
+    });
     super.initState();
   }
 
@@ -95,7 +98,7 @@ class _DriverMainPageState extends State<DriverMainPage> {
                             displayFlash(
                                 context: context,
                                 text: 'You\'re now Online',
-                                icon: Icons.info_outline);
+                                icon: Icons.online_prediction_outlined);
                           } else if (availability.isOffline) {
                             driverOffline();
                             setState(() {
@@ -104,12 +107,13 @@ class _DriverMainPageState extends State<DriverMainPage> {
                             displayFlash(
                                 context: context,
                                 text: 'You\'re Offline',
-                                icon: Icons.info_outline);
+                                icon: Icons.flight_rounded);
                           } else {
                             displayFlash(
                                 context: context,
                                 text: 'Can\'t connect to the server',
-                                color: Color.fromARGB(255, 134, 10, 1));
+                                color: kDangerColor,
+                                icon: Icons.wifi_off_rounded);
                           }
                         });
                         return LoadingDialog(text: 'Changing the availability');
@@ -127,9 +131,11 @@ class _DriverMainPageState extends State<DriverMainPage> {
                           // Future.delayed(const Duration(seconds: 2), () {
                           //   Navigator.pop(ctx);
                           // });
-                          return Rating();
+                          return Rating(
+                            id: 2,
+                          );
                         },
-                        barrierDismissible: true,
+                        barrierDismissible: false,
                       ),
                     },
                     icon: Icon(
