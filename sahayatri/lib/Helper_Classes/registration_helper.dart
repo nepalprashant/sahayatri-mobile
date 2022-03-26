@@ -27,6 +27,7 @@ class Registration extends StatelessWidget {
                   ),
                 );
               } else if (!register.registered) {
+                //displaying error if not registered
                 Navigator.popAndPushNamed(
                   context,
                   'signup',

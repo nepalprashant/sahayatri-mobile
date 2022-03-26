@@ -52,12 +52,22 @@ class DrawerMenu extends StatelessWidget {
                   text: 'Home',
                   onTap: () {
                     Navigator.pop(context);
-                    Navigator.pushNamed(context, 'clientMainPage');
+                    Navigator.popAndPushNamed(context, 'clientMainPage');
                   }),
               Tile(
-                icon: Icons.local_taxi_outlined,
-                text: 'Your Trips',
-                onTap: () => Navigator.pop(context),
+                  icon: Icons.local_taxi_outlined,
+                  text: 'Your Trips',
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, 'clientTrips');
+                  }),
+              Tile(
+                icon: Icons.history_rounded,
+                text: 'History',
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, 'clientHistory');
+                },
               ),
               Tile(
                 icon: Icons.manage_accounts_outlined,

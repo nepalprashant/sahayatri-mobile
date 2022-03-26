@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sahayatri/Components/no_request.dart';
-import 'package:sahayatri/Components/request_detail_card.dart';
+import 'package:sahayatri/Driver/request_detail_card.dart';
 import 'package:sahayatri/Components/reusable_card.dart';
 import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/Driver/pending_rides.dart';
@@ -145,12 +145,12 @@ class RequestPage extends StatelessWidget {
                 } else if (!rides.isConnected) {
                   return ListView(children: [
                     NoRequest(
-                        text: 'Sorry! Can\'t connect to the server.',
+                        text: 'Sorry! \nCan\'t connect to the server.',
                         noInternet: true),
                   ]);
                 }
                 return ListView(children: [
-                  NoRequest(text: 'Wait... We\'re Fetching Information!')
+                  NoRequest(text: 'Wait.... We\'re Fetching \nInformation!')
                 ]);
               }),
             ),

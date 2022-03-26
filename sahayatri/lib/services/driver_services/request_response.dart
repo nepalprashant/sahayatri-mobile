@@ -7,12 +7,15 @@ import 'package:sahayatri/services/dio_services.dart';
 class RequestResponse extends ChangeNotifier {
   bool _isAccepted = false;
   bool _isRejected = false;
+  bool _isConnected = true;
 
   bool get isAccepted => _isAccepted;
   bool get isRejected => _isRejected;
+  bool get isConnected => _isConnected;
 
   //sending response to the backend when request is being accepted
   void acceptRequest({required int clientId, required int rideId, required String name}) async {
+    _isConnected = true;
     Map details = {
       'client_id': clientId,
       'ride_id': rideId,
@@ -29,15 +32,14 @@ class RequestResponse extends ChangeNotifier {
       NotificationHandler.displayNotificaiton(title: 'Ride Confirmed', body: 'Your ride has been scheduled with $name');
       notifyListeners();
     } catch (e) {
-      Future.delayed(const Duration(seconds: 1), () {
-        NotificationHandler.displayNotificaiton(
-            title: "Connection Error", body: "Can't connect to the server!");
-      });
+      _isConnected = false;
+      notifyListeners();
     }
   }
 
   //sending response to the server when request has been rejected
   void rejectRequest({required int clientId, required int rideId}) async {
+    _isConnected = true;
     Map details = {
       'client_id': clientId,
       'ride_id': rideId,
@@ -53,10 +55,8 @@ class RequestResponse extends ChangeNotifier {
       this._isRejected = true;
       notifyListeners();
     } catch (e) {
-      Future.delayed(const Duration(seconds: 1), () {
-        NotificationHandler.displayNotificaiton(
-            title: "Connection Error", body: "Can't connect to the server!");
-      });
+      _isConnected = false;
+      notifyListeners();
     }
   }
 

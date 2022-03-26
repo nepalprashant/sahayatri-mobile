@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sahayatri/Client/client_history.dart';
 import 'package:sahayatri/Client/client_map_page.dart';
+import 'package:sahayatri/Client/client_trips.dart';
 import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/Driver/driver_main_page.dart';
 import 'package:sahayatri/Helper_Classes/registration_helper.dart';
+import 'package:sahayatri/Services/client_services/cancel_trip.dart';
+import 'package:sahayatri/Services/client_services/upcoming_rides.dart';
 import 'package:sahayatri/Services/driver_services/driver_availability.dart';
 import 'package:sahayatri/Services/driver_services/pending_trips.dart';
 import 'package:sahayatri/Services/driver_services/received_request.dart';
@@ -41,6 +45,8 @@ void main() {
         ChangeNotifierProvider(create: (context) => DriverPendingRides()),
         ChangeNotifierProvider(create: (context) => RideStatus()),
         ChangeNotifierProvider(create: (context) => RecordRating()),
+        ChangeNotifierProvider(create: (context) => UpcomingRides()),
+        ChangeNotifierProvider(create: (context) => CancleTrip()),
       ],
       child: Sahayatri(),
     ),
@@ -80,6 +86,8 @@ class Sahayatri extends StatelessWidget {
           'driverMainPage': (context) => DriverMainPage(),
           'clientMapPage': (context) => ClientMapPage(),
           'driverMapPage': (context) => DriverMainPage(),
+          'clientTrips': (context) => ClientTrips(),
+          'clientHistory': (context) => ClientHistory(),
           'test': (context) => Test(),
         });
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:sahayatri/Client/client_map_page.dart';
+import 'package:sahayatri/Client/client_scaffold.dart';
 import 'package:sahayatri/Components/flash_bar.dart';
 import 'package:sahayatri/Components/icon_card.dart';
 import 'package:sahayatri/Components/map.dart';
@@ -11,9 +12,9 @@ import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/Helper_Classes/connectivity_helper.dart';
 import 'package:sahayatri/Helper_Classes/format_datetime.dart';
 import 'package:sahayatri/Helper_Classes/notification_helper.dart';
+import 'package:sahayatri/Services/client_services/upcoming_rides.dart';
 import 'package:sahayatri/services/auth.dart';
 import 'package:sahayatri/services/connectivity.dart';
-import 'drawer_menu.dart';
 
 class ClientMainPage extends StatefulWidget {
   const ClientMainPage({Key? key}) : super(key: key);
@@ -33,6 +34,9 @@ class _ClientMainPageState extends State<ClientMainPage> {
     timePicked = TimeOfDay.now();
     NotificationHandler.config();
     checkConnectionStatus(context);
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      Provider.of<UpcomingRides>(context, listen: false).getUpcomingTrips();
+    });
     super.initState();
   }
 
@@ -79,33 +83,13 @@ class _ClientMainPageState extends State<ClientMainPage> {
     timePicked = TimeOfDay.now();
     checkConnectionStatus(context);
     Provider.of<Auth>(context, listen: false).accessUser(accessToken);
+    Provider.of<UpcomingRides>(context, listen: false).getUpcomingTrips();
     return Future.delayed(const Duration(seconds: 2), () {});
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0.0,
-        iconTheme: IconThemeData(color: Colors.black87),
-        actions: [
-          IconButton(
-            onPressed: () {
-              displayFlash(
-                  context: context,
-                  text: 'No new notifications!',
-                  icon: Icons.notifications_none_outlined);
-            },
-            icon: Icon(
-              Icons.notifications_outlined,
-              size: 30.0,
-              color: kInactiveColor,
-            ),
-          ),
-        ],
-      ),
-      drawer: DrawerMenu(),
+    return ClientScaffold(
       body: SafeArea(child: pageContent(context)),
     );
   }
