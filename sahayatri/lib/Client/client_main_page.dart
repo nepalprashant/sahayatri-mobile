@@ -9,6 +9,7 @@ import 'package:sahayatri/Components/map.dart';
 import 'package:sahayatri/Components/modal_button.dart';
 import 'package:sahayatri/Components/reusable_card.dart';
 import 'package:sahayatri/Constants/constants.dart';
+import 'package:sahayatri/Events/client_events/client_channel_subscriptions.dart';
 import 'package:sahayatri/Helper_Classes/connectivity_helper.dart';
 import 'package:sahayatri/Helper_Classes/format_datetime.dart';
 import 'package:sahayatri/Helper_Classes/notification_helper.dart';
@@ -34,6 +35,7 @@ class _ClientMainPageState extends State<ClientMainPage> {
     timePicked = TimeOfDay.now();
     NotificationHandler.config();
     checkConnectionStatus(context);
+    displayRatingBar(context);
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       Provider.of<UpcomingRides>(context, listen: false).getUpcomingTrips();
     });

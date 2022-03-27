@@ -7,6 +7,7 @@ import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/Driver/driver_main_page.dart';
 import 'package:sahayatri/Helper_Classes/registration_helper.dart';
 import 'package:sahayatri/Services/client_services/cancel_trip.dart';
+import 'package:sahayatri/Services/client_services/provide_rating.dart';
 import 'package:sahayatri/Services/client_services/upcoming_rides.dart';
 import 'package:sahayatri/Services/driver_services/driver_availability.dart';
 import 'package:sahayatri/Services/driver_services/pending_trips.dart';
@@ -47,6 +48,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => RecordRating()),
         ChangeNotifierProvider(create: (context) => UpcomingRides()),
         ChangeNotifierProvider(create: (context) => CancleTrip()),
+        ChangeNotifierProvider(create: (context) => ProvideRating()),
       ],
       child: Sahayatri(),
     ),

@@ -3,7 +3,6 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:sahayatri/Components/flash_bar.dart';
 import 'package:sahayatri/Components/loading_dialog.dart';
-import 'package:sahayatri/Components/rating_bar.dart';
 import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/Driver/income_page.dart';
 import 'package:sahayatri/Driver/request_page.dart';
@@ -125,18 +124,10 @@ class _DriverMainPageState extends State<DriverMainPage> {
                 actions: [
                   IconButton(
                     onPressed: () => {
-                      showDialog(
-                        context: context,
-                        builder: (ctx) {
-                          // Future.delayed(const Duration(seconds: 2), () {
-                          //   Navigator.pop(ctx);
-                          // });
-                          return Rating(
-                            id: 2,
-                          );
-                        },
-                        barrierDismissible: false,
-                      ),
+                      displayFlash(
+                          context: context,
+                          text: 'No new notifications!',
+                          icon: Icons.notifications_rounded),
                     },
                     icon: Icon(
                       Icons.notifications_outlined,

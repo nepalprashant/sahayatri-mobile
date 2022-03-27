@@ -5,6 +5,7 @@ import 'package:sahayatri/Components/flash_bar.dart';
 import 'package:sahayatri/Components/loading_dialog.dart';
 import 'package:sahayatri/Components/modal_button.dart';
 import 'package:sahayatri/Constants/constants.dart';
+import 'package:sahayatri/Services/client_services/provide_rating.dart';
 import 'package:sahayatri/Services/record_rating.dart';
 
 class Rating extends StatelessWidget {
@@ -89,6 +90,7 @@ class Rating extends StatelessWidget {
                         //checking if connected to the internet
                         if (!record.isConnectionError) {
                           Navigator.pop(context);
+                          Provider.of<ProvideRating>(context, listen: false).ratingSubmitted();
                           displayFlash(
                               context: context,
                               text: 'Response Recorded!',

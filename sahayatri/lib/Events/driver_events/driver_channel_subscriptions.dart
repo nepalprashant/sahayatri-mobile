@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pusher_client/pusher_client.dart';
@@ -12,8 +14,12 @@ void enableDriverChannels({required int id, required String token}) {
   eventHandler.initializeEvents(token: token);
   driverChannel = eventHandler.pusher.subscribe('private-driver.$id');
   driverChannel.bind('cancel-trip', (event) {
+    //decoding the received json data
+    dynamic decodedData = jsonDecode(event!.data!);
+    //for displaying the notification
     NotificationHandler.displayNotificaiton(
-        title: 'Ride Request', body: 'You have a new request!');
+        title: 'Trip Cancelled',
+        body: 'Your ride with ${decodedData[0]} has been cancelled.');
   });
 }
 

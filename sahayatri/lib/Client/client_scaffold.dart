@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sahayatri/Client/drawer_menu.dart';
 import 'package:sahayatri/Components/flash_bar.dart';
+import 'package:sahayatri/Components/rating_bar.dart';
 import 'package:sahayatri/Constants/constants.dart';
+import 'package:sahayatri/Services/client_services/provide_rating.dart';
 
 class ClientScaffold extends StatelessWidget {
   const ClientScaffold({
@@ -24,7 +27,7 @@ class ClientScaffold extends StatelessWidget {
               displayFlash(
                   context: context,
                   text: 'No new notifications!',
-                  icon: Icons.notifications_none_outlined);
+                  icon: Icons.notifications_rounded);
             },
             icon: Icon(
               Icons.notifications_outlined,
@@ -35,7 +38,24 @@ class ClientScaffold extends StatelessWidget {
         ],
       ),
       drawer: DrawerMenu(),
-      body: body,
+      body: Consumer<ProvideRating>(builder: (context, rating, child) {
+        //for preventing from build error
+        Future.delayed(const Duration(seconds: 0), () {
+          if (rating.rideCompleted) {
+            //for displaying the raitng bar once
+            Provider.of<ProvideRating>(context, listen: false)
+                .ratingSubmitted();
+            showDialog(
+              context: context,
+              builder: (ctx) {
+                return Rating(id: rating.driverId);
+              },
+              barrierDismissible: false,
+            );
+          }
+        });
+        return body;
+      }),
     );
   }
 }
