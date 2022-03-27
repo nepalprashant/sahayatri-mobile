@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sahayatri/Client/client_scaffold.dart';
+import 'package:sahayatri/Components/history_card.dart';
+import 'package:sahayatri/Components/no_request.dart';
 import 'package:sahayatri/Components/reusable_card.dart';
 import 'package:sahayatri/Constants/constants.dart';
+import 'package:sahayatri/Services/client_services/client_ride_history.dart';
 
 class ClientHistory extends StatelessWidget {
   const ClientHistory({Key? key}) : super(key: key);
 
   Future<void> _refresh(BuildContext context) async {
+    Provider.of<ClientRideHistory>(context, listen: false).getRideHistory();
     return Future.delayed(const Duration(seconds: 2), () {});
   }
 
@@ -38,59 +42,45 @@ class ClientHistory extends StatelessWidget {
               disableTouch: true,
               color: Colors.white,
               onTap: () {}),
-          // Expanded(
-          //   child: Consumer<ClientRideHistory>(builder: (context, history, child) {
-          //     if (history.anyRides) {
-          //       return ListView.builder(
-          //           physics: AlwaysScrollableScrollPhysics(),
-          //           shrinkWrap: true,
-          //           itemCount: history.rideHistory.length,
-          //           itemBuilder: (context, int index) {
-          //             return UpcomingTrips(
-          //               //fetching overall trip information
-          //               id: trips.upcomingTrips[index].driver.user.id,
-          //               rideId: trips.upcomingTrips[index].id,
-          //               name: trips.upcomingTrips[index].driver.user.name,
-          //               phone: trips.upcomingTrips[index].driver.user.phoneNo,
-          //               rating:
-          //                   trips.upcomingTrips[index].driver.user.avgRating,
-          //               date: trips.upcomingTrips[index].scheduledDate,
-          //               time: trips.upcomingTrips[index].scheduledTime,
-          //               type: trips.upcomingTrips[index].rideType,
-          //               distance:
-          //                   trips.upcomingTrips[index].location.totalDistance,
-          //               price: trips.upcomingTrips[index].totalFare,
-          //               origin: trips.upcomingTrips[index].location.origin,
-          //               destination:
-          //                   trips.upcomingTrips[index].location.destination,
-          //               initialLat:
-          //                   trips.upcomingTrips[index].location.initialLat,
-          //               initialLng:
-          //                   trips.upcomingTrips[index].location.initialLng,
-          //               destinationLat:
-          //                   trips.upcomingTrips[index].location.destinationLat,
-          //               destinationLng:
-          //                   trips.upcomingTrips[index].location.destinationLng,
-          //             );
-          //           });
-          //     } else if (!trips.anyTrips && trips.isUptoDate) {
-          //       return ListView(children: [
-          //         NoRequest(
-          //             text: 'You\'re all covered up.\nNo any upcoming trips.'),
-          //       ]);
-          //     } else if (!trips.isConnected) {
-          //       return ListView(children: [
-          //         NoRequest(
-          //             text: 'Sorry! \nCan\'t connect to the server.',
-          //             noInternet: true),
-          //       ]);
-          //     }
-          //     return ListView(children: [
-          //       NoRequest(text: 'Wait.... We\'re Fetching \nInformation!')
-          //     ]);
-          //   }),
-          // ),
-        
+          Expanded(
+            child:
+                Consumer<ClientRideHistory>(builder: (context, history, child) {
+              if (history.anyRides) {
+                return ListView.builder(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: history.rideHistory.length,
+                    itemBuilder: (context, int index) {
+                      return HistoryCard(
+                        //fetching overall trip information
+                        date: history.rideHistory[index].scheduledDate,
+                        time: history.rideHistory[index].scheduledTime,
+                        type: history.rideHistory[index].rideType,
+                        distance:
+                            history.rideHistory[index].location.totalDistance,
+                        price: history.rideHistory[index].totalFare,
+                        origin: history.rideHistory[index].location.origin,
+                        destination:
+                            history.rideHistory[index].location.destination,
+                      );
+                    });
+              } else if (!history.anyRides && history.isUptoDate) {
+                return ListView(children: [
+                  NoRequest(
+                      text: 'You haven\'t booked any.\nBook your first ride.'),
+                ]);
+              } else if (!history.isConnected) {
+                return ListView(children: [
+                  NoRequest(
+                      text: 'Sorry! \nCan\'t connect to the server.',
+                      noInternet: true),
+                ]);
+              }
+              return ListView(children: [
+                NoRequest(text: 'Wait.... We\'re Fetching \nInformation!')
+              ]);
+            }),
+          ),
         ],
       ),
     ));

@@ -59,14 +59,14 @@ class DrawerMenu extends StatelessWidget {
                   text: 'Your Trips',
                   onTap: () {
                     Navigator.pop(context);
-                    Navigator.pushNamed(context, 'clientTrips');
+                    Navigator.popAndPushNamed(context, 'clientTrips');
                   }),
               Tile(
                 icon: Icons.history_rounded,
                 text: 'History',
                 onTap: () {
                   Navigator.pop(context);
-                  Navigator.pushNamed(context, 'clientHistory');
+                  Navigator.popAndPushNamed(context, 'clientHistory');
                 },
               ),
               Tile(

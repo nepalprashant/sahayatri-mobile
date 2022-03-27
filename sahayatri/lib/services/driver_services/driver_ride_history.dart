@@ -45,5 +45,6 @@ class DriverRideHistory extends ChangeNotifier {
     this._anyRides = false;
     this._isConnected = true;
     this._isUptoDate = false;
+    notifyListeners();
   }
 }

@@ -13,6 +13,7 @@ import 'package:sahayatri/Events/client_events/client_channel_subscriptions.dart
 import 'package:sahayatri/Helper_Classes/connectivity_helper.dart';
 import 'package:sahayatri/Helper_Classes/format_datetime.dart';
 import 'package:sahayatri/Helper_Classes/notification_helper.dart';
+import 'package:sahayatri/Services/client_services/client_ride_history.dart';
 import 'package:sahayatri/Services/client_services/upcoming_rides.dart';
 import 'package:sahayatri/services/auth.dart';
 import 'package:sahayatri/services/connectivity.dart';
@@ -38,6 +39,7 @@ class _ClientMainPageState extends State<ClientMainPage> {
     displayRatingBar(context);
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       Provider.of<UpcomingRides>(context, listen: false).getUpcomingTrips();
+      Provider.of<ClientRideHistory>(context, listen: false).getRideHistory();
     });
     super.initState();
   }
@@ -86,6 +88,7 @@ class _ClientMainPageState extends State<ClientMainPage> {
     checkConnectionStatus(context);
     Provider.of<Auth>(context, listen: false).accessUser(accessToken);
     Provider.of<UpcomingRides>(context, listen: false).getUpcomingTrips();
+    Provider.of<ClientRideHistory>(context, listen: false).getRideHistory();
     return Future.delayed(const Duration(seconds: 2), () {});
   }
 

@@ -152,7 +152,8 @@ class SettingPage extends StatelessWidget {
                             children: [
                               DriverCard(
                                 icon: Icons.local_taxi_outlined,
-                                onTap: () {},
+                                onTap: () => Navigator.pushNamed(
+                                    context, 'driverHistory'),
                               ),
                               Text(
                                 'Trips',
@@ -229,7 +230,7 @@ class SettingPage extends StatelessWidget {
                     ],
                   );
                 }
-                return kNoInternet;
+                return Center(child: kNoInternet);
               },
             ),
           ),

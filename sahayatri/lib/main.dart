@@ -4,12 +4,15 @@ import 'package:sahayatri/Client/client_history.dart';
 import 'package:sahayatri/Client/client_map_page.dart';
 import 'package:sahayatri/Client/client_trips.dart';
 import 'package:sahayatri/Constants/constants.dart';
+import 'package:sahayatri/Driver/driver_history.dart';
 import 'package:sahayatri/Driver/driver_main_page.dart';
 import 'package:sahayatri/Helper_Classes/registration_helper.dart';
 import 'package:sahayatri/Services/client_services/cancel_trip.dart';
+import 'package:sahayatri/Services/client_services/client_ride_history.dart';
 import 'package:sahayatri/Services/client_services/provide_rating.dart';
 import 'package:sahayatri/Services/client_services/upcoming_rides.dart';
 import 'package:sahayatri/Services/driver_services/driver_availability.dart';
+import 'package:sahayatri/Services/driver_services/driver_ride_history.dart';
 import 'package:sahayatri/Services/driver_services/pending_trips.dart';
 import 'package:sahayatri/Services/driver_services/received_request.dart';
 import 'package:sahayatri/Services/driver_services/request_response.dart';
@@ -27,7 +30,6 @@ import 'package:sahayatri/services/client_services/available_drivers.dart';
 import 'package:sahayatri/services/connectivity.dart';
 import 'package:sahayatri/services/previous_login.dart';
 import 'package:sahayatri/services/register_user.dart';
-import 'package:sahayatri/test.dart';
 import 'screens/splash_screen.dart';
 
 void main() {
@@ -49,6 +51,8 @@ void main() {
         ChangeNotifierProvider(create: (context) => UpcomingRides()),
         ChangeNotifierProvider(create: (context) => CancleTrip()),
         ChangeNotifierProvider(create: (context) => ProvideRating()),
+        ChangeNotifierProvider(create: (context) => ClientRideHistory()),
+        ChangeNotifierProvider(create: (context) => DriverRideHistory()),
       ],
       child: Sahayatri(),
     ),
@@ -90,7 +94,7 @@ class Sahayatri extends StatelessWidget {
           'driverMapPage': (context) => DriverMainPage(),
           'clientTrips': (context) => ClientTrips(),
           'clientHistory': (context) => ClientHistory(),
-          'test': (context) => Test(),
+          'driverHistory': (context) => DriverHistory(),
         });
   }
 }

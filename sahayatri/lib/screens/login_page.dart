@@ -76,6 +76,7 @@ class _LoginPageState extends State<LoginPage> {
                             'password': _passwordController.text,
                             'device_name': 'android',
                           };
+                          //only send request if the provided information are valid
                           if (_formKey.currentState!.validate()) {
                             Provider.of<Auth>(
                               context,
@@ -83,7 +84,8 @@ class _LoginPageState extends State<LoginPage> {
                             ).login(
                               credentials: loginCredentials,
                             );
-                              Navigator.pushReplacementNamed(context, 'gatewayPage');
+                            Navigator.pushReplacementNamed(
+                                context, 'gatewayPage');
                           }
                         },
                         icon: Icon(Icons.login),
@@ -111,8 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                         linkText: 'Forgot Password ',
                         displayIcon: false,
                         onPressed: () {
-                          Navigator.pushNamed(context, 'test');
-                          // Navigator.pushNamed(context, 'signup');
+                          Navigator.pushNamed(context, 'signup');
                         },
                       ),
                     ],

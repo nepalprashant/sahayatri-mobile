@@ -10,6 +10,7 @@ import 'package:sahayatri/Driver/setting_page.dart';
 import 'package:sahayatri/Events/driver_events/driver_channel_subscriptions.dart';
 import 'package:sahayatri/Helper_Classes/notification_helper.dart';
 import 'package:sahayatri/Services/driver_services/driver_availability.dart';
+import 'package:sahayatri/Services/driver_services/driver_ride_history.dart';
 import 'package:sahayatri/Services/driver_services/pending_trips.dart';
 import 'package:sahayatri/screens/map_page.dart';
 import 'package:flutter_switch/flutter_switch.dart';
@@ -37,6 +38,7 @@ class _DriverMainPageState extends State<DriverMainPage> {
     NotificationHandler.config();
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       Provider.of<DriverPendingRides>(context, listen: false).pendingTrips();
+      Provider.of<DriverRideHistory>(context, listen: false).getRideHistory();
     });
     super.initState();
   }
