@@ -6,6 +6,7 @@ import 'package:pusher_client/pusher_client.dart';
 import 'package:sahayatri/Events/event_handler.dart';
 import 'package:sahayatri/Helper_Classes/notification_helper.dart';
 import 'package:sahayatri/Services/client_services/provide_rating.dart';
+import 'package:sahayatri/Services/client_services/upcoming_rides.dart';
 
 EventHandler eventHandler = new EventHandler();
 late Channel clientChannel;
@@ -21,7 +22,7 @@ void enableClientChannels({required int id, required String token}) {
     NotificationHandler.displayNotificaiton(
         title: 'Request Confirmed',
         body:
-            'Your request with ${decodedData[0]} has been scheduled.\nProceed Payment?');
+            'Your ride with ${decodedData[0]} has been scheduled.\nProceed Payment?');
   });
 
   clientChannel.bind('cancel-request', (event) {
@@ -45,6 +46,9 @@ void displayRatingBar(BuildContext context) {
     //passing driver ID from event, to provide rating
     Provider.of<ProvideRating>(context, listen: false)
         .provideRating(driverId: int.parse(decodedData[1]));
+
+    //reloading the list of upcoming trips
+    Provider.of<UpcomingRides>(context, listen: false).getUpcomingTrips();
   });
 }
 

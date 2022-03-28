@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:pusher_client/pusher_client.dart';
 import 'package:sahayatri/Events/event_handler.dart';
 import 'package:sahayatri/Helper_Classes/notification_helper.dart';
+import 'package:sahayatri/Services/driver_services/pending_trips.dart';
 import 'package:sahayatri/Services/driver_services/received_request.dart';
 
 EventHandler eventHandler = new EventHandler();
@@ -13,6 +14,9 @@ late Channel driverChannel;
 void enableDriverChannels({required int id, required String token}) {
   eventHandler.initializeEvents(token: token);
   driverChannel = eventHandler.pusher.subscribe('private-driver.$id');
+}
+
+void bindDriverChannels(BuildContext context) {
   driverChannel.bind('cancel-trip', (event) {
     //decoding the received json data
     dynamic decodedData = jsonDecode(event!.data!);
@@ -20,6 +24,8 @@ void enableDriverChannels({required int id, required String token}) {
     NotificationHandler.displayNotificaiton(
         title: 'Trip Cancelled',
         body: 'Your ride with ${decodedData[0]} has been cancelled.');
+    //reloading the list of pending trips
+    Provider.of<DriverPendingRides>(context, listen: false).pendingTrips();
   });
 }
 

@@ -7,16 +7,18 @@ import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/Services/client_services/provide_rating.dart';
 
 class ClientScaffold extends StatelessWidget {
-  const ClientScaffold({
+  ClientScaffold({
     Key? key,
     required this.body,
   }) : super(key: key);
 
   final Widget body;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.0,
@@ -46,7 +48,7 @@ class ClientScaffold extends StatelessWidget {
             Provider.of<ProvideRating>(context, listen: false)
                 .ratingSubmitted();
             showDialog(
-              context: context,
+              context: _scaffoldKey.currentContext!,
               builder: (ctx) {
                 return Rating(id: rating.driverId);
               },

@@ -37,6 +37,7 @@ class _DriverMainPageState extends State<DriverMainPage> {
   void initState() {
     NotificationHandler.config();
     WidgetsBinding.instance?.addPostFrameCallback((_) {
+      bindDriverChannels(context);
       Provider.of<DriverPendingRides>(context, listen: false).pendingTrips();
       Provider.of<DriverRideHistory>(context, listen: false).getRideHistory();
     });

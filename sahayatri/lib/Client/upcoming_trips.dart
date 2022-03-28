@@ -205,46 +205,49 @@ class UpcomingTrips extends StatelessWidget {
               buttonStyle: kButtonStyleRed,
               buttonTextStyle: kButtonTextStyle,
               onPressed: () => {
-                //calling provider to send request to backend for cancelling the trip
-                Provider.of<CancleTrip>(context, listen: false)
-                    .cancleTrip(driverId: id, rideId: rideId),
-                showDialog(
-                  context: context,
-                  builder: (ctx) {
-                    Future.delayed(const Duration(seconds: 2), () {
-                      // checking if the upcoming trip is one hour from now
-                      if (formatDate(DateTime.now()) == date &&
-                          TimeOfDay.now().hour >=
-                              stringToTimeOfDay(time).hour) {
-                        displayFlash(
-                            context: context,
-                            text: 'Sorry! you can\'t cancel the trip now.',
-                            color: kDangerColor,
-                            icon: Icons.event_busy_rounded);
-                      } else if (!status.isConnected) {
-                        displayFlash(
-                            context: context,
-                            text: 'Can\'t connect to the server!',
-                            color: kDangerColor,
-                            icon: Icons.wifi_off_rounded);
-                      } else {
-                        //reloading the list of upcoming trips
-                        Provider.of<UpcomingRides>(context, listen: false)
-                            .getUpcomingTrips();
-                        displayFlash(
-                            context: context,
-                            text: 'You\'ve cancelled the trip.',
-                            color: kDangerColor,
-                            icon: Icons.delete_forever_rounded);
-                      }
-                      Navigator.pop(ctx);
-                      // Provider.of<ReceivedRequest>(context, listen: false)
-                      //     .changeStatus();
-                    });
-                    return LoadingDialog(text: 'Terminating your Request.');
-                  },
-                  barrierDismissible: false,
-                ),
+                // checking if the upcoming trip is one hour from now
+                if (formatDate(DateTime.now()) == formatDate(date) &&
+                    TimeOfDay.now().hour >= stringToTimeOfDay(time).hour)
+                  {
+                    displayFlash(
+                        context: context,
+                        text: 'Sorry! you can\'t cancel the trip now.',
+                        color: kDangerColor,
+                        icon: Icons.event_busy_rounded)
+                  }
+                else
+                  {
+                    //calling provider to send request to backend for cancelling the trip
+                    Provider.of<CancleTrip>(context, listen: false)
+                        .cancleTrip(driverId: id, rideId: rideId),
+
+                    showDialog(
+                      context: context,
+                      builder: (ctx) {
+                        Future.delayed(const Duration(seconds: 2), () {
+                          if (!status.isConnected) {
+                            displayFlash(
+                                context: context,
+                                text: 'Can\'t connect to the server!',
+                                color: kDangerColor,
+                                icon: Icons.wifi_off_rounded);
+                          } else {
+                            //reloading the list of upcoming trips
+                            Provider.of<UpcomingRides>(context, listen: false)
+                                .getUpcomingTrips();
+                            displayFlash(
+                                context: context,
+                                text: 'You\'ve cancelled the trip.',
+                                color: kDangerColor,
+                                icon: Icons.delete_forever_rounded);
+                          }
+                          Navigator.pop(ctx);
+                        });
+                        return LoadingDialog(text: 'Terminating your Request.');
+                      },
+                      barrierDismissible: false,
+                    ),
+                  }
               },
             ),
           ],

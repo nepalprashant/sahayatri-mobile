@@ -59,14 +59,14 @@ class DrawerMenu extends StatelessWidget {
                   text: 'Your Trips',
                   onTap: () {
                     Navigator.pop(context);
-                    Navigator.popAndPushNamed(context, 'clientTrips');
+                    Navigator.pushNamed(context, 'clientTrips');
                   }),
               Tile(
                 icon: Icons.history_rounded,
                 text: 'History',
                 onTap: () {
                   Navigator.pop(context);
-                  Navigator.popAndPushNamed(context, 'clientHistory');
+                  Navigator.pushNamed(context, 'clientHistory');
                 },
               ),
               Tile(
@@ -92,6 +92,7 @@ class DrawerMenu extends StatelessWidget {
                   icon: Icons.logout_outlined,
                   text: 'Log Out',
                   onTap: () {
+                    Navigator.pushNamedAndRemoveUntil(context, 'gatewayPage', (route) => false);
                     Provider.of<Auth>(
                       context,
                       listen: false,

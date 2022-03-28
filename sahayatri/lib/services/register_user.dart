@@ -11,7 +11,6 @@ class RegisterUser extends ChangeNotifier {
     try {
       await dio().post('/register', data: userDetails);
       _registered = true;
-      print('success');
       notifyListeners();
     } on Dio.DioError catch (e) {
       _registered = false;
