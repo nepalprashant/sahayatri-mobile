@@ -14,7 +14,10 @@ class RequestResponse extends ChangeNotifier {
   bool get isConnected => _isConnected;
 
   //sending response to the backend when request is being accepted
-  void acceptRequest({required int clientId, required int rideId, required String name}) async {
+  void acceptRequest(
+      {required int clientId,
+      required int rideId,
+      required String name}) async {
     _isConnected = true;
     Map details = {
       'client_id': clientId,
@@ -29,8 +32,15 @@ class RequestResponse extends ChangeNotifier {
             'Authorization': 'Bearer $accessToken'
           })); //forwarding information
       _isAccepted = true;
-      NotificationHandler.displayNotificaiton(title: 'Ride Confirmed', body: 'Your ride has been scheduled with $name');
+      NotificationHandler.displayNotificaiton(
+          title: 'Ride Confirmed',
+          body: 'Your ride has been scheduled with $name');
       notifyListeners();
+
+      //refreshing the boolean variable into initial one and prepares for receiving new request
+      Future.delayed(const Duration(seconds: 125), () {
+        initialState();
+      });
     } catch (e) {
       _isConnected = false;
       notifyListeners();
@@ -54,14 +64,17 @@ class RequestResponse extends ChangeNotifier {
           })); //forwarding information
       this._isRejected = true;
       notifyListeners();
+      Future.delayed(const Duration(seconds: 125), () {
+        initialState();
+      });
     } catch (e) {
       _isConnected = false;
       notifyListeners();
     }
   }
 
-  void initialState(){
-      this._isAccepted = false;
-      this._isRejected = false;
-    }
+  void initialState() {
+    this._isAccepted = false;
+    this._isRejected = false;
+  }
 }

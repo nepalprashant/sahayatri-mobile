@@ -92,7 +92,6 @@ class DrawerMenu extends StatelessWidget {
                   icon: Icons.logout_outlined,
                   text: 'Log Out',
                   onTap: () {
-                    Navigator.pushNamedAndRemoveUntil(context, 'gatewayPage', (route) => false);
                     Provider.of<Auth>(
                       context,
                       listen: false,

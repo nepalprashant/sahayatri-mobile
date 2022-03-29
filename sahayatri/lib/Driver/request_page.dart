@@ -47,22 +47,19 @@ class RequestPage extends StatelessWidget {
                   Consumer2<ReceivedRequest, RequestResponse>(
                       builder: (context, request, response, child) {
                     if (request.isReceived) {
-                      //initializing variable of RequestResponse class to fresh one
-                      Provider.of<RequestResponse>(context, listen: false)
-                          .initialState();
-            
                       var user = request.request.user;
                       var ride = request.request.ride;
                       var location = request.request.ride.location;
-            
+
                       // terminating the request incase no response from the driver
-                      Future.delayed(const Duration(minutes: 5), () {
+                      Future.delayed(const Duration(minutes: 2), () {
                         if (!response.isAccepted && !response.isRejected) {
                           Provider.of<RequestResponse>(context, listen: false)
-                              .rejectRequest(clientId: user.id, rideId: ride.id);
+                              .rejectRequest(
+                                  clientId: user.id, rideId: ride.id);
                         }
                       });
-            
+
                       return RequestCard(
                         id: user.id,
                         rideId: ride.id,

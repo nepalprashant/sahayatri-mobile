@@ -16,7 +16,7 @@ class ReceivedRequest extends ChangeNotifier {
 
     this._isReceived = true;
     
-    Future.delayed(const Duration(minutes: 5), () {
+    Future.delayed(const Duration(minutes: 2), () {
       this._isReceived = false;
       notifyListeners();
     });

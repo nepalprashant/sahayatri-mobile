@@ -9,6 +9,7 @@ import 'package:sahayatri/Components/rating_bar.dart';
 import 'package:sahayatri/Components/reusable_card.dart';
 import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/Helper_Classes/format_datetime.dart';
+import 'package:sahayatri/Services/driver_services/notify_client.dart';
 import 'package:sahayatri/Services/driver_services/pending_trips.dart';
 import 'package:sahayatri/Services/driver_services/ride_status.dart';
 
@@ -200,7 +201,8 @@ class PendingRides extends StatelessWidget {
               ),
             },
           ),
-          Consumer<RideStatus>(builder: (context, status, child) {
+          Consumer2<RideStatus, NotifyClient>(
+              builder: (context, status, notify, child) {
             if (status.isStarted && (status.rideId == rideId)) {
               return ModalButton(
                 text: 'Trip Completed',
@@ -250,12 +252,21 @@ class PendingRides extends StatelessWidget {
               buttonStyle: kButtonStyleBlue,
               buttonTextStyle: kButtonTextStyle,
               onPressed: () => {
+                //for sending notificaiton to the client
+                Provider.of<NotifyClient>(context, listen: false)
+                    .notifyClient(clientId: id),
                 showDialog(
                   context: context,
                   builder: (ctx) {
                     Future.delayed(const Duration(seconds: 2), () {
-                      Provider.of<RideStatus>(context, listen: false)
-                          .started(rideId);
+                      (notify.isConnected)
+                          ? Provider.of<RideStatus>(context, listen: false)
+                              .started(rideId)
+                          : displayFlash(
+                              context: context,
+                              text: 'Can\'t connect to the server!',
+                              color: kDangerColor,
+                              icon: Icons.wifi_off_rounded);
                       Navigator.pop(ctx);
                     });
                     return LoadingDialog(text: 'Starting your trip with $name');

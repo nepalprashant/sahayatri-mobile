@@ -13,6 +13,7 @@ import 'package:sahayatri/Services/client_services/provide_rating.dart';
 import 'package:sahayatri/Services/client_services/upcoming_rides.dart';
 import 'package:sahayatri/Services/driver_services/driver_availability.dart';
 import 'package:sahayatri/Services/driver_services/driver_ride_history.dart';
+import 'package:sahayatri/Services/driver_services/notify_client.dart';
 import 'package:sahayatri/Services/driver_services/pending_trips.dart';
 import 'package:sahayatri/Services/driver_services/received_request.dart';
 import 'package:sahayatri/Services/driver_services/request_response.dart';
@@ -53,6 +54,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => ProvideRating()),
         ChangeNotifierProvider(create: (context) => ClientRideHistory()),
         ChangeNotifierProvider(create: (context) => DriverRideHistory()),
+        ChangeNotifierProvider(create: (context) => NotifyClient()),
       ],
       child: Sahayatri(),
     ),

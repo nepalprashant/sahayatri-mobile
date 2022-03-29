@@ -33,6 +33,14 @@ void enableClientChannels({required int id, required String token}) {
         body:
             'Your request with ${decodedData[0]} has been terminated.\nTry again with other Drivers.');
   });
+
+  clientChannel.bind('notify-client', (event) {
+    //decoding the received json data
+    dynamic decodedData = jsonDecode(event!.data!);
+    //for displaying the notification
+    NotificationHandler.displayNotificaiton(
+        title: 'About to Pick-up', body: '${decodedData[0]}');
+  });
 }
 
 void displayRatingBar(BuildContext context) {
