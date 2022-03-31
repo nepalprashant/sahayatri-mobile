@@ -87,7 +87,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                             context: context,
                                             text:
                                                 'Reset link forwarded to your email.',
-                                            color: kDangerColor,
                                             icon: Icons
                                                 .mark_email_unread_rounded);
                                     Navigator.pop(ctx);
