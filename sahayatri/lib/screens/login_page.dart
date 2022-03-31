@@ -102,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                         mainText: 'Don\'t have an account?  ',
                         linkText: 'Sign Up',
                         onPressed: () {
-                          Navigator.pushNamed(context, 'signup');
+                          Navigator.popAndPushNamed(context, 'signup');
                         },
                       ),
                       SizedBox(
@@ -113,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                         linkText: 'Forgot Password ',
                         displayIcon: false,
                         onPressed: () {
-                          Navigator.pushNamed(context, 'signup');
+                          Navigator.popAndPushNamed(context, 'forgotPassword');
                         },
                       ),
                     ],

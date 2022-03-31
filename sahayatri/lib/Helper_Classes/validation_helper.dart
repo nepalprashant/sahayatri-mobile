@@ -23,7 +23,7 @@ String? validatePhone(String phone) {
 
 String? validateEmail(String email) {
   String emailPattern =
-      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+$";
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+( )?$";
   RegExp regex = new RegExp(
     emailPattern,
     multiLine: true,

@@ -14,7 +14,7 @@ class RegisterUser extends ChangeNotifier {
       notifyListeners();
     } on Dio.DioError catch (e) {
       _registered = false;
-      print('error');
+      //for displaying the specific error 
       errorStatus = e.response?.statusCode;
       notifyListeners();
     }

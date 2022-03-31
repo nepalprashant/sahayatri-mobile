@@ -136,7 +136,7 @@ class _SignupPageState extends State<SignupPage> {
                           mainText: 'Already have an account?  ',
                           linkText: 'Log In',
                           onPressed: () {
-                            Navigator.pushNamed(context, 'login');
+                            Navigator.popAndPushNamed(context, 'login');
                           },
                         ),
                       ],
