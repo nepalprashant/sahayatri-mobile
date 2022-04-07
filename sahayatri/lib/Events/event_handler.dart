@@ -4,7 +4,9 @@ import 'package:pusher_client/pusher_client.dart';
 class EventHandler {
   late PusherClient pusher;
 
+  //for connecting with the pusher channel
   void initializeEvents({required String token}) {
+    //backend credentials for establishing the connection
     var options = PusherOptions(
       host: 'http://192.168.254.57',
       wsPort: 433,
@@ -33,6 +35,7 @@ class EventHandler {
         log('previousState: ${state!.previousState}, currentState: ${state.currentState}');
       });
 
+      //display error in the console
       pusher.onConnectionError((error) {
         log("error: ${error!.message}");
       });
