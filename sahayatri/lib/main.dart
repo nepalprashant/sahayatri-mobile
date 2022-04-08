@@ -37,6 +37,7 @@ import 'screens/splash_screen.dart';
 
 void main() {
   runApp(
+    //initializing multiple providers for project
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => Auth()),
@@ -85,6 +86,7 @@ class Sahayatri extends StatelessWidget {
           fontFamily: 'Poppins',
         ),
         initialRoute: '/',
+        //initializing different routes
         routes: {
           '/': (context) => SplashScreen(),
           'map': (context) => MapPage(),

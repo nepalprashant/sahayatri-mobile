@@ -3,6 +3,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 class NotificationHandler {
   static final _notification = FlutterLocalNotificationsPlugin();
 
+  //configuring the initial settings for the handling the Notification
   static void config() {
     final InitializationSettings initializationSettings =
         InitializationSettings(

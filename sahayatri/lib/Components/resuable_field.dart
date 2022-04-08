@@ -39,9 +39,10 @@ class ReusableField extends StatelessWidget {
             : AutovalidateMode.disabled,
         controller: fieldName,
         validator: (value) {
+          //for validating each field
           if (value!.isEmpty) {
             return 'Required *';
-          } else if (additionalValidation ?? false) {
+          } else if (additionalValidation ?? false) { //only validating if additional validation is set as True
             switch (hint) {
               case 'User Name':
                 {

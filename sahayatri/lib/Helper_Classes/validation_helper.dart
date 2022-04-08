@@ -12,7 +12,7 @@ String? validateUsername(String name) {
 }
 
 String? validatePhone(String phone) {
-  String phonePattern = r"((\+)?977)?(98)[0-9]{8}$";
+  String phonePattern = r"((\+)?977)?(98)[0-9]{8}$"; //regex for validating Nepali Mobile Number
   RegExp regex = new RegExp(phonePattern);
 
   if (!regex.hasMatch(phone)) {
@@ -23,7 +23,7 @@ String? validatePhone(String phone) {
 
 String? validateEmail(String email) {
   String emailPattern =
-      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+( )?$";
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+( )?$"; //regex for validating the email
   RegExp regex = new RegExp(
     emailPattern,
     multiLine: true,

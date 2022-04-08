@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 
 Widget buildFloatingSearchBar(BuildContext context) {
+  //for displaying the search bar
   return FloatingSearchBar(
     hint: 'Place...',
     scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
