@@ -34,6 +34,7 @@ import 'package:sahayatri/services/connectivity.dart';
 import 'package:sahayatri/services/previous_login.dart';
 import 'package:sahayatri/services/register_user.dart';
 import 'screens/splash_screen.dart';
+import 'package:dcdg/dcdg.dart';
 
 void main() {
   runApp(
