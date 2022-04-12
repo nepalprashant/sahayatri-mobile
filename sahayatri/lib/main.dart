@@ -7,6 +7,8 @@ import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/Driver/driver_history.dart';
 import 'package:sahayatri/Driver/driver_main_page.dart';
 import 'package:sahayatri/Helper_Classes/registration_helper.dart';
+import 'package:sahayatri/Map_Classes/map_page.dart';
+import 'package:sahayatri/Map_Classes/polylined_map.dart';
 import 'package:sahayatri/Screens/forgot_password_page.dart';
 import 'package:sahayatri/Services/client_services/cancel_trip.dart';
 import 'package:sahayatri/Services/client_services/client_ride_history.dart';
@@ -25,7 +27,6 @@ import 'package:sahayatri/Services/record_rating.dart';
 import 'package:sahayatri/screens/gateway_page.dart';
 import 'package:sahayatri/screens/login_page.dart';
 import 'package:sahayatri/Client/client_main_page.dart';
-import 'package:sahayatri/screens/map_page.dart';
 import 'package:sahayatri/screens/no_connection.dart';
 import 'package:sahayatri/services/auth.dart';
 import 'package:sahayatri/screens/signup_page.dart';
@@ -104,6 +105,7 @@ class Sahayatri extends StatelessWidget {
           'clientTrips': (context) => ClientTrips(),
           'clientHistory': (context) => ClientHistory(),
           'driverHistory': (context) => DriverHistory(),
+          // 'polylinedMap': (context) => PolyLinedMap(required ),
         });
   }
 }

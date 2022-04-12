@@ -32,11 +32,10 @@ class ClientMapPage extends StatefulWidget {
 
 class _ClientMapPageState extends State<ClientMapPage> {
   Completer<GoogleMapController> _controller = Completer();
-  final Set<Marker> markers = new Set();
+  // final Set<Marker> markers = new Set();
   bool _originFlag = false;
   bool _destinationFlag = false;
   bool _displaySearchBar = false;
-  // bool _displayPolylines = false;
 
   late Marker _origin;
   late Marker _destination;
@@ -205,28 +204,63 @@ class _ClientMapPageState extends State<ClientMapPage> {
                                 ? 'Request for Pick-up'
                                 : 'Request Ride',
                             onPressed: () {
+                              //calculating the distance between two coordinates
+                              place.calculateDistance(
+                                  _origin.position, _destination.position);
+                              //checking for same locations
                               if (place.originName != place.destinationName) {
-                                //adding relevant information to the rideDetails (Map) from the google map forwarding to the driver
-                                rideDetails.addAll({
-                                  'initial_lat': _origin.position.latitude,
-                                  'initial_lng': _origin.position.longitude,
-                                  'destination_lat':
-                                      _destination.position.latitude,
-                                  'destination_lng':
-                                      _destination.position.longitude,
-                                  'origin': place.originName,
-                                  'destination': place.destinationName,
-                                  'total_distance': 12.1,
-                                  'total_fare': 1200.75,
-                                  'ride_type': (widget.isParcel ?? false)
-                                      ? 'parcel'
-                                      : 'intercity',
-                                  'scheduled_time': widget.time?.toString() ??
-                                      TimeOfDay.now().toString(),
-                                  'scheduled_date':
-                                      widget.date?.toIso8601String() ??
-                                          DateTime.now().toIso8601String(),
-                                });
+                                //checking for less than 100Km distances
+                                print(
+                                    "Total Distance:  ${place.totalDistance}");
+                                if (place.totalDistance <= 100) {
+                                  //adding relevant information to the rideDetails (Map) from the google map forwarding to the driver
+                                  rideDetails.addAll({
+                                    'initial_lat': _origin.position.latitude,
+                                    'initial_lng': _origin.position.longitude,
+                                    'destination_lat':
+                                        _destination.position.latitude,
+                                    'destination_lng':
+                                        _destination.position.longitude,
+                                    'origin': place.originName,
+                                    'destination': place.destinationName,
+                                    'total_distance': 12.1,
+                                    'total_fare': 1200.75,
+                                    'ride_type': (widget.isParcel ?? false)
+                                        ? 'parcel'
+                                        : 'intercity',
+                                    'scheduled_time': widget.time?.toString() ??
+                                        TimeOfDay.now().toString(),
+                                    'scheduled_date':
+                                        widget.date?.toIso8601String() ??
+                                            DateTime.now().toIso8601String(),
+                                  });
+
+                                  //for displaying the bottom modalsheet
+                                  showModalBottomSheet(
+                                    isScrollControlled: true,
+                                    backgroundColor: Colors.transparent,
+                                    context: context,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(20),
+                                    )),
+                                    builder: (context) => bottomSheet(),
+                                  );
+                                  //getting the list of available drivers
+                                  Provider.of<AvailableDrivers>(
+                                    context,
+                                    listen: false,
+                                  ).availableDrivers();
+                                } else {
+                                  displayFlash(
+                                    context: context,
+                                    icon: Icons.wrong_location_rounded,
+                                    text:
+                                        'Currently not available for this route.',
+                                    color: kDangerColor,
+                                  );
+                                }
+
                                 //for polylines in the map
                                 // setState(() {
                                 //   generatePolylines(
@@ -237,23 +271,10 @@ class _ClientMapPageState extends State<ClientMapPage> {
                                 //   _displayPolylines = true;
                                 //   print('The polyline values $polylines.values');
                                 // });
-                                showModalBottomSheet(
-                                  isScrollControlled: true,
-                                  backgroundColor: Colors.transparent,
-                                  context: context,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(20),
-                                  )),
-                                  builder: (context) => bottomSheet(),
-                                );
-                                Provider.of<AvailableDrivers>(
-                                  context,
-                                  listen: false,
-                                ).availableDrivers();
                               } else {
                                 displayFlash(
                                   context: context,
+                                  icon: Icons.wrong_location_rounded,
                                   text: 'Please choose different locations.',
                                   color: kDangerColor,
                                 );

@@ -8,6 +8,7 @@ import 'package:sahayatri/Components/modal_button.dart';
 import 'package:sahayatri/Components/reusable_card.dart';
 import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/Helper_Classes/format_datetime.dart';
+import 'package:sahayatri/Map_Classes/polylined_map.dart';
 import 'package:sahayatri/Services/client_services/cancel_trip.dart';
 import 'package:sahayatri/Services/client_services/upcoming_rides.dart';
 
@@ -193,6 +194,18 @@ class UpcomingTrips extends StatelessWidget {
                   builder: (ctx) {
                     Future.delayed(const Duration(seconds: 2), () {
                       Navigator.pop(ctx);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PolyLinedMap(
+                            initialLat: initialLat,
+                            initialLng: initialLng,
+                            destinationLat: destinationLat,
+                            destinationLng: destinationLng,
+                          ),
+                        ),
+                      );
+                      // Navigator.pushNamed(context, 'polylinedMap');
                     });
                     return LoadingDialog(text: 'Loading location in the map');
                   },

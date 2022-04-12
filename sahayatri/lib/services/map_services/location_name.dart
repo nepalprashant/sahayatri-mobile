@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class LocationName extends ChangeNotifier {
@@ -8,12 +9,14 @@ class LocationName extends ChangeNotifier {
 
   String? _originName = 'Origin';
   String? _destinationName = 'Destination';
+  double _totalDistance = 0;
 
   String get originName => _originName!;
   String get destinationName => _destinationName!;
 
   bool get getOrigin => _origin;
   bool get getDestinaion => _destination;
+  double get totalDistance => _totalDistance;
 
   void origin({required LatLng latLng}) async {
     _originName = await getAddress(latLng.latitude, latLng.longitude);
@@ -45,5 +48,14 @@ class LocationName extends ChangeNotifier {
     String? locality = np.locality;
     String address = '$name, $subLocality, $locality';
     return address;
+  }
+
+  void calculateDistance(LatLng origin, LatLng destination) {
+    this._totalDistance = Geolocator.bearingBetween(
+      origin.latitude,
+      origin.longitude,
+      destination.latitude, 
+      destination.longitude,
+    );
   }
 }

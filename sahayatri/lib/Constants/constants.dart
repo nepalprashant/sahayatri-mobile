@@ -3,6 +3,7 @@ import 'package:lottie/lottie.dart';
 
 late String accessToken;
 late int userId;
+late String apiKey;
 
 const kWelcomeTextStyle = TextStyle(
   fontWeight: FontWeight.w900,
