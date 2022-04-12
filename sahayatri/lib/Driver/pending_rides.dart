@@ -8,7 +8,6 @@ import 'package:sahayatri/Components/modal_button.dart';
 import 'package:sahayatri/Components/rating_bar.dart';
 import 'package:sahayatri/Components/reusable_card.dart';
 import 'package:sahayatri/Constants/constants.dart';
-import 'package:sahayatri/Driver/driver_history.dart';
 import 'package:sahayatri/Helper_Classes/format_datetime.dart';
 import 'package:sahayatri/Map_Classes/polylined_map.dart';
 import 'package:sahayatri/Services/driver_services/notify_client.dart';
@@ -196,7 +195,17 @@ class PendingRides extends StatelessWidget {
                 builder: (ctx) {
                   Future.delayed(const Duration(seconds: 2), () {
                     Navigator.pop(ctx);
-                    Navigator.pushNamed(context, 'polylinedMap');
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PolyLinedMap(
+                            initialLat: initialLat,
+                            initialLng: initialLng,
+                            destinationLat: destinationLat,
+                            destinationLng: destinationLng,
+                          ),
+                        ),
+                      );
                   });
                   return LoadingDialog(text: 'Loading location in the map');
                 },

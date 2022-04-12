@@ -34,7 +34,7 @@ class _PolyLinedMapState extends State<PolyLinedMap> {
   //defining the object
   late PolylinePoints polylinePoints;
 
-//coordinates to join
+//coordinates to join routes
   List<LatLng> coordinates = [];
 
 //sotred polyline coordinates
@@ -118,7 +118,8 @@ class _PolyLinedMapState extends State<PolyLinedMap> {
                   CameraPosition(
                       target: LatLng(double.parse(widget.initialLat),
                           double.parse(widget.initialLng)),
-                      zoom: 15.0)));
+                      zoom: 15.0,
+                      tilt: 60.0)));
             },
             child: Row(
               children: [
@@ -141,7 +142,8 @@ class _PolyLinedMapState extends State<PolyLinedMap> {
                   CameraPosition(
                       target: LatLng(double.parse(widget.destinationLat),
                           double.parse(widget.destinationLng)),
-                      zoom: 15.0)));
+                      zoom: 15.0,
+                      tilt: 60.0)));
             },
             child: Row(
               children: [

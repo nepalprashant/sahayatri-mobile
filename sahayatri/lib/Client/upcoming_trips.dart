@@ -205,7 +205,6 @@ class UpcomingTrips extends StatelessWidget {
                           ),
                         ),
                       );
-                      // Navigator.pushNamed(context, 'polylinedMap');
                     });
                     return LoadingDialog(text: 'Loading location in the map');
                   },

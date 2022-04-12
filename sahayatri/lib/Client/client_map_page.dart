@@ -4,6 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sahayatri/Components/error_card.dart';
 import 'package:sahayatri/Components/flash_bar.dart';
+import 'package:sahayatri/Components/loading_dialog.dart';
 import 'package:sahayatri/Components/search_bar.dart';
 import 'package:sahayatri/Components/modal_button.dart';
 import 'package:sahayatri/Components/search_location.dart';
@@ -11,6 +12,7 @@ import 'package:sahayatri/Components/driver_detail_card.dart';
 import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/Helper_Classes/location_helper.dart';
 import 'package:sahayatri/Services/client_services/notify_drivers.dart';
+import 'package:sahayatri/Services/map_services/distance.dart';
 import 'package:sahayatri/Services/map_services/location_name.dart';
 import 'package:sahayatri/services/client_services/available_drivers.dart';
 
@@ -193,8 +195,8 @@ class _ClientMapPageState extends State<ClientMapPage> {
                 child: SizedBox(
                   height: 40,
                   width: 250.0,
-                  child: Consumer<LocationName>(
-                    builder: (context, place, child) {
+                  child: Consumer2<LocationName, CalculateDistance>(
+                    builder: (context, place, distance, child) {
                       //checking if both origin and destination has been picked
                       if (place.getOrigin && place.getDestinaion) {
                         return ModalButton(
@@ -205,72 +207,78 @@ class _ClientMapPageState extends State<ClientMapPage> {
                                 : 'Request Ride',
                             onPressed: () {
                               //calculating the distance between two coordinates
-                              place.calculateDistance(
-                                  _origin.position, _destination.position);
+                              distance.calculateDistance(
+                                  origin: _origin.position,
+                                  destination: _destination.position);
                               //checking for same locations
                               if (place.originName != place.destinationName) {
-                                //checking for less than 100Km distances
+                                showDialog(
+                                  context: context,
+                                  builder: (ctx) {
+                                    Future.delayed(const Duration(seconds: 2),
+                                        () {
+                                      Navigator.pop(ctx);
+                                      //checking for less than 200Km distances
                                 print(
-                                    "Total Distance:  ${place.totalDistance}");
-                                if (place.totalDistance <= 100) {
-                                  //adding relevant information to the rideDetails (Map) from the google map forwarding to the driver
-                                  rideDetails.addAll({
-                                    'initial_lat': _origin.position.latitude,
-                                    'initial_lng': _origin.position.longitude,
-                                    'destination_lat':
-                                        _destination.position.latitude,
-                                    'destination_lng':
-                                        _destination.position.longitude,
-                                    'origin': place.originName,
-                                    'destination': place.destinationName,
-                                    'total_distance': 12.1,
-                                    'total_fare': 1200.75,
-                                    'ride_type': (widget.isParcel ?? false)
-                                        ? 'parcel'
-                                        : 'intercity',
-                                    'scheduled_time': widget.time?.toString() ??
-                                        TimeOfDay.now().toString(),
-                                    'scheduled_date':
-                                        widget.date?.toIso8601String() ??
-                                            DateTime.now().toIso8601String(),
-                                  });
+                                    "Total Distance:  ${distance.totalDistance}");
+                                      if (distance.totalDistance <= 200) {
+                                        //adding relevant information to the rideDetails (Map) from the google map for forwarding to the driver
+                                        rideDetails.addAll({
+                                          'initial_lat':
+                                              _origin.position.latitude,
+                                          'initial_lng':
+                                              _origin.position.longitude,
+                                          'destination_lat':
+                                              _destination.position.latitude,
+                                          'destination_lng':
+                                              _destination.position.longitude,
+                                          'origin': place.originName,
+                                          'destination': place.destinationName,
+                                          'total_distance': distance.totalDistance.toStringAsFixed(2),
+                                          'ride_type':
+                                              (widget.isParcel ?? false)
+                                                  ? 'parcel'
+                                                  : 'intercity',
+                                          'scheduled_time':
+                                              widget.time?.toString() ??
+                                                  TimeOfDay.now().toString(),
+                                          'scheduled_date': widget.date
+                                                  ?.toIso8601String() ??
+                                              DateTime.now().toIso8601String(),
+                                        });
 
-                                  //for displaying the bottom modalsheet
-                                  showModalBottomSheet(
-                                    isScrollControlled: true,
-                                    backgroundColor: Colors.transparent,
-                                    context: context,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.vertical(
-                                      top: Radius.circular(20),
-                                    )),
-                                    builder: (context) => bottomSheet(),
-                                  );
-                                  //getting the list of available drivers
-                                  Provider.of<AvailableDrivers>(
-                                    context,
-                                    listen: false,
-                                  ).availableDrivers();
-                                } else {
-                                  displayFlash(
-                                    context: context,
-                                    icon: Icons.wrong_location_rounded,
-                                    text:
-                                        'Currently not available for this route.',
-                                    color: kDangerColor,
-                                  );
-                                }
-
-                                //for polylines in the map
-                                // setState(() {
-                                //   generatePolylines(
-                                //       _origin.position.latitude,
-                                //       _origin.position.longitude,
-                                //       _destination.position.latitude,
-                                //       _destination.position.longitude);
-                                //   _displayPolylines = true;
-                                //   print('The polyline values $polylines.values');
-                                // });
+                                        //for displaying the bottom modalsheet
+                                        showModalBottomSheet(
+                                          isScrollControlled: true,
+                                          backgroundColor: Colors.transparent,
+                                          context: context,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.vertical(
+                                            top: Radius.circular(20),
+                                          )),
+                                          builder: (context) => bottomSheet(),
+                                        );
+                                        //getting the list of available drivers
+                                        Provider.of<AvailableDrivers>(
+                                          context,
+                                          listen: false,
+                                        ).availableDrivers();
+                                      } else {
+                                        displayFlash(
+                                          context: context,
+                                          icon: Icons.wrong_location_rounded,
+                                          text:
+                                              'Currently not available for this route.',
+                                          color: kDangerColor,
+                                        );
+                                      }
+                                    });
+                                    return LoadingDialog(
+                                        text: 'Calculating Distance & Price.');
+                                  },
+                                  barrierDismissible: false,
+                                );
                               } else {
                                 displayFlash(
                                   context: context,
@@ -349,7 +357,7 @@ class _ClientMapPageState extends State<ClientMapPage> {
               borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
             ),
             child:
-                Consumer<AvailableDrivers>(builder: (context, driver, child) {
+                Consumer2<AvailableDrivers, CalculateDistance>(builder: (context, driver, distance, child) {
               if (driver.isAvailable) {
                 return ListView.builder(
                     controller: controller,
@@ -362,9 +370,10 @@ class _ClientMapPageState extends State<ClientMapPage> {
                         phone: driver.drivers[index].phoneNo,
                         vehicle: driver.drivers[index].driver.vehicle
                             .vehicleType.vehicleType,
+                        distance: distance.totalDistance,
                         rating: driver.drivers[index].ratingAvgRating,
-                        price: driver
-                            .drivers[index].driver.vehicle.vehicleType.fareRate,
+                        price: double.parse(driver
+                            .drivers[index].driver.vehicle.vehicleType.fareRate) * distance.totalDistance,
                         context: context,
                       );
                     });

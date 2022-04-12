@@ -5,10 +5,11 @@ import 'package:sahayatri/services/dio_services.dart';
 
 Map rideDetails = {};
 
-void notifyDriver({required int driverId}) async {
+void notifyDriver({required int driverId, required String totalFare}) async {
   rideDetails.addAll({
     'driver_id': driverId,
     'client_id': userId,
+    'total_fare': totalFare,
   });
 
   try {

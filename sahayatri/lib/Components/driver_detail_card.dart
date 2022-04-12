@@ -17,6 +17,7 @@ class UserCard extends StatelessWidget {
     required this.name,
     required this.phone,
     required this.vehicle,
+    required this.distance,
     required this.rating,
     required this.price,
   }) : super(key: key);
@@ -26,8 +27,9 @@ class UserCard extends StatelessWidget {
   final String name;
   final String phone;
   final String vehicle;
+  final double distance;
   final double rating;
-  final String price;
+  final double price;
 
   @override
   Widget build(BuildContext context) {
@@ -117,6 +119,7 @@ class UserCard extends StatelessWidget {
                   ],
                 ),
                 onTap: () async {
+                  //for calling to the provided number
                   await FlutterPhoneDirectCaller.callNumber(
                     phone,
                   );
@@ -126,7 +129,12 @@ class UserCard extends StatelessWidget {
                 flex: 3,
               ),
               Text(
-                'Rs. $price',
+                'Rs. ${price.toStringAsFixed(2)}',
+                style: kTextStyle,
+              ),
+              SizedBox(width: 5.0,),
+              Text(
+                '[${distance.toStringAsFixed(2)} Km]',
                 style: kTextStyle,
               ),
             ],
@@ -141,7 +149,7 @@ class UserCard extends StatelessWidget {
               buttonStyle: kButtonStyleBlue,
               buttonTextStyle: kButtonTextStyle,
               onPressed: () => {
-                notifyDriver(driverId: id),
+                notifyDriver(driverId: id, totalFare: price.toStringAsFixed(2)),
                 Navigator.pop(context),
                 showDialog(
                   context: context,

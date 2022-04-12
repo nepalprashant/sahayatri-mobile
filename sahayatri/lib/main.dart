@@ -8,7 +8,6 @@ import 'package:sahayatri/Driver/driver_history.dart';
 import 'package:sahayatri/Driver/driver_main_page.dart';
 import 'package:sahayatri/Helper_Classes/registration_helper.dart';
 import 'package:sahayatri/Map_Classes/map_page.dart';
-import 'package:sahayatri/Map_Classes/polylined_map.dart';
 import 'package:sahayatri/Screens/forgot_password_page.dart';
 import 'package:sahayatri/Services/client_services/cancel_trip.dart';
 import 'package:sahayatri/Services/client_services/client_ride_history.dart';
@@ -22,6 +21,7 @@ import 'package:sahayatri/Services/driver_services/received_request.dart';
 import 'package:sahayatri/Services/driver_services/request_response.dart';
 import 'package:sahayatri/Services/driver_services/ride_status.dart';
 import 'package:sahayatri/Services/forgot_password.dart';
+import 'package:sahayatri/Services/map_services/distance.dart';
 import 'package:sahayatri/Services/map_services/location_name.dart';
 import 'package:sahayatri/Services/record_rating.dart';
 import 'package:sahayatri/screens/gateway_page.dart';
@@ -61,6 +61,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => DriverRideHistory()),
         ChangeNotifierProvider(create: (context) => NotifyClient()),
         ChangeNotifierProvider(create: (context) => ForgotPassword()),
+        ChangeNotifierProvider(create: (context) => CalculateDistance()),
       ],
       child: Sahayatri(),
     ),
@@ -105,7 +106,6 @@ class Sahayatri extends StatelessWidget {
           'clientTrips': (context) => ClientTrips(),
           'clientHistory': (context) => ClientHistory(),
           'driverHistory': (context) => DriverHistory(),
-          // 'polylinedMap': (context) => PolyLinedMap(required ),
         });
   }
 }
