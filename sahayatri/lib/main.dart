@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:khalti_flutter/khalti_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sahayatri/Client/client_history.dart';
 import 'package:sahayatri/Client/client_map_page.dart';
@@ -11,6 +12,7 @@ import 'package:sahayatri/Map_Classes/map_page.dart';
 import 'package:sahayatri/Screens/forgot_password_page.dart';
 import 'package:sahayatri/Services/client_services/cancel_trip.dart';
 import 'package:sahayatri/Services/client_services/client_ride_history.dart';
+import 'package:sahayatri/Services/client_services/payment_service.dart';
 import 'package:sahayatri/Services/client_services/provide_rating.dart';
 import 'package:sahayatri/Services/client_services/upcoming_rides.dart';
 import 'package:sahayatri/Services/driver_services/driver_availability.dart';
@@ -62,6 +64,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => NotifyClient()),
         ChangeNotifierProvider(create: (context) => ForgotPassword()),
         ChangeNotifierProvider(create: (context) => CalculateDistance()),
+        ChangeNotifierProvider(create: (context) => PaymentService()),
       ],
       child: Sahayatri(),
     ),
@@ -71,41 +74,50 @@ void main() {
 class Sahayatri extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        //removing the debugging banner
-        debugShowCheckedModeBanner: false,
-        //applying default style for the application
-        theme: ThemeData.light().copyWith(
-          textTheme: ThemeData.light().textTheme.apply(
-                fontFamily: 'Poppins',
-              ),
-          primaryTextTheme: ThemeData.light().textTheme.apply(
-                fontFamily: 'Poppins',
-              ),
-          primaryColor: kPrimaryColor,
-          scaffoldBackgroundColor: Colors.white,
-        ),
-        darkTheme: ThemeData(
-          fontFamily: 'Poppins',
-        ),
-        initialRoute: '/',
-        //initializing different routes
-        routes: {
-          '/': (context) => SplashScreen(),
-          'map': (context) => MapPage(),
-          'login': (context) => LoginPage(),
-          'signup': (context) => SignupPage(),
-          'forgotPassword': (context) => ForgotPasswordPage(),
-          'registration': (context) => Registration(),
-          'gatewayPage': (context) => GatewayPage(),
-          'clientMainPage': (context) => ClientMainPage(),
-          'noInternet': (context) => NoConnection(),
-          'driverMainPage': (context) => DriverMainPage(),
-          'clientMapPage': (context) => ClientMapPage(),
-          'driverMapPage': (context) => DriverMainPage(),
-          'clientTrips': (context) => ClientTrips(),
-          'clientHistory': (context) => ClientHistory(),
-          'driverHistory': (context) => DriverHistory(),
-        });
+    return KhaltiScope(
+      publicKey: 'test_public_key_a2950825bf6244ddad3f2c73cb56eaab',
+      builder: (context, navigatorKey) {
+        return MaterialApp(
+            navigatorKey: navigatorKey,
+            localizationsDelegates: const [
+              KhaltiLocalizations.delegate,
+            ],
+            //removing the debugging banner
+            debugShowCheckedModeBanner: false,
+            //applying default style for the application
+            theme: ThemeData.light().copyWith(
+              textTheme: ThemeData.light().textTheme.apply(
+                    fontFamily: 'Poppins',
+                  ),
+              primaryTextTheme: ThemeData.light().textTheme.apply(
+                    fontFamily: 'Poppins',
+                  ),
+              primaryColor: kPrimaryColor,
+              scaffoldBackgroundColor: Colors.white,
+            ),
+            darkTheme: ThemeData(
+              fontFamily: 'Poppins',
+            ),
+            initialRoute: '/',
+            //initializing different routes
+            routes: {
+              '/': (context) => SplashScreen(),
+              'map': (context) => MapPage(),
+              'login': (context) => LoginPage(),
+              'signup': (context) => SignupPage(),
+              'forgotPassword': (context) => ForgotPasswordPage(),
+              'registration': (context) => Registration(),
+              'gatewayPage': (context) => GatewayPage(),
+              'clientMainPage': (context) => ClientMainPage(),
+              'noInternet': (context) => NoConnection(),
+              'driverMainPage': (context) => DriverMainPage(),
+              'clientMapPage': (context) => ClientMapPage(),
+              'driverMapPage': (context) => DriverMainPage(),
+              'clientTrips': (context) => ClientTrips(),
+              'clientHistory': (context) => ClientHistory(),
+              'driverHistory': (context) => DriverHistory(),
+            });
+      },
+    );
   }
 }

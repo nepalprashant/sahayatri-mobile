@@ -12,6 +12,7 @@ class DriverPendingTrips {
     required this.scheduledDate,
     required this.scheduledTime,
     required this.totalFare,
+    required this.payment,
     required this.client,
     required this.location,
   });
@@ -21,6 +22,7 @@ class DriverPendingTrips {
   final DateTime scheduledDate;
   final String scheduledTime;
   final String totalFare;
+  final String payment;
   final Client client;
   final Location location;
 
@@ -31,6 +33,7 @@ class DriverPendingTrips {
         scheduledDate: DateTime.parse(json["scheduled_date"]),
         scheduledTime: json["scheduled_time"],
         totalFare: json["total_fare"],
+        payment: json["payment"] == null ? 'unpaid' : 'paid',
         client: Client.fromJson(json["client"]),
         location: Location.fromJson(json["location"]),
       );

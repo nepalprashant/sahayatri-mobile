@@ -37,7 +37,7 @@ class _ClientMainPageState extends State<ClientMainPage> {
     timePicked = TimeOfDay.now();
     NotificationHandler.config();
     checkConnectionStatus(context);
-    displayRatingBar(context);
+    displayEvents(context);
     //widgets to be built after completing the building process of initialized widget
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       Provider.of<UpcomingRides>(context, listen: false).getUpcomingTrips();

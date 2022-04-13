@@ -65,6 +65,7 @@ class ClientTrips extends StatelessWidget {
                             date: trips.upcomingTrips[index].scheduledDate,
                             time: trips.upcomingTrips[index].scheduledTime,
                             type: trips.upcomingTrips[index].rideType,
+                            payment: trips.upcomingTrips[index].payment,
                             distance: trips
                                 .upcomingTrips[index].location.totalDistance,
                             price: trips.upcomingTrips[index].totalFare,

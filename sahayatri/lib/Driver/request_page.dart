@@ -118,6 +118,7 @@ class RequestPage extends StatelessWidget {
                           date: rides.driverTrips[index].scheduledDate,
                           time: rides.driverTrips[index].scheduledTime,
                           type: rides.driverTrips[index].rideType,
+                          payment: rides.driverTrips[index].payment,
                           distance:
                               rides.driverTrips[index].location.totalDistance,
                           price: rides.driverTrips[index].totalFare,

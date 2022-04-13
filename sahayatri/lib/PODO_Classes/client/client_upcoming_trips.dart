@@ -13,6 +13,7 @@ class ClientUpcomingTrips {
     required this.scheduledTime,
     required this.totalFare,
     required this.status,
+    required this.payment,
     required this.driver,
     required this.location,
   });
@@ -23,6 +24,7 @@ class ClientUpcomingTrips {
   final String scheduledTime;
   final String totalFare;
   final String status;
+  final String payment;
   final Driver driver;
   final Location location;
 
@@ -34,6 +36,7 @@ class ClientUpcomingTrips {
         scheduledTime: json["scheduled_time"],
         totalFare: json["total_fare"],
         status: json["status"],
+        payment: json["payment"] == null ? 'unpaid' : 'paid',
         driver: Driver.fromJson(json["driver"]),
         location: Location.fromJson(json["location"]),
       );

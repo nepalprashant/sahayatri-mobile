@@ -36,6 +36,11 @@ class RequestResponse extends ChangeNotifier {
           title: 'Ride Confirmed',
           body: 'Your ride has been scheduled with $name');
       notifyListeners();
+
+      //refreshing the boolean variable into initial one and prepares for receiving new request
+      Future.delayed(const Duration(seconds: 125), () {
+        initialState();
+      });
     } catch (e) {
       _isConnected = false;
       notifyListeners();
@@ -59,6 +64,9 @@ class RequestResponse extends ChangeNotifier {
           })); //forwarding information
       this._isRejected = true;
       notifyListeners();
+      Future.delayed(const Duration(seconds: 125), () {
+        initialState();
+      });
     } catch (e) {
       _isConnected = false;
       notifyListeners();

@@ -10,6 +10,7 @@ import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/Helper_Classes/format_datetime.dart';
 import 'package:sahayatri/Map_Classes/polylined_map.dart';
 import 'package:sahayatri/Services/client_services/cancel_trip.dart';
+import 'package:sahayatri/Services/client_services/payment_service.dart';
 import 'package:sahayatri/Services/client_services/upcoming_rides.dart';
 
 class UpcomingTrips extends StatelessWidget {
@@ -23,6 +24,7 @@ class UpcomingTrips extends StatelessWidget {
     required this.date,
     required this.time,
     required this.type,
+    required this.payment,
     required this.origin,
     required this.destination,
     required this.price,
@@ -41,6 +43,7 @@ class UpcomingTrips extends StatelessWidget {
   final DateTime date;
   final String time;
   final String type;
+  final String payment;
   final String distance;
   final String price;
   final String origin;
@@ -58,7 +61,7 @@ class UpcomingTrips extends StatelessWidget {
         absorb: true,
         color: Colors.white,
         disableSplashColor: true,
-        height: 280,
+        height: 285,
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -179,6 +182,26 @@ class UpcomingTrips extends StatelessWidget {
                   '[$distance Km]',
                   style: kTextStyle,
                 ),
+                SizedBox(
+                  width: 5.0,
+                ),
+                (payment == 'paid')
+                    ? Icon(
+                        Icons.credit_score_rounded,
+                        color: Colors.purple,
+                      )
+                    : GestureDetector(
+                        child: Icon(
+                          Icons.price_change_rounded,
+                          color: Colors.red,
+                        ),
+                        onTap: () {
+                          //initiating for making payment
+                          Provider.of<PaymentService>(context, listen: false)
+                              .proceedPayment(
+                                  rideId: rideId, amount: double.parse(price));
+                        },
+                      ),
               ],
             ),
             SizedBox(

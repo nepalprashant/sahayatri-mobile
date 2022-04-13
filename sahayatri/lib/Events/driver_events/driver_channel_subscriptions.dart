@@ -27,6 +27,17 @@ void bindDriverChannels(BuildContext context) {
     //reloading the list of pending trips
     Provider.of<DriverPendingRides>(context, listen: false).pendingTrips();
   });
+
+  driverChannel.bind('confirm-payment', (event) {
+    //decoding the received json data
+    dynamic decodedData = jsonDecode(event!.data!);
+    //for displaying the notification
+    NotificationHandler.displayNotificaiton(
+        title: 'Payment Confirmed',
+        body: '${decodedData[0]} has made an Online Payment.');
+    //reloading the list of pending trips
+    Provider.of<DriverPendingRides>(context, listen: false).pendingTrips();
+  });
 }
 
 void disableDriverChannels({required int id}) {

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:pusher_client/pusher_client.dart';
 import 'package:sahayatri/Events/event_handler.dart';
 import 'package:sahayatri/Helper_Classes/notification_helper.dart';
+import 'package:sahayatri/Services/client_services/payment_service.dart';
 import 'package:sahayatri/Services/client_services/provide_rating.dart';
 import 'package:sahayatri/Services/client_services/upcoming_rides.dart';
 
@@ -14,16 +15,6 @@ late Channel clientChannel;
 void enableClientChannels({required int id, required String token}) {
   eventHandler.initializeEvents(token: token);
   clientChannel = eventHandler.pusher.subscribe('private-client.$id');
-
-  clientChannel.bind('confirm-request', (event) {
-    //decoding the received json data
-    dynamic decodedData = jsonDecode(event!.data!);
-    //for displaying the notification
-    NotificationHandler.displayNotificaiton(
-        title: 'Request Confirmed',
-        body:
-            'Your ride with ${decodedData[0]} has been scheduled.\nProceed Payment?');
-  });
 
   clientChannel.bind('cancel-request', (event) {
     //decoding the received json data
@@ -43,7 +34,7 @@ void enableClientChannels({required int id, required String token}) {
   });
 }
 
-void displayRatingBar(BuildContext context) {
+void displayEvents(BuildContext context) {
   clientChannel.bind('ride-completed', (event) {
     //decoding the received json data
     dynamic decodedData = jsonDecode(event!.data!);
@@ -57,6 +48,19 @@ void displayRatingBar(BuildContext context) {
 
     //reloading the list of upcoming trips
     Provider.of<UpcomingRides>(context, listen: false).getUpcomingTrips();
+  });
+
+  clientChannel.bind('confirm-request', (event) {
+    //decoding the received json data
+    dynamic decodedData = jsonDecode(event!.data!);
+    //for displaying the notification
+    NotificationHandler.displayNotificaiton(
+        title: 'Request Confirmed',
+        body:
+            'Your ride with ${decodedData[0]} has been scheduled.\nProceed Payment?');
+    //for displaying the payment dialog once ride confirmed
+    Provider.of<PaymentService>(context, listen: false)
+        .proceedPayment(rideId: int.parse(decodedData[1]), amount: double.parse(decodedData[2]));
   });
 }
 

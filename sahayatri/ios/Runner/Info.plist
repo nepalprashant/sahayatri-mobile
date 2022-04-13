@@ -45,5 +45,20 @@
 		<false />
 		<key>NSLocationWhenInUseUsageDescription</key>
 		<string>Accessing your location for enhancing your experience</string>
+		<key>FlutterDeepLinkingEnabled</key>
+		<true/>
+		<key>CFBundleURLTypes</key>
+		<array>
+			<dict>
+				<key>CFBundleTypeRole</key>
+				<string>Editor</string>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>kpg</string>
+				</array>
+				<key>CFBundleURLName</key>
+				<string>sahayatri</string>
+			</dict>
+		</array>
 	</dict>
 </plist>

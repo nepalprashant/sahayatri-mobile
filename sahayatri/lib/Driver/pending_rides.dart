@@ -10,6 +10,7 @@ import 'package:sahayatri/Components/reusable_card.dart';
 import 'package:sahayatri/Constants/constants.dart';
 import 'package:sahayatri/Helper_Classes/format_datetime.dart';
 import 'package:sahayatri/Map_Classes/polylined_map.dart';
+import 'package:sahayatri/Services/client_services/payment_service.dart';
 import 'package:sahayatri/Services/driver_services/notify_client.dart';
 import 'package:sahayatri/Services/driver_services/pending_trips.dart';
 import 'package:sahayatri/Services/driver_services/ride_status.dart';
@@ -28,6 +29,7 @@ class PendingRides extends StatelessWidget {
     required this.origin,
     required this.destination,
     required this.price,
+    required this.payment,
     required this.distance,
     required this.initialLat,
     required this.initialLng,
@@ -43,6 +45,7 @@ class PendingRides extends StatelessWidget {
   final DateTime date;
   final String time;
   final String type;
+  final String payment;
   final String distance;
   final String price;
   final String origin;
@@ -59,7 +62,7 @@ class PendingRides extends StatelessWidget {
       absorb: true,
       color: Colors.white,
       disableSplashColor: true,
-      height: 280,
+      height: 285,
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -180,6 +183,18 @@ class PendingRides extends StatelessWidget {
                 '[$distance Km]',
                 style: kTextStyle,
               ),
+              SizedBox(
+                width: 5.0,
+              ),
+              (payment == 'paid')
+                  ? Icon(
+                      Icons.credit_score_rounded,
+                      color: Colors.purple,
+                    )
+                  : Icon(
+                      Icons.price_change_rounded,
+                      color: Colors.red,
+                    ),
             ],
           ),
           SizedBox(
@@ -196,16 +211,16 @@ class PendingRides extends StatelessWidget {
                   Future.delayed(const Duration(seconds: 2), () {
                     Navigator.pop(ctx);
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => PolyLinedMap(
-                            initialLat: initialLat,
-                            initialLng: initialLng,
-                            destinationLat: destinationLat,
-                            destinationLng: destinationLng,
-                          ),
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PolyLinedMap(
+                          initialLat: initialLat,
+                          initialLng: initialLng,
+                          destinationLat: destinationLat,
+                          destinationLng: destinationLng,
                         ),
-                      );
+                      ),
+                    );
                   });
                   return LoadingDialog(text: 'Loading location in the map');
                 },
@@ -241,6 +256,13 @@ class PendingRides extends StatelessWidget {
                           showDialog(
                             context: context,
                             builder: (ctx) {
+                              Provider.of<PaymentService>(context,
+                                      listen: false)
+                                  .recordCashPayment(
+                                      rideId: rideId,
+                                      amount: int.parse(double.parse(price)
+                                          .toStringAsFixed(
+                                              0))); //string to double and double to int
                               return Rating(id: id);
                             },
                             barrierDismissible: false,
