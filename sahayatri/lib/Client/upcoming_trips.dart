@@ -250,11 +250,11 @@ class UpcomingTrips extends StatelessWidget {
                         color: kDangerColor,
                         icon: Icons.event_busy_rounded)
                   }
-                else if (payment == 'unpaid')
+                else if (payment == 'paid')
                   {
                     displayFlash(
                         context: context,
-                        text: 'Sorry! you can\'t cancel the trip now.',
+                        text: 'Sorry! you can\'t cancel the prepaid trips.',
                         color: kDangerColor,
                         icon: Icons.credit_score_rounded)
                   }

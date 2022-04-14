@@ -286,7 +286,14 @@ class PendingRides extends StatelessWidget {
               buttonStyle: kButtonStyleBlue,
               buttonTextStyle: kButtonTextStyle,
               onPressed: () => {
-                //for sending notificaiton to the client
+                if(formatDate(DateTime.now()) != formatDate(date)){
+                  displayFlash(
+                        context: context,
+                        text: 'Sorry! you can\'t start the trip today.',
+                        color: kDangerColor,
+                        icon: Icons.event_busy_rounded)
+                } else {
+                  //for sending notificaiton to the client
                 Provider.of<NotifyClient>(context, listen: false)
                     .notifyClient(clientId: id),
                 showDialog(
@@ -306,7 +313,8 @@ class PendingRides extends StatelessWidget {
                     return LoadingDialog(text: 'Starting your trip with $name');
                   },
                   barrierDismissible: false,
-                ),
+                )
+                }
               },
             );
           }),
