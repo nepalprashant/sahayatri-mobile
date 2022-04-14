@@ -35,6 +35,19 @@ void enableClientChannels({required int id, required String token}) {
 }
 
 void displayEvents(BuildContext context) {
+  clientChannel.bind('confirm-request', (event) {
+    //decoding the received json data
+    dynamic decodedData = jsonDecode(event!.data!);
+    //for displaying the notification
+    NotificationHandler.displayNotificaiton(
+        title: 'Request Confirmed',
+        body:
+            'Your ride with ${decodedData[0]} has been scheduled.\nProceed Payment?');
+    //for displaying the payment dialog once ride confirmed
+    Provider.of<PaymentService>(context, listen: false).proceedPayment(
+        rideId: decodedData[1], amount: double.parse(decodedData[2]));
+  });
+
   clientChannel.bind('ride-completed', (event) {
     //decoding the received json data
     dynamic decodedData = jsonDecode(event!.data!);
@@ -48,19 +61,6 @@ void displayEvents(BuildContext context) {
 
     //reloading the list of upcoming trips
     Provider.of<UpcomingRides>(context, listen: false).getUpcomingTrips();
-  });
-
-  clientChannel.bind('confirm-request', (event) {
-    //decoding the received json data
-    dynamic decodedData = jsonDecode(event!.data!);
-    //for displaying the notification
-    NotificationHandler.displayNotificaiton(
-        title: 'Request Confirmed',
-        body:
-            'Your ride with ${decodedData[0]} has been scheduled.\nProceed Payment?');
-    //for displaying the payment dialog once ride confirmed
-    Provider.of<PaymentService>(context, listen: false)
-        .proceedPayment(rideId: int.parse(decodedData[1]), amount: double.parse(decodedData[2]));
   });
 }
 
