@@ -5,7 +5,7 @@ Dio dio() {
 
   //for android base application only while running from emulator
   //10.0.2.2:8000
-  dio.options.baseUrl = "http://192.168.254.57:80/api";
+  dio.options.baseUrl = "http://sahayatri-env.eba-86dga554.ap-south-1.elasticbeanstalk.com/api";
 
   dio.options.headers['accept'] = 'application/json';
 

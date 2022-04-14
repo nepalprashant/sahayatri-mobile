@@ -8,12 +8,12 @@ class EventHandler {
   void initializeEvents({required String token}) {
     //backend credentials for establishing the connection
     var options = PusherOptions(
-      host: 'http://192.168.254.57',
+      host: 'http://sahayatri-env.eba-86dga554.ap-south-1.elasticbeanstalk.com',
       wsPort: 433,
       cluster: 'ap2',
       encrypted: true,
       auth: PusherAuth(
-        'http://192.168.254.57/api/broadcasting/auth',
+        'http://sahayatri-env.eba-86dga554.ap-south-1.elasticbeanstalk.com/api/broadcasting/auth',
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
