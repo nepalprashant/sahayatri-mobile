@@ -176,7 +176,9 @@ class _PolyLinedMapState extends State<PolyLinedMap> {
                     myLocationEnabled: true,
                     myLocationButtonEnabled: false,
                     initialCameraPosition: CameraPosition(
-                      target: snapshot.data![0],
+                      //Displaying the origin while opening the map
+                      target: LatLng(double.parse(widget.initialLat),
+                          double.parse(widget.initialLng)),
                       zoom: 15.0,
                     ),
                     onMapCreated: (GoogleMapController controller) async {
