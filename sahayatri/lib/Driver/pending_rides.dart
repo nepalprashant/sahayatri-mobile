@@ -187,13 +187,28 @@ class PendingRides extends StatelessWidget {
                 width: 5.0,
               ),
               (payment == 'paid')
-                  ? Icon(
-                      Icons.credit_score_rounded,
-                      color: Colors.purple,
+                  ? GestureDetector(
+                      onTap: () => displayFlash(
+                        context: context,
+                        text: 'The fare has been paid',
+                        icon: Icons.credit_score_rounded,
+                      ),
+                      child: Icon(
+                        Icons.credit_score_rounded,
+                        color: Colors.purple,
+                      ),
                     )
-                  : Icon(
-                      Icons.price_change_rounded,
-                      color: Colors.red,
+                  : GestureDetector(
+                      onTap: () => displayFlash(
+                        context: context,
+                        text: 'The fare hasn\'t been paid',
+                        icon: Icons.credit_card_off_rounded,
+                        color: kDangerColor,
+                      ),
+                      child: Icon(
+                        Icons.price_change_rounded,
+                        color: Colors.red,
+                      ),
                     ),
             ],
           ),
@@ -286,35 +301,39 @@ class PendingRides extends StatelessWidget {
               buttonStyle: kButtonStyleBlue,
               buttonTextStyle: kButtonTextStyle,
               onPressed: () => {
-                if(formatDate(DateTime.now()) != formatDate(date)){
-                  displayFlash(
+                if (formatDate(DateTime.now()) != formatDate(date))
+                  {
+                    displayFlash(
                         context: context,
                         text: 'Sorry! you can\'t start the trip today.',
                         color: kDangerColor,
                         icon: Icons.event_busy_rounded)
-                } else {
-                  //for sending notificaiton to the client
-                Provider.of<NotifyClient>(context, listen: false)
-                    .notifyClient(clientId: id),
-                showDialog(
-                  context: context,
-                  builder: (ctx) {
-                    Future.delayed(const Duration(seconds: 2), () {
-                      (notify.isConnected)
-                          ? Provider.of<RideStatus>(context, listen: false)
-                              .started(rideId)
-                          : displayFlash(
-                              context: context,
-                              text: 'Can\'t connect to the server!',
-                              color: kDangerColor,
-                              icon: Icons.wifi_off_rounded);
-                      Navigator.pop(ctx);
-                    });
-                    return LoadingDialog(text: 'Starting your trip with $name');
-                  },
-                  barrierDismissible: false,
-                )
-                }
+                  }
+                else
+                  {
+                    //for sending notificaiton to the client
+                    Provider.of<NotifyClient>(context, listen: false)
+                        .notifyClient(clientId: id),
+                    showDialog(
+                      context: context,
+                      builder: (ctx) {
+                        Future.delayed(const Duration(seconds: 2), () {
+                          (notify.isConnected)
+                              ? Provider.of<RideStatus>(context, listen: false)
+                                  .started(rideId)
+                              : displayFlash(
+                                  context: context,
+                                  text: 'Can\'t connect to the server!',
+                                  color: kDangerColor,
+                                  icon: Icons.wifi_off_rounded);
+                          Navigator.pop(ctx);
+                        });
+                        return LoadingDialog(
+                            text: 'Starting your trip with $name');
+                      },
+                      barrierDismissible: false,
+                    )
+                  }
               },
             );
           }),

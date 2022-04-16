@@ -186,10 +186,17 @@ class UpcomingTrips extends StatelessWidget {
                   width: 5.0,
                 ),
                 (payment == 'paid')
-                    ? Icon(
-                        Icons.credit_score_rounded,
-                        color: Colors.purple,
-                      )
+                    ? GestureDetector(
+                      onTap: () => displayFlash(
+                        context: context,
+                        text: 'The fare has already been paid',
+                        icon: Icons.credit_score_rounded,
+                      ),
+                      child: Icon(
+                          Icons.credit_score_rounded,
+                          color: Colors.purple,
+                        ),
+                    )
                     : GestureDetector(
                         child: Icon(
                           Icons.price_change_rounded,

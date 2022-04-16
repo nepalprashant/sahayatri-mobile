@@ -57,10 +57,13 @@ class Payment extends StatelessWidget {
               ],
               onSuccess: (successModel) {
                 // Perform Server Verification
+                //storing payment details
                 Provider.of<PaymentService>(context, listen: false)
                     .recordOnlinePayment(rideId: rideId, amount: amount);
+                //closing the payment dialog
                 Provider.of<PaymentService>(context, listen: false)
                     .paymentSuccess();
+                //reloading the list of upcoming rides
                 Provider.of<UpcomingRides>(context, listen: false)
                     .getUpcomingTrips();
                 Navigator.pop(context);

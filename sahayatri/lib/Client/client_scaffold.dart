@@ -65,7 +65,7 @@ class ClientScaffold extends StatelessWidget {
               builder: (ctx) {
                 return Payment(amount: payment.amount, rideId: payment.rideId);
               },
-              barrierDismissible: false,
+              barrierDismissible: true,
             );
           }
         });
