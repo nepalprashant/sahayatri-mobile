@@ -271,13 +271,16 @@ class PendingRides extends StatelessWidget {
                           showDialog(
                             context: context,
                             builder: (ctx) {
-                              Provider.of<PaymentService>(context,
-                                      listen: false)
-                                  .recordCashPayment(
-                                      rideId: rideId,
-                                      amount: int.parse(double.parse(price)
-                                          .toStringAsFixed(
-                                              0))); //string to double and double to int
+                              if (payment != 'paid') {
+                                //recording the cash payment
+                                Provider.of<PaymentService>(context,
+                                        listen: false)
+                                    .recordCashPayment(
+                                        rideId: rideId,
+                                        amount: int.parse(double.parse(price)
+                                            .toStringAsFixed(
+                                                0))); //string to double and double to int
+                              }
                               return Rating(id: id);
                             },
                             barrierDismissible: false,
