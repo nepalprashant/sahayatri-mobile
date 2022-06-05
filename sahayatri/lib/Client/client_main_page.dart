@@ -39,7 +39,7 @@ class _ClientMainPageState extends State<ClientMainPage> {
     checkConnectionStatus(context);
     displayEvents(context);
     //widgets to be built after completing the building process of initialized widget
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<UpcomingRides>(context, listen: false).getUpcomingTrips();
       Provider.of<ClientRideHistory>(context, listen: false).getRideHistory();
     });

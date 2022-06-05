@@ -45,7 +45,7 @@ class _ClientMapPageState extends State<ClientMapPage> {
   @override
   void initState() {
     //changing the state of widget after building the whole widget
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<LocationName>(context, listen: false).initialState();
     });
     super.initState();
